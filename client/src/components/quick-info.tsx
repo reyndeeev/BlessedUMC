@@ -3,7 +3,7 @@ import { Clock, MapPin, Phone, Navigation, Calendar } from "lucide-react";
 export default function QuickInfo() {
   return (
     <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-[15px]">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Worship Times */}
           <div className="text-center p-8 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow">
@@ -18,7 +18,7 @@ export default function QuickInfo() {
                 <strong>Sunday Worship Service:</strong> 9:15 AM
               </p>
               <p>
-                <strong>Moment Devotion Prayer:</strong> 11:00 AM
+                <strong></strong>
               </p>
               <p>
                 <strong></strong>
@@ -36,14 +36,17 @@ export default function QuickInfo() {
             </h3>
             <div className="space-y-2 text-warm-gray">
               <p>
-                <strong>Bible Study:</strong> Wednesday 7:00 PM
+                <strong>Sunday School:</strong> Sunday After Worship Service
               </p>
               <p>
-                <strong>Youth Group:</strong> Friday 6:00 PM
+                <strong>Home Visitation:</strong> Wendsday 
               </p>
               <p>
-                <strong>Prayer Meeting:</strong> Saturday 6:00 AM
+                <strong>Bible Engagement Driven:</strong> Friday 7:45 PM
               </p>
+              <p>
+                <strong>Emanuel Mission For Evangelism:</strong> Saturday 9:00 AM
+              </p>  
             </div>
           </div>
 
