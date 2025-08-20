@@ -39,7 +39,7 @@ export default function UMYFheader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-methodist-blue/60 backdrop-blur-md border-b border-white/20 shadow-sm">
+    <header className="sticky top-0 z-50 bg-methodist-blue backdrop-blur-md border-b border-white/20 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
@@ -52,33 +52,33 @@ export default function UMYFheader() {
               alt="UMYF Logo" 
               className="w-10 h-10 rounded-full object-cover"
             />
-            <span className="text-black font-semibold text-lg">BLESSED UMYF</span>
+            <span className="text-white font-semibold text-lg">BLESSED UMYF</span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6 text-black font-medium">
+          <div className="hidden md:flex items-center space-x-6 text-white font-medium">
             <Link
               href="/"
-              className="flex items-center space-x-1 text-black hover:text-warm-gold transition"
+              className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
             >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </Link>
             <button
               onClick={() => scrollToSection("about")}
-              className="text-black hover:text-warm-gold transition"
+              className="text-white hover:text-warm-gold transition"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("activities")}
-              className="text-black hover:text-warm-gold transition"
+              className="text-white hover:text-warm-gold transition"
             >
               Activities
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-black hover:text-warm-gold transition"
+              className="text-white hover:text-warm-gold transition"
             >
               Contact
             </button>
@@ -90,38 +90,38 @@ export default function UMYFheader() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
-              <X className="text-black w-5 h-5" />
+              <X className="text-white w-5 h-5" />
             ) : (
-              <Menu className="text-black w-5 h-5" />
+              <Menu className="text-white w-5 h-5" />
             )}
           </button>
         </div>
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-methodist-blue/70 backdrop-blur-md text-black px-4 py-5 space-y-3 shadow-lg">
+          <div className="md:hidden bg-methodist-blue backdrop-blur-md text-white px-4 py-5 space-y-3 shadow-lg">
             <Link
               href="/"
-              className="flex items-center space-x-2 w-full text-left text-black hover:text-warm-gold transition"
+              className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
             >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </Link>
             <button
               onClick={() => scrollToSection("about")}
-              className="block w-full text-left text-black hover:text-warm-gold transition"
+              className="block w-full text-left text-white hover:text-warm-gold transition"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("activities")}
-              className="block w-full text-left text-black hover:text-warm-gold transition"
+              className="block w-full text-left text-white hover:text-warm-gold transition"
             >
               Activities
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="block w-full text-left text-black hover:text-warm-gold transition"
+              className="block w-full text-left text-white hover:text-warm-gold transition"
             >
               Contact
             </button>
