@@ -22,8 +22,15 @@ export default function UMYF() {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white py-20">
+        {/* Background image with overlay */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.7) 25%, rgba(0, 0, 0, 0.6) 50%, rgba(34, 139, 34, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), url('/attached_assets/image_1755699549465.png')`,
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6" data-testid="umyf-title">
             UMYF
           </h1>
