@@ -52,33 +52,33 @@ export default function UMYFheader() {
               alt="UMYF Logo" 
               className="w-10 h-10 rounded-full object-cover"
             />
-            <span className="text-white font-semibold text-lg">BLESSED UMYF</span>
+            <span className="text-black font-semibold text-lg">BLESSED UMYF</span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6 text-white font-medium">
+          <div className="hidden md:flex items-center space-x-6 text-black font-medium">
             <Link
               href="/"
-              className="flex items-center space-x-1 hover:text-warm-gold transition"
+              className="flex items-center space-x-1 text-black hover:text-warm-gold transition"
             >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </Link>
             <button
               onClick={() => scrollToSection("about")}
-              className="hover:text-warm-gold transition"
+              className="text-black hover:text-warm-gold transition"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("activities")}
-              className="hover:text-warm-gold transition"
+              className="text-black hover:text-warm-gold transition"
             >
               Activities
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="hover:text-warm-gold transition"
+              className="text-black hover:text-warm-gold transition"
             >
               Contact
             </button>
@@ -90,38 +90,38 @@ export default function UMYFheader() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
-              <X className="text-white w-5 h-5" />
+              <X className="text-black w-5 h-5" />
             ) : (
-              <Menu className="text-white w-5 h-5" />
+              <Menu className="text-black w-5 h-5" />
             )}
           </button>
         </div>
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-methodist-blue/70 backdrop-blur-md text-white px-4 py-5 space-y-3 shadow-lg">
+          <div className="md:hidden bg-methodist-blue/70 backdrop-blur-md text-black px-4 py-5 space-y-3 shadow-lg">
             <Link
               href="/"
-              className="flex items-center space-x-2 w-full text-left hover:text-warm-gold transition"
+              className="flex items-center space-x-2 w-full text-left text-black hover:text-warm-gold transition"
             >
               <Home className="w-4 h-4" />
               <span>Home</span>
             </Link>
             <button
               onClick={() => scrollToSection("about")}
-              className="block w-full text-left hover:text-warm-gold transition"
+              className="block w-full text-left text-black hover:text-warm-gold transition"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("activities")}
-              className="block w-full text-left hover:text-warm-gold transition"
+              className="block w-full text-left text-black hover:text-warm-gold transition"
             >
               Activities
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="block w-full text-left hover:text-warm-gold transition"
+              className="block w-full text-left text-black hover:text-warm-gold transition"
             >
               Contact
             </button>
