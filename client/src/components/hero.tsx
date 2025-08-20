@@ -16,7 +16,9 @@ export default function Hero() {
       />
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
         <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          Welcome Home to <span className="text-[#ff0303]">Blessed UMC</span>
+          Welcome Home to <span className="text-[#9c0000] font-extrabold">
+        BLESSED UMC
+</span>
         </h1>
         <p className="text-xl md:text-2xl mb-8 font-light max-w-3xl mx-auto leading-relaxed">
           A community where faith grows, hearts heal, and everyone belongs. Join
