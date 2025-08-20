@@ -26,6 +26,27 @@ export default function QuickInfo() {
             </div>
           </div>
 
+          {/* Weekly Activities */}
+          <div className="text-center p-8 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow">
+            <div className="w-16 h-16 bg-methodist-blue rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar className="text-white text-2xl" />
+            </div>
+            <h3 className="font-heading text-xl font-bold text-methodist-blue mb-3">
+              Weekly Activities
+            </h3>
+            <div className="space-y-2 text-warm-gray">
+              <p>
+                <strong>Bible Study:</strong> Wednesday 7:00 PM
+              </p>
+              <p>
+                <strong>Youth Group:</strong> Friday 6:00 PM
+              </p>
+              <p>
+                <strong>Prayer Meeting:</strong> Saturday 6:00 AM
+              </p>
+            </div>
+          </div>
+
           {/* Location */}
           <div className="text-center p-8 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow">
             <div className="w-16 h-16 bg-warm-gold rounded-full flex items-center justify-center mx-auto mb-4">
@@ -70,27 +91,6 @@ export default function QuickInfo() {
               >
                 Send Message
               </button>
-            </div>
-          </div>
-
-          {/* Regular Activities */}
-          <div className="text-center p-8 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 bg-methodist-blue rounded-full flex items-center justify-center mx-auto mb-4">
-              <Calendar className="text-white text-2xl" />
-            </div>
-            <h3 className="font-heading text-xl font-bold text-methodist-blue mb-3">
-              Weekly Activities
-            </h3>
-            <div className="space-y-2 text-warm-gray">
-              <p>
-                <strong>Bible Study:</strong> Wednesday 7:00 PM
-              </p>
-              <p>
-                <strong>Youth Group:</strong> Friday 6:00 PM
-              </p>
-              <p>
-                <strong>Prayer Meeting:</strong> Saturday 6:00 AM
-              </p>
             </div>
           </div>
         </div>
