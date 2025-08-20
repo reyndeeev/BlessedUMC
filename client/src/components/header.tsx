@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Cross } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Logo from "./logo";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,15 +19,7 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Church Name */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-methodist-blue rounded-full flex items-center justify-center">
-              <Cross className="text-white text-lg w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-xl font-heading text-red-600 font-extrabold">BLESSED</h1>
-              <p className="text-xs text-warm-gray">United Methodist Church</p>
-            </div>
-          </div>
+          <Logo variant="header" size="md" />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
