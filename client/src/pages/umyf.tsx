@@ -39,7 +39,7 @@ export default function UMYF() {
       <UMYFHeader />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-32 pb-20" id="home">
+      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-40 pb-20" id="home">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
