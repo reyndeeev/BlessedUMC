@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { MapPin, Phone, Mail, Clock, Map, Send } from "lucide-react";
@@ -18,7 +24,7 @@ export default function Contact() {
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
   });
 
   const contactMutation = useMutation({
@@ -37,7 +43,7 @@ export default function Contact() {
         email: "",
         phone: "",
         subject: "",
-        message: ""
+        message: "",
       });
     },
     onError: (error: any) => {
@@ -51,8 +57,14 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message) {
+
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
       toast({
         title: "Please fill in all required fields",
         variant: "destructive",
@@ -64,9 +76,9 @@ export default function Contact() {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -76,9 +88,13 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-6">Get in Touch</h2>
+            <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-6">
+              Get in Touch
+            </h2>
             <p className="text-lg text-warm-gray mb-8 leading-relaxed">
-              We'd love to hear from you! Whether you're planning a visit, have questions about our ministries, or need pastoral care, we're here to help.
+              We'd love to hear from you! Whether you're planning a visit, have
+              questions about our ministries, or need pastoral care, we're here
+              to help.
             </p>
 
             <div className="space-y-6 mb-8">
@@ -87,8 +103,14 @@ export default function Contact() {
                   <MapPin className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">Address</h3>
-                  <p className="text-warm-gray">123 Faith Avenue<br />Hometown, ST 12345</p>
+                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                    Address
+                  </h3>
+                  <p className="text-warm-gray">
+                    69 Don Placido Campos Ave., San Jose
+                    <br />
+                    Dasmariñas, Cavite
+                  </p>
                 </div>
               </div>
 
@@ -97,7 +119,9 @@ export default function Contact() {
                   <Phone className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">Phone</h3>
+                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                    Phone
+                  </h3>
                   <p className="text-warm-gray">(555) 123-4567</p>
                 </div>
               </div>
@@ -107,8 +131,11 @@ export default function Contact() {
                   <Mail className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">Email</h3>
+                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                    Email
+                  </h3>
                   <p className="text-warm-gray">info@blessedumc.org</p>
+              
                 </div>
               </div>
 
@@ -117,10 +144,14 @@ export default function Contact() {
                   <Clock className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">Office Hours</h3>
+                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                    Office Hours
+                  </h3>
                   <p className="text-warm-gray">
-                    Monday - Friday: 9:00 AM - 5:00 PM<br />
-                    Saturday: 9:00 AM - 1:00 PM<br />
+                    Monday - Friday: 9:00 AM - 5:00 PM
+                    <br />
+                    Saturday: 9:00 AM - 1:00 PM
+                    <br />
                     Sunday: Closed
                   </p>
                 </div>
@@ -139,19 +170,26 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="bg-gray-50 rounded-xl p-8">
-            <h3 className="font-heading text-2xl font-bold text-methodist-blue mb-6">Send us a Message</h3>
-            
+            <h3 className="font-heading text-2xl font-bold text-methodist-blue mb-6">
+              Send us a Message
+            </h3>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="firstName" className="text-sm font-medium text-methodist-blue mb-2">
+                  <Label
+                    htmlFor="firstName"
+                    className="text-sm font-medium text-methodist-blue mb-2"
+                  >
                     First Name *
                   </Label>
                   <Input
                     id="firstName"
                     type="text"
                     value={formData.firstName}
-                    onChange={(e) => handleInputChange("firstName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("firstName", e.target.value)
+                    }
                     placeholder="Your first name"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
                     required
@@ -159,14 +197,19 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="lastName" className="text-sm font-medium text-methodist-blue mb-2">
+                  <Label
+                    htmlFor="lastName"
+                    className="text-sm font-medium text-methodist-blue mb-2"
+                  >
                     Last Name *
                   </Label>
                   <Input
                     id="lastName"
                     type="text"
                     value={formData.lastName}
-                    onChange={(e) => handleInputChange("lastName", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("lastName", e.target.value)
+                    }
                     placeholder="Your last name"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
                     required
@@ -176,7 +219,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-sm font-medium text-methodist-blue mb-2">
+                <Label
+                  htmlFor="email"
+                  className="text-sm font-medium text-methodist-blue mb-2"
+                >
                   Email Address *
                 </Label>
                 <Input
@@ -192,7 +238,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-sm font-medium text-methodist-blue mb-2">
+                <Label
+                  htmlFor="phone"
+                  className="text-sm font-medium text-methodist-blue mb-2"
+                >
                   Phone Number
                 </Label>
                 <Input
@@ -207,14 +256,17 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="subject" className="text-sm font-medium text-methodist-blue mb-2">
+                <Label
+                  htmlFor="subject"
+                  className="text-sm font-medium text-methodist-blue mb-2"
+                >
                   Subject *
                 </Label>
-                <Select 
-                  value={formData.subject} 
+                <Select
+                  value={formData.subject}
                   onValueChange={(value) => handleInputChange("subject", value)}
                 >
-                  <SelectTrigger 
+                  <SelectTrigger
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
                     data-testid="select-subject"
                   >
@@ -223,7 +275,9 @@ export default function Contact() {
                   <SelectContent>
                     <SelectItem value="general">General Question</SelectItem>
                     <SelectItem value="visit">Planning a Visit</SelectItem>
-                    <SelectItem value="ministry">Ministry Information</SelectItem>
+                    <SelectItem value="ministry">
+                      Ministry Information
+                    </SelectItem>
                     <SelectItem value="pastoral">Pastoral Care</SelectItem>
                     <SelectItem value="event">Event Information</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
@@ -232,7 +286,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="message" className="text-sm font-medium text-methodist-blue mb-2">
+                <Label
+                  htmlFor="message"
+                  className="text-sm font-medium text-methodist-blue mb-2"
+                >
                   Message *
                 </Label>
                 <Textarea
@@ -247,8 +304,8 @@ export default function Contact() {
                 />
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={contactMutation.isPending}
                 className="w-full bg-methodist-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-[1.02]"
                 data-testid="button-submit-contact"

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import Logo from "./logo";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -58,6 +60,13 @@ export default function Header() {
             >
               Events
             </button>
+            <Link 
+              href="/umyf"
+              className={`${location === '/umyf' ? 'text-methodist-blue font-medium' : 'text-warm-gray hover:text-methodist-blue'} transition-colors`}
+              data-testid="nav-umyf"
+            >
+              UMYF
+            </Link>
             <button 
               onClick={() => scrollToSection('contact')}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
@@ -126,6 +135,14 @@ export default function Header() {
               >
                 Events
               </button>
+              <Link 
+                href="/umyf"
+                className={`block px-3 py-2 w-full text-left ${location === '/umyf' ? 'text-methodist-blue font-medium' : 'text-warm-gray'}`}
+                data-testid="mobile-nav-umyf"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                UMYF
+              </Link>
               <button 
                 onClick={() => scrollToSection('contact')}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
