@@ -34,6 +34,7 @@ export default function Hero() {
           </Button>
           <Button
             variant="outline"
+            onClick={() => window.open('https://www.youtube.com/your-church-channel', '_blank')}
             className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
             data-testid="button-watch-online"
           >
