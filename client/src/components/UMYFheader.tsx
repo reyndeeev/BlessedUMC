@@ -44,11 +44,15 @@ export default function UMYFheader() {
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <div
-            className="cursor-pointer flex items-center space-x-2"
+            className="cursor-pointer flex items-center space-x-3"
             onClick={() => scrollToSection("about")}
           >
-            <Logo variant="header" size="sm" />
-            <span className="text-white font-semibold text-md">UMYF</span>
+            <img 
+              src="https://cdn.discordapp.com/attachments/948276718609772597/1407790711054799010/lllAcgAAAAZJREFUAwCMaEhuxYNxJwAAAABJRU5ErkJggg.png?ex=68a762c5&is=68a61145&hm=41724f25a2579387d9f1e87f885fbe61a08de5c33df7ab5cdfe3b771274e4783&"
+              alt="UMYF Logo" 
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <span className="text-white font-semibold text-lg">BLESSED UMYF</span>
           </div>
 
           {/* Desktop Menu */}
