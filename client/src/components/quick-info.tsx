@@ -3,7 +3,7 @@ import { Clock, MapPin, Phone, Navigation, Calendar } from "lucide-react";
 export default function QuickInfo() {
   return (
     <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-[15px]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Worship Times */}
           <div className="text-center p-8 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow">
@@ -59,9 +59,10 @@ export default function QuickInfo() {
               Find Us
             </h3>
             <div className="text-warm-gray">
-              <p>123 Faith Avenue</p>
+              <p>69 Don Placido Campos Ave., San Jose</p>
               <p>Dasmariñas, Cavite</p>
               <button
+                onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=69+Don+Placido+Campos+Ave.,+San+Jose,+Dasmariñas,+Cavite', '_blank')}
                 className="text-methodist-blue hover:text-warm-gold mt-2 font-medium flex items-center mx-auto"
                 data-testid="button-directions"
               >
