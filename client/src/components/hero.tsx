@@ -20,8 +20,7 @@ export default function Hero() {
           <span className="font-extrabold text-[#d40b0b]">BLESSED UMC</span>
         </h1>
         <p className="text-xl md:text-2xl mb-8 font-light max-w-3xl mx-auto leading-relaxed">
-          A community where faith grows, hearts heal, and everyone belongs. Join
-          us in worship, fellowship, and service as we follow Christ together.
+          Where faith grows, hearts heal, and everyone belongs. Walk with us in worship, fellowship, and service as we follow Christ.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button

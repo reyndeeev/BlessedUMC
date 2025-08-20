@@ -7,7 +7,7 @@ export default function Worship() {
         <div className="text-center mb-16">
           <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-4">Worship With Us</h2>
           <p className="text-xl text-warm-gray max-w-3xl mx-auto">
-            Join us for meaningful worship with contemporary praise music in a welcoming, family-friendly atmosphere.
+            Join us for meaningful worship with contemporary praise music in a welcoming, worship-inducing place.
           </p>
         </div>
 
@@ -24,7 +24,7 @@ export default function Worship() {
               </div>
             </div>
             <p className="text-warm-gray mb-6 leading-relaxed">
-              Join us for energetic worship with modern praise music, casual atmosphere, and interactive elements. Our worship service welcomes families and offers engaging worship for all ages.
+              Join us for worship with modern music and an atmosphere dedicated to praise. Our worship service welcomes and offers engaging worship for all ages.
             </p>
             <ul className="space-y-2 text-warm-gray mb-6">
               <li className="flex items-center">
@@ -33,7 +33,7 @@ export default function Worship() {
               </li>
               <li className="flex items-center">
                 <Check className="text-soft-green mr-2 h-4 w-4" />
-                Casual, family-friendly atmosphere
+                Contemporary, family-friendly atmosphere
               </li>
               <li className="flex items-center">
                 <Check className="text-soft-green mr-2 h-4 w-4" />

@@ -11,10 +11,7 @@ export default function About() {
               Our Story & Mission
             </h2>
             <p className="text-lg text-warm-gray mb-6 leading-relaxed">
-              For over 30 years, Blessed United Methodist Church has been a
-              beacon of hope and love in our community. Founded in 1994, we've
-              grown from a small congregation meeting in homes to a vibrant
-              church family of over 800 members.
+              For over 30 years, Blessed United Methodist Church has been a beacon of hope and love in our community. Since our founding in 1994, we’ve grown from a small group meeting in homes into a thriving church family that continues to serve and inspire.
             </p>
             <p className="text-lg text-warm-gray mb-8 leading-relaxed">
               Our mission is simple: to make disciples of Jesus Christ for the
