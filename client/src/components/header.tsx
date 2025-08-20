@@ -23,7 +23,7 @@ export default function Header() {
               <Cross className="text-white text-lg w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-xl font-heading font-bold text-red-600">BLESSED UMC</h1>
+              <h1 className="text-xl font-heading text-red-600 font-extrabold">BLESSED</h1>
               <p className="text-xs text-warm-gray">United Methodist Church</p>
             </div>
           </div>
