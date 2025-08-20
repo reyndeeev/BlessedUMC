@@ -7,45 +7,11 @@ export default function Worship() {
         <div className="text-center mb-16">
           <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-4">Worship With Us</h2>
           <p className="text-xl text-warm-gray max-w-3xl mx-auto">
-            Whether you prefer traditional hymns or contemporary praise, there's a place for you in our worship community.
+            Join us for meaningful worship with contemporary praise music in a welcoming, family-friendly atmosphere.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Traditional Service */}
-          <div className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-methodist-blue rounded-full flex items-center justify-center mr-4">
-                <Music className="text-white text-xl" />
-              </div>
-              <div>
-                <h3 className="font-heading text-2xl font-bold text-methodist-blue">Traditional Worship</h3>
-                <p className="text-warm-gold font-medium">Sundays at 8:30 AM</p>
-              </div>
-            </div>
-            <p className="text-warm-gray mb-6 leading-relaxed">
-              Experience the beauty of traditional Methodist worship with classic hymns, liturgy, and organ music. Our traditional service follows the rich heritage of Methodist worship while maintaining relevance for today's world.
-            </p>
-            <ul className="space-y-2 text-warm-gray mb-6">
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Classic hymns and choir anthems
-              </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Traditional liturgy and prayers
-              </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Pipe organ accompaniment
-              </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Formal atmosphere of reverence
-              </li>
-            </ul>
-          </div>
-
+        <div className="max-w-2xl mx-auto mb-12">
           {/* Contemporary Service */}
           <div className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
             <div className="flex items-center mb-6">
@@ -53,12 +19,12 @@ export default function Worship() {
                 <Guitar className="text-white text-xl" />
               </div>
               <div>
-                <h3 className="font-heading text-2xl font-bold text-methodist-blue">Contemporary Worship</h3>
-                <p className="text-warm-gold font-medium">Sundays at 11:00 AM</p>
+                <h3 className="font-heading text-2xl font-bold text-methodist-blue">Sunday Worship Service</h3>
+                <p className="text-warm-gold font-medium">Sundays at 9:15 AM</p>
               </div>
             </div>
             <p className="text-warm-gray mb-6 leading-relaxed">
-              Join us for energetic worship with modern praise music, casual atmosphere, and interactive elements. Our contemporary service welcomes families and offers engaging worship for all ages.
+              Join us for energetic worship with modern praise music, casual atmosphere, and interactive elements. Our worship service welcomes families and offers engaging worship for all ages.
             </p>
             <ul className="space-y-2 text-warm-gray mb-6">
               <li className="flex items-center">
