@@ -27,29 +27,29 @@ export default function Footer() {
               A welcoming community where faith grows, hearts heal, and everyone belongs in God's love.
             </p>
             <div className="flex space-x-4">
-              <button 
-                onClick={() => window.open('https://facebook.com/blessedumc', '_blank')}
+              <button
+                onClick={() => window.open('https://www.facebook.com/profile.php?id=61556573281040', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-facebook"
               >
                 <Facebook className="text-xl" />
               </button>
-              <button 
-                onClick={() => window.open('https://instagram.com/blessedumc', '_blank')}
+              <button
+                onClick={() => window.open('https://www.instagram.com/blessedumc/', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-instagram"
               >
                 <Instagram className="text-xl" />
               </button>
-              <button 
-                onClick={() => window.open('https://youtube.com/@blessedumc', '_blank')}
+              <button
+                onClick={() => window.open('https://www.youtube.com/@blessedumc', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-youtube"
               >
                 <Youtube className="text-xl" />
               </button>
-              <button 
-                onClick={() => window.open('https://open.spotify.com/show/your-podcast-id', '_blank')}
+              <button
+                onClick={() => window.open('https://open.spotify.com/show/1HvXzv9OQgpEhfbA05HshK?si=c1ed91207dd24a58',
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-podcast"
               >
