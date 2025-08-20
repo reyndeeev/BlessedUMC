@@ -126,17 +126,8 @@
                           Contact
                         </button>
                       </div>
+                    )}
                   </nav>
                 </header>
               );
-            }            <button
-              onClick={() => scrollToSection("contact")}
-              className="block w-full text-left text-white hover:text-warm-gold transition"
-            >
-              Contact
-            </button>
-          </div>
-      </nav>
-    </header>
-  );
-}
+            }
