@@ -4,12 +4,12 @@ import { Calendar, Clock, MapPin } from "lucide-react";
 export default function Events() {
   const events = [
     {
-      date: { day: "15", month: "DEC" },
-      title: "Christmas Cantata",
-      description: "Join our choir for a beautiful presentation of Christmas music and carols.",
-      dateText: "Sunday, December 15th",
+      date: { day: "30", month: "NOV" },
+      title: "Church Anniversary",
+      description: "Join a beautiful presentation of the Church Anniversary",
+      dateText: "Sunday, November 30th",
       time: "7:00 PM",
-      location: "Main Sanctuary",
+      location: "Blessed UMC",
       gradient: "from-methodist-blue to-soft-green"
     },
     {

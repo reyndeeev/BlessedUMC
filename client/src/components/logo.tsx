@@ -29,7 +29,7 @@ export default function Logo({
       <div className={`${height} flex items-center`}>
         <img
           src="https://s3.amazonaws.com/Website_Properties/Resources/graphics-library/Cross_Flame_CLR.png"
-          alt="United Methodist Church Cross and Flame Logo"
+          alt="Blessed United Methodist Church Logo"
           className={`${height} w-auto object-contain`}
           onError={(e) => {
             // Fallback to text if image doesn't load

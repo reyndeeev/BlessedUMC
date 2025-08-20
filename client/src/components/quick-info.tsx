@@ -81,11 +81,14 @@ export default function QuickInfo() {
               Contact Us
             </h3>
             <div className="space-y-2 text-warm-gray">
-            
+              <p className="flex items-center justify-center">
+                <Phone className="mr-2 h-4 w-4" />
+                (555) 123-4567
               </p>
               <p className="flex items-center justify-center">
                 <span className="mr-2">✉</span>
-                info@blessedumc.org
+                iamblessedchurch@gmail.com
+
               </p>
               <button
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
