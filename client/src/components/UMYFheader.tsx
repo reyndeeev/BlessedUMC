@@ -47,7 +47,7 @@ export default function UMYFheader() {
             onClick={() => scrollToSection("about")}
           >
             <Logo variant="header" size="sm" />
-            <span className="text-white font-semibold text-md">Blessed UMYF</span>
+            <span className="text-white font-semibold text-md">UMYF</span>
           </div>
 
           {/* Desktop Menu */}
