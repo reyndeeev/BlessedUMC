@@ -25,7 +25,12 @@ export default function Hero() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
-            onClick={() => window.open('https://open.spotify.com/your-devotion-playlist', '_blank')}
+            onClick={() =>
+              window.open(
+                "https://open.spotify.com/show/1HvXzv9OQgpEhfbA05HshK?si=c1ed91207dd24a58",
+                "_blank",
+              )
+            }
             className="bg-warm-gold text-methodist-blue px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
             data-testid="button-mdp-hero"
           >
