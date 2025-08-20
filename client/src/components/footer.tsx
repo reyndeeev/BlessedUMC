@@ -1,10 +1,7 @@
 import {
   Facebook,
-  Instagram,
-  Youtube,
   Podcast,
   MapPin,
-  Phone,
   Mail,
   X,
 } from "lucide-react";
@@ -43,27 +40,6 @@ export default function Footer() {
                 data-testid="link-facebook"
               >
                 <Facebook className="text-xl" />
-              </button>
-              <button
-                onClick={() =>
-                  window.open(
-                    "https://www.instagram.com/blessedumyf/",
-                    "_blank",
-                  )
-                }
-                className="text-gray-300 hover:text-warm-gold transition-colors"
-                data-testid="link-instagram"
-              >
-                <Instagram className="text-xl" />
-              </button>
-              <button
-                onClick={() =>
-                  window.open("https://www.youtube.com/@blessedumc", "_blank")
-                }
-                className="text-gray-300 hover:text-warm-gold transition-colors"
-                data-testid="link-youtube"
-              >
-                <Youtube className="text-xl" />
               </button>
               <button
                 onClick={() =>
@@ -161,12 +137,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact Info & Map */}
           <div>
             <h4 className="text-lg font-heading font-bold mb-4">
-              Contact Info
+              Visit Us
             </h4>
-            <div className="space-y-3 text-gray-300">
+            <div className="space-y-4 text-gray-300">
               <div className="flex items-start space-x-2">
                 <MapPin className="mt-1 text-warm-gold" size={16} />
                 <div>
@@ -175,12 +151,22 @@ export default function Footer() {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="text-warm-gold" size={16} />
-                <p>(555) 123-4567</p>
-              </div>
-              <div className="flex items-center space-x-2">
                 <Mail className="text-warm-gold" size={16} />
-                <p>info@blessedumc.org</p>
+                <p>iamblessedchurch@gmail.com</p>
+              </div>
+              
+              {/* Google Maps Embed */}
+              <div className="mt-4">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3864.8519!2d120.9365!3d14.3294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDE5JzQ1LjgiTiAxMjDCsDU2JzExLjQiRQ!5e0!3m2!1sen!2sph!4v1234567890"
+                  width="100%"
+                  height="150"
+                  style={{ border: 0, borderRadius: '8px' }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Blessed United Methodist Church Location"
+                />
               </div>
             </div>
           </div>
