@@ -130,7 +130,7 @@ export default function Contact() {
             {/* Google Maps Embed */}
             <div className="rounded-xl overflow-hidden h-64">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3864.8519!2d120.9365!3d14.3294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDE5JzQ1LjgiTiAxMjDCsDU2JzExLjQiRQ!5e0!3m2!1sen!2sph!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4585.426065009781!2d120.92917507573804!3d14.331747283601128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d4fcea32b8f5%3A0xaacc0220724690e7!2sBlessed%20United%20Methodist%20Church!5e1!3m2!1sen!2sus!4v1755699777991!5m2!1sen!2sus"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

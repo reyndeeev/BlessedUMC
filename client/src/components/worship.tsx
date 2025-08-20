@@ -1,66 +1,91 @@
-import { Music, Guitar, Clock, BookOpen, Check } from "lucide-react";
+            import { Music, Guitar, Clock, BookOpen, Check, Play } from "lucide-react";
+            import { Button } from "@/components/ui/button"; // ✅ Make sure this path is correct
 
-export default function Worship() {
-  return (
-    <section id="worship" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-4">Worship With Us</h2>
-          <p className="text-xl text-warm-gray max-w-3xl mx-auto">
-            Join us for meaningful worship with contemporary praise music in a welcoming, worship-inducing place.
-          </p>
-        </div>
+            export default function Worship() {
+              return (
+                <section id="worship" className="py-20 bg-white">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                      <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-4">
+                        Worship With Us
+                      </h2>
+                      <p className="text-xl text-warm-gray max-w-3xl mx-auto mb-6">
+                        Join us for a meaningful worship with contemporary praise music in a
+                        welcoming, worship-inducing place.
+                      </p>
+                    </div>
 
-        <div className="max-w-2xl mx-auto mb-12">
-          {/* Contemporary Service */}
-          <div className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
-            <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-warm-gold rounded-full flex items-center justify-center mr-4">
-                <Guitar className="text-white text-xl" />
-              </div>
-              <div>
-                <h3 className="font-heading text-2xl font-bold text-methodist-blue">Sunday Worship Service</h3>
-                <p className="text-warm-gold font-medium">Sundays at 9:15 AM</p>
-              </div>
-            </div>
-            <p className="text-warm-gray mb-6 leading-relaxed">
-              Join us for worship with modern music and an atmosphere dedicated to praise. Our worship service welcomes and offers engaging worship for all ages.
-            </p>
-            <ul className="space-y-2 text-warm-gray mb-6">
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Modern praise and worship music
-              </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Contemporary, family-friendly atmosphere
-              </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                Live band and multimedia
-              </li>
-            </ul>
-          </div>
-        </div>
+                    <div className="max-w-2xl mx-auto mb-12" id="worship-times">
+                      {/* Contemporary Service */}
+                      <div className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
+                        <div className="flex items-center mb-6">
+                          {/* 🔵 Guitar circle is now blue */}
+                          <div className="w-12 h-12 bg-methodist-blue rounded-full flex items-center justify-center mr-4">
+                            <Guitar className="text-white text-xl" />
+                          </div>
+                          <div>
+                            <h3 className="font-heading text-2xl font-bold text-methodist-blue">
+                              Sunday Worship Service
+                            </h3>
+                            {/* 📌 Sundays styled like “Everyday” */}
+                            <p className="text-lg font-medium text-methodist-blue">
+                              Sundays at 9:15 AM
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-warm-gray mb-6 leading-relaxed">
+                          Join us for worship with modern music and an atmosphere dedicated
+                          to praise. Our worship service welcomes and offers engaging worship
+                          for all ages.
+                        </p>
+                        <ul className="space-y-2 text-warm-gray mb-6">
+                          <li className="flex items-center">
+                            <Check className="text-soft-green mr-2 h-4 w-4" />
+                            Modern praise and worship music
+                          </li>
+                          <li className="flex items-center">
+                            <Check className="text-soft-green mr-2 h-4 w-4" />
+                            Contemporary, family-friendly atmosphere
+                          </li>
+                          <li className="flex items-center">
+                            <Check className="text-soft-green mr-2 h-4 w-4" />
+                            Live band and multimedia
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
 
-        {/* Midweek Service */}
-        <div className="bg-methodist-blue text-white rounded-xl p-8 text-center">
-          <h3 className="font-heading text-2xl font-bold mb-4">Wednesday Evening Service</h3>
-          <p className="text-lg mb-6 max-w-2xl mx-auto">
-            Join us midweek for intimate worship, prayer, and Bible study. A perfect way to reconnect and refocus during your busy week.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <div className="flex items-center">
-              <Clock className="mr-2" />
-              <span>7:00 PM every Wednesday</span>
-            </div>
-            <div className="flex items-center">
-              <BookOpen className="mr-2" />
-              <span>Prayer & Bible Study</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+                    {/* Midweek Service */}
+                    <div className="bg-methodist-blue text-white rounded-xl p-8 text-center">
+                      <h3 className="font-heading text-2xl font-bold mb-4">
+                        MOMENT OF DEVOTION & PRAYER
+                      </h3>
+                      <p className="text-lg mb-6 max-w-2xl mx-auto">
+                        Start your morning with quiet time in God’s presence through prayer
+                        and reflection on His Word. A meaningful way to center your day in
+                        faith.
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <div className="flex items-center">
+                          <Clock className="mr-2" />
+                          <span className="text-lg font-medium">Everyday 6:00 AM</span>
+                        </div>
+                        <div className="flex items-center">
+                          <BookOpen className="mr-2" />
+                          <span className="text-lg font-medium">Prayer & Bible Study</span>
+                          <Button
+                            className="ml-4 bg-white text-methodist-blue rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition-all"
+                            onClick={() =>
+                              window.open("https://www.facebook.com/john.manalo.146", "_blank")
+                            }
+                          >
+                            <Play className="h-4 w-4" />
+                            Watch Live
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              );
+            }

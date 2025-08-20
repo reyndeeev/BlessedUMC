@@ -10,9 +10,33 @@ export default function Header() {
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (!element) return;
+
+    const headerOffset = 80; // Height of this header (64px)
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - headerOffset;
+
+    const startPosition = window.pageYOffset;
+    const distance = offsetPosition - startPosition;
+    const duration = 800;
+
+    let start: number | null = null;
+
+    const easeInOutQuad = (t: number) =>
+      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+    function step(timestamp: number) {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const percent = Math.min(progress / duration, 1);
+      const ease = easeInOutQuad(percent);
+      window.scrollTo(0, startPosition + distance * ease);
+      if (progress < duration) {
+        window.requestAnimationFrame(step);
+      }
     }
+
+    window.requestAnimationFrame(step);
     setMobileMenuOpen(false);
   };
 
@@ -20,155 +44,134 @@ export default function Header() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo and Church Name */}
           <Link href="/" className="flex items-center" data-testid="logo-home-link">
             <Logo variant="header" size="md" />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => {
-                if (location !== '/') {
-                  window.location.href = '/';
+                if (location !== "/") {
+                  window.location.href = "/";
                 } else {
-                  scrollToSection('home');
+                  scrollToSection("home");
                 }
               }}
-              className={`${location === '/' ? 'text-methodist-blue font-medium' : 'text-warm-gray hover:text-methodist-blue'} transition-colors`}
-              data-testid="nav-home"
+              className={`${location === "/" ? "text-methodist-blue font-medium" : "text-warm-gray hover:text-methodist-blue"} transition-colors`}
             >
               Home
             </button>
             <button
-              onClick={() => scrollToSection('about')}
+              onClick={() => scrollToSection("about")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
-              data-testid="nav-about"
             >
               About
             </button>
             <button
-              onClick={() => scrollToSection('worship')}
+              onClick={() => scrollToSection("worship")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
-              data-testid="nav-worship"
             >
               Worship
             </button>
             <button
-              onClick={() => scrollToSection('ministries')}
+              onClick={() => scrollToSection("ministries")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
-              data-testid="nav-ministries"
             >
               Ministries
             </button>
             <button
-              onClick={() => scrollToSection('events')}
+              onClick={() => scrollToSection("events")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
-              data-testid="nav-events"
             >
               Events
             </button>
             <Link
               href="/umyf"
-              className={`${location === '/umyf' ? 'text-methodist-blue font-medium' : 'text-warm-gray hover:text-methodist-blue'} transition-colors`}
-              data-testid="nav-umyf"
+              className={`${location === "/umyf" ? "text-methodist-blue font-medium" : "text-warm-gray hover:text-methodist-blue"} transition-colors`}
             >
               UMYF
             </Link>
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={() => scrollToSection("contact")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
-              data-testid="nav-contact"
             >
               Contact
             </button>
-            <Button
-              className="bg-methodist-blue text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-all"
-              data-testid="button-plan-visit"
-            >
+            <Button className="bg-methodist-blue text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-all">
               Plan a Visit
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            data-testid="button-mobile-menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="text-methodist-blue text-xl" />
-            ) : (
-              <Menu className="text-methodist-blue text-xl" />
-            )}
+          <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X className="text-methodist-blue text-xl" /> : <Menu className="text-methodist-blue text-xl" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t" data-testid="mobile-menu">
+          <div className="md:hidden bg-white border-t">
             <div className="px-2 pt-2 pb-3 space-y-1">
               <button
                 onClick={() => {
-                  if (location !== '/') {
-                    window.location.href = '/';
-                  } else {
-                    scrollToSection('home');
-                  }
+                  location !== "/" ? window.location.href = "/" : scrollToSection("home");
                   setMobileMenuOpen(false);
                 }}
-                className={`block px-3 py-2 w-full text-left ${location === '/' ? 'text-methodist-blue font-medium' : 'text-warm-gray'}`}
-                data-testid="mobile-nav-home"
+                className={`block px-3 py-2 w-full text-left ${location === "/" ? "text-methodist-blue font-medium" : "text-warm-gray"}`}
               >
                 Home
               </button>
               <button
-                onClick={() => scrollToSection('about')}
+                onClick={() => {
+                  scrollToSection("about");
+                  setMobileMenuOpen(false);
+                }}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
-                data-testid="mobile-nav-about"
               >
                 About
               </button>
               <button
-                onClick={() => scrollToSection('worship')}
+                onClick={() => {
+                  scrollToSection("worship");
+                  setMobileMenuOpen(false);
+                }}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
-                data-testid="mobile-nav-worship"
               >
                 Worship
               </button>
               <button
-                onClick={() => scrollToSection('ministries')}
+                onClick={() => {
+                  scrollToSection("ministries");
+                  setMobileMenuOpen(false);
+                }}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
-                data-testid="mobile-nav-ministries"
               >
                 Ministries
               </button>
               <button
-                onClick={() => scrollToSection('events')}
+                onClick={() => {
+                  scrollToSection("events");
+                  setMobileMenuOpen(false);
+                }}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
-                data-testid="mobile-nav-events"
               >
                 Events
               </button>
               <Link
                 href="/umyf"
-                className={`block px-3 py-2 w-full text-left ${location === '/umyf' ? 'text-methodist-blue font-medium' : 'text-warm-gray'}`}
-                data-testid="mobile-nav-umyf"
+                className={`block px-3 py-2 w-full text-left ${location === "/umyf" ? "text-methodist-blue font-medium" : "text-warm-gray"}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 UMYF
               </Link>
               <button
-                onClick={() => scrollToSection('contact')}
+                onClick={() => {
+                  scrollToSection("contact");
+                  setMobileMenuOpen(false);
+                }}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
-                data-testid="mobile-nav-contact"
               >
                 Contact
               </button>
-              <Button
-                className="w-full mt-3 bg-methodist-blue text-white px-6 py-2 rounded-lg"
-                data-testid="mobile-button-plan-visit"
-              >
+              <Button className="w-full mt-3 bg-methodist-blue text-white px-6 py-2 rounded-lg">
                 Plan a Visit
               </Button>
             </div>

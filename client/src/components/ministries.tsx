@@ -4,13 +4,13 @@ export default function Ministries() {
   const ministries = [
     {
       title: "Children's Ministry",
-      description: "Nurturing young hearts with age-appropriate Bible lessons, crafts, games, and fellowship for children from nursery through 5th grade.",
+      description: "Nurturing young hearts with age-appropriate Bible lessons, crafts, games, and fellowship for children from nursery through 5-11 yrs old",
       icon: Baby,
       color: "bg-warm-gold",
       programs: [
-        "Sunday School (9:45 AM)",
+        "Sunday School (9:15 AM)",
         "Children's Church",
-        "VBS & Summer Programs",
+        "Vaction Church School",
         "Family Events"
       ]
     },
