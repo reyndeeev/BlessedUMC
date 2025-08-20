@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CalendarPlus, Play, ChevronDown } from "lucide-react";
+import { CalendarPlus, Play, ChevronDown, Headphones } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -16,9 +16,8 @@ export default function Hero() {
       />
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
         <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
-          Welcome Home to <span className="font-extrabold text-[#d40b0b]">
-        BLESSED UMC
-</span>
+          Welcome Home to{" "}
+          <span className="font-extrabold text-[#d40b0b]">BLESSED UMC</span>
         </h1>
         <p className="text-xl md:text-2xl mb-8 font-light max-w-3xl mx-auto leading-relaxed">
           A community where faith grows, hearts heal, and everyone belongs. Join
@@ -26,15 +25,21 @@ export default function Hero() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
+            onClick={() => window.open('https://open.spotify.com/your-devotion-playlist', '_blank')}
             className="bg-warm-gold text-methodist-blue px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
-            data-testid="button-plan-visit-hero"
+            data-testid="button-mdp-hero"
           >
-            <CalendarPlus className="mr-2 h-5 w-5" />
-            Plan Your Visit
+            <Headphones className="mr-2 h-5 w-5" />
+            MDP
           </Button>
           <Button
             variant="outline"
-            onClick={() => window.open('https://www.youtube.com/your-church-channel', '_blank')}
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/profile.php?id=61556573281040",
+                "_blank",
+              )
+            }
             className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
             data-testid="button-watch-online"
           >
