@@ -119,15 +119,15 @@ export default function Footer() {
             <h4 className="text-lg font-heading font-bold mb-4">Worship Times</h4>
             <div className="space-y-3 text-gray-300">
               <div>
-                <p className="font-medium text-white">Sunday Traditional</p>
-                <p className="text-sm">8:30 AM</p>
+                <p className="font-medium text-white">Sunday Worship</p>
+                <p className="text-sm">9:00 AM</p>
               </div>
               <div>
-                <p className="font-medium text-white">Sunday Contemporary</p>
-                <p className="text-sm">11:00 AM</p>
+                <p className="font-medium text-white"></p>
+                <p className="text-sm"></p>
               </div>
               <div>
-                <p className="font-medium text-white">Wednesday Evening</p>
+                <p className="font-medium text-white"></p>
                 <p className="text-sm">7:00 PM</p>
               </div>
             </div>
