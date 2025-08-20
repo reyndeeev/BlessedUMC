@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
+import { Link } from "wouter";
 import Logo from "./logo";
 
 export default function UMYFheader() {
@@ -9,7 +10,7 @@ export default function UMYFheader() {
     const element = document.getElementById(sectionId);
     if (!element) return;
 
-    const headerOffset = 120; // Adjusted for both headers (64px + 56px)
+    const headerOffset = 56; // Height of UMYF header only
     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
     const offsetPosition = elementPosition - headerOffset;
 
@@ -38,7 +39,7 @@ export default function UMYFheader() {
   };
 
   return (
-    <header className="sticky top-[64px] z-40 bg-methodist-blue/80 backdrop-blur-md border-b border-white/20 shadow-sm">
+    <header className="sticky top-0 z-50 bg-methodist-blue backdrop-blur-md border-b border-white/20 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
@@ -52,6 +53,13 @@ export default function UMYFheader() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6 text-white font-medium">
+            <Link
+              href="/"
+              className="flex items-center space-x-1 hover:text-warm-gold transition"
+            >
+              <Home className="w-4 h-4" />
+              <span>Home</span>
+            </Link>
             <button
               onClick={() => scrollToSection("about")}
               className="hover:text-warm-gold transition"
@@ -88,6 +96,13 @@ export default function UMYFheader() {
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-methodist-blue text-white px-4 py-5 space-y-3 shadow-lg">
+            <Link
+              href="/"
+              className="flex items-center space-x-2 w-full text-left hover:text-warm-gold transition"
+            >
+              <Home className="w-4 h-4" />
+              <span>Home</span>
+            </Link>
             <button
               onClick={() => scrollToSection("about")}
               className="block w-full text-left hover:text-warm-gold transition"

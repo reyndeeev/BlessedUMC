@@ -32,14 +32,11 @@ export default function UMYF() {
 
   return (
     <div className="font-sans bg-gray-50 min-h-screen flex flex-col">
-      {/* Global Header */}
-      <Header />
-
       {/* UMYF-Specific Header */}
       <UMYFHeader />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-40 pb-20" id="home">
+      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-20 pb-20" id="home">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -218,12 +215,12 @@ export default function UMYF() {
 
       <Footer />
 
-      {/* Floating Back to Home Button */}
+      {/* Floating Back to Top Button */}
       {showBackButton && (
         <button
           onClick={scrollToTop}
           className="fixed bottom-6 right-6 p-3 rounded-full shadow-lg flex items-center justify-center z-50 bg-white text-methodist-blue opacity-60 hover:opacity-100 transition-opacity duration-300"
-          title="Back to Home"
+          title="Back to Top"
         >
           <ArrowUp className="w-5 h-5" />
         </button>
