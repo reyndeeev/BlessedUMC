@@ -34,7 +34,7 @@ export default function Hero() {
           </Button>
           <Button
             variant="outline"
-            className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-methodist-blue transition-all"
+            className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
             data-testid="button-watch-online"
           >
             <Play className="mr-2 h-5 w-5" />
