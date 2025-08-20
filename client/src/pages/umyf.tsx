@@ -182,29 +182,29 @@ export default function UMYF() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 bg-methodist-blue text-white">
+      <section id="contact" className="py-16 bg-white text-methodist-blue">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">Ready to Join UMYF?</h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-warm-gray mb-8 max-w-2xl mx-auto">
             Whether you're new to faith or have been part of our church family for years, all youth ages 12-18 are welcome in our fellowship.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <Button
-              className="bg-white text-methodist-blue hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
+              className="bg-methodist-blue text-white hover:bg-opacity-90 px-8 py-3 text-lg font-semibold"
               onClick={() => scrollToSection("contact")}
             >
               Contact Youth Leaders
             </Button>
             <Button
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-methodist-blue px-8 py-3 text-lg font-semibold"
+              className="border-methodist-blue text-methodist-blue hover:bg-methodist-blue hover:text-white px-8 py-3 text-lg font-semibold"
             >
               Visit This Sunday
             </Button>
           </div>
-          <div className="mt-12 pt-8 border-t border-blue-400">
-            <h3 className="text-lg font-semibold mb-4">Questions? Contact Our Youth Leaders:</h3>
-            <div className="space-y-2 text-blue-100">
+          <div className="mt-12 pt-8 border-t border-gray-300">
+            <h3 className="text-lg font-semibold mb-4 text-methodist-blue">Questions? Contact Our Youth Leaders:</h3>
+            <div className="space-y-2 text-warm-gray">
               <p>Youth Pastor: Rev. Sarah Johnson</p>
               <p>Email: youth@blessedumc.org</p>
               <p>Phone: (555) 123-4567</p>
