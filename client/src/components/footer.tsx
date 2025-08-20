@@ -28,24 +28,28 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <button 
+                onClick={() => window.open('https://facebook.com/blessedumc', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-facebook"
               >
                 <Facebook className="text-xl" />
               </button>
               <button 
+                onClick={() => window.open('https://instagram.com/blessedumc', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-instagram"
               >
                 <Instagram className="text-xl" />
               </button>
               <button 
+                onClick={() => window.open('https://youtube.com/@blessedumc', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-youtube"
               >
                 <Youtube className="text-xl" />
               </button>
               <button 
+                onClick={() => window.open('https://open.spotify.com/show/your-podcast-id', '_blank')}
                 className="text-gray-300 hover:text-warm-gold transition-colors"
                 data-testid="link-podcast"
               >
@@ -119,8 +123,8 @@ export default function Footer() {
             <h4 className="text-lg font-heading font-bold mb-4">Worship Times</h4>
             <div className="space-y-3 text-gray-300">
               <div>
-                <p className="font-medium text-white">Sunday Worship</p>
-                <p className="text-sm">9:00 AM</p>
+                <p className="font-medium text-white">Sunday Worship Service</p>
+                <p className="text-sm">9:15 AM</p>
               </div>
               <div>
                 <p className="font-medium text-white"></p>
@@ -128,7 +132,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="font-medium text-white"></p>
-                <p className="text-sm">7:00 PM</p>
+                <p className="text-sm"></p>
               </div>
             </div>
           </div>
@@ -140,8 +144,8 @@ export default function Footer() {
               <div className="flex items-start space-x-2">
                 <MapPin className="mt-1 text-warm-gold" size={16} />
                 <div>
-                  <p>123 Faith Avenue</p>
-                  <p>Hometown, ST 12345</p>
+                  <p>69 Don Placido Campos Ave., San Jose</p>
+                  <p>Dasmariñas, Cavite</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -158,7 +162,7 @@ export default function Footer() {
 
         {/* Bottom Footer */}
         <div className="border-t border-gray-600 pt-8 text-center text-gray-300">
-          <p>&copy; 2024 Blessed United Methodist Church. All rights reserved.</p>
+          <p>&copy; 2025 Blessed United Methodist Church. All rights reserved.</p>
           <p className="mt-2 text-sm">Built with love for our church community</p>
         </div>
       </div>
