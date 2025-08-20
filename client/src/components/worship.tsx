@@ -41,7 +41,7 @@ export default function Worship() {
               </li>
               <li className="flex items-center">
                 <Check className="text-soft-green mr-2 h-4 w-4" />
-                Interactive worship elements
+                
               </li>
             </ul>
           </div>
