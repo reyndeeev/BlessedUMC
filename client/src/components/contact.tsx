@@ -115,18 +115,6 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-warm-gold rounded-full flex items-center justify-center flex-shrink-0">
-                  <Phone className="text-white" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
-                    Phone
-                  </h3>
-                  <p className="text-warm-gray">(555) 123-4567</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-soft-green rounded-full flex items-center justify-center flex-shrink-0">
                   <Mail className="text-white" />
                 </div>
@@ -134,26 +122,7 @@ export default function Contact() {
                   <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
                     Email
                   </h3>
-                  <p className="text-warm-gray">info@blessedumc.org</p>
-              
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-methodist-blue rounded-full flex items-center justify-center flex-shrink-0">
-                  <Clock className="text-white" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
-                    Office Hours
-                  </h3>
-                  <p className="text-warm-gray">
-                    Monday - Friday: 9:00 AM - 5:00 PM
-                    <br />
-                    Saturday: 9:00 AM - 1:00 PM
-                    <br />
-                    Sunday: Closed
-                  </p>
+                  <p className="text-warm-gray">iamblessedchurch@gmail.com</p>
                 </div>
               </div>
             </div>
