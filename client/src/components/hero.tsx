@@ -11,7 +11,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(27, 54, 93, 0.6) 100%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480849794_122203836704219109_1468100116698178807_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEkn9oBRIB09U6avg7imh4W8hMDmHpBTp7yEwOYekFOnub4Xk1cBBvqIByM9gT-5TlPxwKqF8s6-FnaRX11tntW&_nc_ohc=O8Jp7py7RxAQ7kNvwHJ2Bxs&_nc_oc=Adm-seNLqZxKkdBx9Mn9ed5SoVzVz9nG9bTom16nzLOt-6LE_l6SEma7el2CQcHWIGo&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=tQL4pOFtfub8zNtHnb86hA&oh=00_AfWld6-gWTIUoI3HP6kOGByEB8j9Pc2sfoi3CcfouI49QQ&oe=68AB7671')`,
+          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.6) 25%, rgba(0, 0, 0, 0.7) 50%, rgba(120, 60, 30, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480849794_122203836704219109_1468100116698178807_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEkn9oBRIB09U6avg7imh4W8hMDmHpBTp7yEwOYekFOnub4Xk1cBBvqIByM9gT-5TlPxwKqF8s6-FnaRX11tntW&_nc_ohc=O8Jp7py7RxAQ7kNvwHJ2Bxs&_nc_oc=Adm-seNLqZxKkdBx9Mn9ed5SoVzVz9nG9bTom16nzLOt-6LE_l6SEma7el2CQcHWIGo&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=tQL4pOFtfub8zNtHnb86hA&oh=00_AfWld6-gWTIUoI3HP6kOGByEB8j9Pc2sfoi3CcfouI49QQ&oe=68AB7671')`,
         }}
       />
       <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
