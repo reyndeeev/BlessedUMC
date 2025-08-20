@@ -27,13 +27,19 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
+            <button
+              onClick={() => {
+                if (location !== '/') {
+                  window.location.href = '/';
+                } else {
+                  scrollToSection('home');
+                }
+              }}
               className={`${location === '/' ? 'text-methodist-blue font-medium' : 'text-warm-gray hover:text-methodist-blue'} transition-colors`}
               data-testid="nav-home"
             >
               Home
-            </Link>
+            </button>
             <button
               onClick={() => scrollToSection('about')}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
@@ -102,14 +108,20 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t" data-testid="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
-                href="/"
+              <button
+                onClick={() => {
+                  if (location !== '/') {
+                    window.location.href = '/';
+                  } else {
+                    scrollToSection('home');
+                  }
+                  setMobileMenuOpen(false);
+                }}
                 className={`block px-3 py-2 w-full text-left ${location === '/' ? 'text-methodist-blue font-medium' : 'text-warm-gray'}`}
                 data-testid="mobile-nav-home"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Home
-              </Link>
+              </button>
               <button
                 onClick={() => scrollToSection('about')}
                 className="block px-3 py-2 text-warm-gray w-full text-left"
