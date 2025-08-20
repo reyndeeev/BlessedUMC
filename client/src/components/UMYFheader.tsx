@@ -9,7 +9,7 @@ export default function UMYFheader() {
     const element = document.getElementById(sectionId);
     if (!element) return;
 
-    const headerOffset = 100; // Adjusted for fixed header height
+    const headerOffset = 120; // Adjusted for both headers (64px + 56px)
     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
     const offsetPosition = elementPosition - headerOffset;
 
@@ -38,7 +38,7 @@ export default function UMYFheader() {
   };
 
   return (
-    <header className="sticky top-16 z-40 bg-methodist-blue/80 backdrop-blur-md border-b border-white/20 shadow-sm">
+    <header className="sticky top-[64px] z-40 bg-methodist-blue/80 backdrop-blur-md border-b border-white/20 shadow-sm"></header>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
