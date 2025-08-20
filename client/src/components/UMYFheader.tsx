@@ -39,7 +39,7 @@ export default function UMYFheader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-methodist-blue backdrop-blur-md border-b border-white/20 shadow-sm">
+    <header className="sticky top-0 z-50 bg-methodist-blue/80 backdrop-blur-md border-b border-white/20 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
@@ -99,7 +99,7 @@ export default function UMYFheader() {
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-methodist-blue text-white px-4 py-5 space-y-3 shadow-lg">
+          <div className="md:hidden bg-methodist-blue/90 backdrop-blur-md text-white px-4 py-5 space-y-3 shadow-lg">
             <Link
               href="/"
               className="flex items-center space-x-2 w-full text-left hover:text-warm-gold transition"
