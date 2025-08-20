@@ -62,7 +62,7 @@ export default function QuickInfo() {
               <p>69 Don Placido Campos Ave., San Jose</p>
               <p>Dasmariñas, Cavite</p>
               <button
-                onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=69+Don+Placido+Campos+Ave.,+San+Jose,+Dasmariñas,+Cavite', '_blank')}
+                onClick={() => window.open('https://maps.app.goo.gl/PxJxg8ssYJN5hBERA', '_blank')}
                 className="text-methodist-blue hover:text-warm-gold mt-2 font-medium flex items-center mx-auto"
                 data-testid="button-directions"
               >
@@ -90,6 +90,7 @@ export default function QuickInfo() {
                 info@blessedumc.org
               </p>
               <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 className="text-methodist-blue hover:text-warm-gold mt-2 font-medium"
                 data-testid="button-send-message"
               >
