@@ -3,17 +3,17 @@ import { Heart, Users, BookOpen, Handshake } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-gray-50">
+    <section id="about" className="py-20 bg-black/50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-6">
+            <h2 className="font-heading text-4xl font-bold text-white mb-6">
               Our Story & Mission
             </h2>
-            <p className="text-lg text-warm-gray mb-6 leading-relaxed">
+            <p className="text-lg text-gray-200 mb-6 leading-relaxed">
               For over 30 years, Blessed United Methodist Church has been a beacon of hope and love in our community. Since our founding in 1994, we’ve grown from our humble beginnings into a thriving church family that continues to serve with faith and love.
             </p>
-            <p className="text-lg text-warm-gray mb-8 leading-relaxed">
+            <p className="text-lg text-gray-200 mb-8 leading-relaxed">
               Our mission is simple: to make disciples of Jesus Christ for the
               transformation of the world. We believe in open hearts, open
               minds, and open doors - welcoming all people to experience God's
@@ -26,7 +26,7 @@ export default function About() {
                 <div className="w-8 h-8 bg-methodist-blue rounded-full flex items-center justify-center">
                   <Heart className="text-white text-sm" />
                 </div>
-                <span className="font-medium text-methodist-blue">
+                <span className="font-medium text-white">
                   Compassionate Care
                 </span>
               </div>
@@ -34,7 +34,7 @@ export default function About() {
                 <div className="w-8 h-8 bg-warm-gold rounded-full flex items-center justify-center">
                   <Handshake className="text-white text-sm" />
                 </div>
-                <span className="font-medium text-methodist-blue">
+                <span className="font-medium text-white">
                   Community Service
                 </span>
               </div>
@@ -42,7 +42,7 @@ export default function About() {
                 <div className="w-8 h-8 bg-soft-green rounded-full flex items-center justify-center">
                   <BookOpen className="text-white text-sm" />
                 </div>
-                <span className="font-medium text-methodist-blue">
+                <span className="font-medium text-white">
                   Biblical Teaching
                 </span>
               </div>
@@ -50,7 +50,7 @@ export default function About() {
                 <div className="w-8 h-8 bg-methodist-blue rounded-full flex items-center justify-center">
                   <Users className="text-white text-sm" />
                 </div>
-                <span className="font-medium text-methodist-blue">
+                <span className="font-medium text-white">
                   Inclusive Fellowship
                 </span>
               </div>

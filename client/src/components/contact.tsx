@@ -83,15 +83,15 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-black/50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-6">
+            <h2 className="font-heading text-4xl font-bold text-white mb-6">
               Get in Touch
             </h2>
-            <p className="text-lg text-warm-gray mb-8 leading-relaxed">
+            <p className="text-lg text-gray-200 mb-8 leading-relaxed">
               We'd love to hear from you! Whether you're planning a visit, have
               questions about our ministries, or need pastoral care, we're here
               to help.
@@ -103,10 +103,10 @@ export default function Contact() {
                   <MapPin className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                  <h3 className="font-heading text-lg font-bold text-white mb-1">
                     Address
                   </h3>
-                  <p className="text-warm-gray">
+                  <p className="text-gray-200">
                     69 Don Placido Campos Ave., San Jose
                     <br />
                     Dasmariñas, Cavite
@@ -119,10 +119,10 @@ export default function Contact() {
                   <Mail className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-heading text-lg font-bold text-methodist-blue mb-1">
+                  <h3 className="font-heading text-lg font-bold text-white mb-1">
                     Email
                   </h3>
-                  <p className="text-warm-gray">iamblessedchurch@gmail.com</p>
+                  <p className="text-gray-200">iamblessedchurch@gmail.com</p>
                 </div>
               </div>
             </div>
