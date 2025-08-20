@@ -6,6 +6,7 @@ import {
   MapPin,
   Phone,
   Mail,
+  X,
 } from "lucide-react";
 import Logo from "./logo";
 
