@@ -39,10 +39,6 @@ export default function Worship() {
                 <Check className="text-soft-green mr-2 h-4 w-4" />
                 Live band and multimedia
               </li>
-              <li className="flex items-center">
-                <Check className="text-soft-green mr-2 h-4 w-4" />
-                
-              </li>
             </ul>
           </div>
         </div>
