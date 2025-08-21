@@ -34,7 +34,6 @@ export default function UMYF() {
     <div className="font-sans bg-gray-50 min-h-screen flex flex-col">
       {/* UMYF-Specific Header */}
       <UMYFHeader />
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-20 pb-20" id="home">
         <div
@@ -44,7 +43,7 @@ export default function UMYF() {
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6">UMYF</h1>
+          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-[#960303]">BLESSED</h1>
           <h2 className="text-2xl md:text-3xl font-heading font-medium mb-4">
             United Methodist Youth Fellowship
           </h2>
@@ -59,7 +58,6 @@ export default function UMYF() {
           </Button>
         </div>
       </section>
-
       {/* About Section */}
       <section id="about" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +66,7 @@ export default function UMYF() {
               About Our Youth Fellowship
             </h2>
             <p className="text-lg text-warm-gray max-w-3xl mx-auto leading-relaxed">
-              UMYF at Blessed UMC is a vibrant community where young people ages 12-18 come together
+              UMYF at Blessed UMC is a vibrant community where young people ages 12-23 come together
               to grow in faith, build lasting friendships, and make a positive impact in our community.
             </p>
           </div>
@@ -109,7 +107,6 @@ export default function UMYF() {
           </div>
         </div>
       </section>
-
       {/* Activities Section */}
       <section id="activities" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,7 +137,7 @@ export default function UMYF() {
                   <div>
                     <h3 className="text-xl font-semibold text-methodist-blue mb-2">Monthly Service Projects</h3>
                     <p className="text-warm-gray mb-1">Community outreach and service</p>
-                    <p className="text-warm-gray">First Saturday of each month</p>
+                    <p className="text-warm-gray">Fourth Saturday of each month</p>
                   </div>
                 </div>
               </div>
@@ -180,13 +177,12 @@ export default function UMYF() {
           </div>
         </div>
       </section>
-
       {/* Contact Section */}
       <section id="contact" className="py-16 bg-white text-methodist-blue">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">Ready to Join UMYF?</h2>
           <p className="text-xl text-warm-gray mb-8 max-w-2xl mx-auto">
-            Whether you're new to faith or have been part of our church family for years, all youth ages 12-18 are welcome in our fellowship.
+            Whether you're new to faith or have been part of our church family for years, all youth ages 12-23 are welcome in our fellowship.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
             <Button
@@ -205,16 +201,15 @@ export default function UMYF() {
           <div className="mt-12 pt-8 border-t border-gray-300">
             <h3 className="text-lg font-semibold mb-4 text-methodist-blue">Questions? Contact Our Youth Leaders:</h3>
             <div className="space-y-2 text-warm-gray">
-              <p>Youth Pastor: Rev. Sarah Johnson</p>
-              <p>Email: youth@blessedumc.org</p>
-              <p>Phone: (555) 123-4567</p>
+              <p>Youth Pastor: Rev. John B. Manalo</p>
+              <p>Youth Coordinator: Anika Loreen Lagarto</p> 
+              <p>Email: blessedumyf01@gmail.com</p>
+              <p>Facebook Page: Blessed UMYF</p>
             </div>
           </div>
         </div>
       </section>
-
       <Footer />
-
       {/* Floating Back to Top Button */}
       {showBackButton && (
         <button

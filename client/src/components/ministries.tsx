@@ -9,9 +9,8 @@ export default function Ministries() {
       color: "bg-warm-gold",
       programs: [
         "Sunday School (9:15 AM)",
-        "Children's Church",
         "Vaction Church School",
-        "Family Events"
+        "Children's Camp",
       ]
     },
     {
@@ -20,10 +19,11 @@ export default function Ministries() {
       icon: Users,
       color: "bg-methodist-blue",
       programs: [
-        "Wednesday Youth Group",
-        "Mission Trips",
-        "Youth Band",
-        "Confirmation Classes"
+        "Care Group",
+        "Workshops",
+        "Youth Praise & Worship",
+        "Confirmation Classes",
+        "Youth Camps"
       ]
     },
     {
@@ -32,10 +32,9 @@ export default function Ministries() {
       icon: BookOpen,
       color: "bg-soft-green",
       programs: [
-        "Sunday School Classes",
+        "Sunday School",
         "Bible Study Groups",
-        "Book Clubs",
-        "Retreats & Workshops"
+        "Luncheon Fellowship",
       ]
     },
     {
@@ -44,10 +43,8 @@ export default function Ministries() {
       icon: Handshake,
       color: "bg-warm-gold",
       programs: [
-        "Food Pantry Ministry",
-        "Homeless Shelter Meals",
-        "Community Garden",
-        "Prison Ministry"
+        "Emmanuel Mission Evangelism",
+        "Brigada Eskwela"
       ]
     },
     {
@@ -57,9 +54,9 @@ export default function Ministries() {
       color: "bg-methodist-blue",
       programs: [
         "Adult Choir",
-        "Contemporary Band",
-        "Handbell Choir",
-        "Children's Choir"
+        "Praise & Worship",
+        "Kid's Praise & Worship",
+        "MYAF Praise & Worship"
       ]
     },
     {
@@ -68,8 +65,8 @@ export default function Ministries() {
       icon: Home,
       color: "bg-soft-green",
       programs: [
-        "Home Bible Studies",
-        "Support Groups",
+        "BED Fellowship",
+        "Care Group",
         "Men's & Women's Groups",
         "Young Adult Ministry"
       ]
