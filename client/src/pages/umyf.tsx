@@ -59,8 +59,9 @@ export default function UMYF() {
               Join Our Fellowship
             </Button>
             <Button
+              variant="outline"
               onClick={() => window.open("https://www.facebook.com/BlessedUMCDasmarinasCavite", "_blank")}
-              className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 text-lg font-semibold"
+              className="border-warm-gold text-warm-gold hover:bg-warm-gold hover:text-methodist-blue px-8 py-3 text-lg font-semibold"
               data-testid="button-visit-facebook"
             >
               Visit our Facebook Page
@@ -194,18 +195,12 @@ export default function UMYF() {
           <p className="text-xl text-warm-gray mb-8 max-w-2xl mx-auto">
             Whether you're new to faith or have been part of our church family for years, all youth ages 12-23 are welcome in our fellowship.
           </p>
-          <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+          <div className="flex justify-center">
             <Button
               className="bg-methodist-blue text-white hover:bg-opacity-90 px-8 py-3 text-lg font-semibold"
               onClick={() => scrollToSection("contact")}
             >
               Contact Youth Leaders
-            </Button>
-            <Button
-              variant="outline"
-              className="border-methodist-blue text-methodist-blue hover:bg-methodist-blue hover:text-white px-8 py-3 text-lg font-semibold"
-            >
-              Visit This Sunday
             </Button>
           </div>
           <div className="mt-12 pt-8 border-t border-gray-300">
