@@ -14,11 +14,11 @@ interface SermonData {
 const recentSermons: SermonData[] = [
   {
     id: "1",
-    title: "We Win!",
-    speaker: "Pastor Daniel",
-    thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=225&fit=crop&crop=face",
-    videoUrl: "https://www.facebook.com/BlessedUMC",
-    date: "Sunday, Dec 15"
+    title: "Add",
+    speaker: "Rev. John B. Manalo",
+    thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
+    videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
+    date: "Sunday, Aug 17"
   },
   {
     id: "2", 
@@ -95,7 +95,7 @@ export default function SermonCatchup() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6">
                   <div className="text-warm-gold text-2xl lg:text-4xl font-bold mb-2 font-heading">
-                    WE WIN!
+                    Faithful Stewardship: Living Rich Toward God
                   </div>
                   <div className="text-white text-lg">
                     {recentSermons[0].speaker} | {recentSermons[0].date}
