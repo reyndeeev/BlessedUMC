@@ -50,12 +50,22 @@ export default function UMYF() {
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Where young hearts connect with God and each other in faith, friendship, and service
           </p>
-          <Button
-            onClick={() => scrollToSection("activities")}
-            className="bg-warm-gold text-methodist-blue hover:bg-opacity-90 px-8 py-3 text-lg font-semibold"
-          >
-            Join Our Fellowship
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              onClick={() => scrollToSection("activities")}
+              className="bg-warm-gold text-methodist-blue hover:bg-opacity-90 px-8 py-3 text-lg font-semibold"
+              data-testid="button-join-fellowship"
+            >
+              Join Our Fellowship
+            </Button>
+            <Button
+              onClick={() => window.open("https://www.facebook.com/BlessedUMCDasmarinasCavite", "_blank")}
+              className="bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 text-lg font-semibold"
+              data-testid="button-visit-facebook"
+            >
+              Visit our Facebook Page
+            </Button>
+          </div>
         </div>
       </section>
       {/* About Section */}
