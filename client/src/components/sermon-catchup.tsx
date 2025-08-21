@@ -22,11 +22,11 @@ const recentSermons: SermonData[] = [
   },
   {
     id: "2", 
-    title: "Rooted in Grace, Growing in Discipleship",
+    title: "Watchful and Trusting Stewardship",
     speaker: "Rev. John",
-    thumbnail: "https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/523382685_122235131786219109_1230725115846883199_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEiY6JWOuNAzcS_pTX5E7ixs4a2ftlpXi6zhrZ-2WleLqqKgbjLPW9FUpyOKqLLi04n3PpiPN2zXPy_7_ECcADJ&_nc_ohc=63l0huMpaLUQ7kNvwE3-MAK&_nc_oc=AdnbaNZVSn5pIaJqwO1z2r1azGGTlfSqU4-JtEjjtEvpFNPiFcrgB6TOqvCW-wxPgj0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=8sK0mcuPoePwv2Fo-VcsdQ&oh=00_AfWOU3PFwRYGM4dQYvTdjHcl05RbGDg4AhFRcFUYowCR7w&oe=68ACE3CB",
+    thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
-    date: "Sunday, July 27"
+    date: "Sunday, July 10"
   },
   {
     id: "3",
@@ -95,7 +95,7 @@ export default function SermonCatchup() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6">
                   <div className="text-warm-gold text-2xl lg:text-4xl font-bold mb-2 font-heading">
-                    Faithful Stewardship: Living Rich Toward God
+                    Costly Commitment to Kingdom Values
                   </div>
                   <div className="text-white text-lg">
                     {recentSermons[0].speaker} | {recentSermons[0].date}
