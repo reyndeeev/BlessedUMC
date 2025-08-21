@@ -20,8 +20,8 @@ export default function Hero() {
           <h2 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
             United Methodist Church
           </h2>
-          <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl font-black mb-6 leading-none tracking-tight">
-            BLESSED
+          <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-none tracking-tight">
+            BLESSED UMC
           </h1>
           <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
             Empowering Generations To Win Generations

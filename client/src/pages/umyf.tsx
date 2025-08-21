@@ -34,87 +34,129 @@ export default function UMYF() {
     <div className="font-sans bg-gray-50 min-h-screen flex flex-col">
       {/* UMYF-Specific Header */}
       <UMYFHeader />
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-methodist-blue via-blue-600 to-blue-800 text-white pt-20 pb-20" id="home">
+      {/* Hero Section - Planetshakers Style */}
+      <section className="relative h-screen flex items-center justify-center" id="home">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.4) 0%, rgba(60, 30, 120, 0.3) 25%, rgba(0, 0, 0, 0.3) 50%, rgba(34, 139, 34, 0.2) 75%, rgba(27, 54, 93, 0.4) 100%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
+            backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.6) 25%, rgba(0, 0, 0, 0.7) 50%, rgba(34, 139, 34, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
           }}
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-[#ffffff]">BLESSED</h1>
-          <h2 className="text-2xl md:text-3xl font-heading font-medium mb-4">
-            United Methodist Youth Fellowship
-          </h2>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Where young hearts connect with God and each other in faith, friendship, and service
+        <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
+          {/* Planetshakers-style youth headline */}
+          <div className="mb-8">
+            <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
+              United Methodist Youth Fellowship
+            </h3>
+            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-none tracking-tight">
+              BLESSED UMYF
+            </h1>
+            <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
+              Where Young Hearts Meet God
+            </p>
+          </div>
+          
+          <p className="text-lg md:text-xl mb-12 font-light max-w-2xl mx-auto leading-relaxed opacity-90">
+            Join our vibrant youth community where faith grows, friendships thrive, and lives are transformed through God's amazing love.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          
+          {/* Modern action buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button
               onClick={() => scrollToSection("activities")}
-              className="bg-warm-gold text-methodist-blue hover:bg-opacity-90 px-8 py-3 text-lg font-semibold"
+              className="bg-white text-methodist-blue px-10 py-5 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
               data-testid="button-join-fellowship"
             >
+              <Users className="mr-3 h-6 w-6" />
               Join Our Fellowship
             </Button>
+            
             <Button
-              variant="outline"
               onClick={() => window.open("https://www.facebook.com/BlessedUMCYouth", "_blank")}
-              className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-3 text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
+              variant="outline"
+              className="border-3 border-warm-gold text-warm-gold bg-transparent px-10 py-5 rounded-full text-lg font-bold hover:bg-warm-gold hover:text-methodist-blue transition-all transform hover:scale-105"
               data-testid="button-visit-facebook"
             >
-              Visit our Facebook Page
+              <Heart className="mr-3 h-6 w-6" />
+              Connect With Us
             </Button>
+          </div>
+          
+          {/* Quick youth links */}
+          <div className="mt-16 flex flex-wrap justify-center gap-6 text-sm font-medium">
+            <button 
+              onClick={() => scrollToSection('activities')}
+              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+            >
+              Youth Activities
+            </button>
+            <button 
+              onClick={() => scrollToSection('about')}
+              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+            >
+              About UMYF
+            </button>
+            <button 
+              onClick={() => scrollToSection('contact')}
+              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+            >
+              Get Involved
+            </button>
           </div>
         </div>
       </section>
-      {/* About Section */}
-      <section id="about" className="py-16 bg-white">
+      {/* About Section - Enhanced */}
+      <section id="about" className="py-24 bg-gradient-to-br from-white via-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-methodist-blue mb-4">
-              About Our Youth Fellowship
+          {/* Planetshakers-style section header */}
+          <div className="text-center mb-16">
+            <h3 className="font-heading text-sm font-bold tracking-wide text-methodist-blue uppercase mb-4">
+              Youth Fellowship
+            </h3>
+            <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
+              About BLESSED UMYF
             </h2>
-            <p className="text-lg text-warm-gray max-w-3xl mx-auto leading-relaxed">
-              UMYF at Blessed UMC is a vibrant community where young people ages 12-23 come together
-              to grow in faith, build lasting friendships, and make a positive impact in our community.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              A dynamic community where young hearts discover God's purpose, build authentic relationships, and impact the world.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <Card>
-              <CardHeader>
-                <Heart className="w-12 h-12 text-warm-gold mx-auto mb-4" />
-                <CardTitle>Faith & Fellowship</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Deepening our relationship with God through prayer, Bible study, and meaningful discussions about faith and life.
-                </CardDescription>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <Users className="w-12 h-12 text-warm-gold mx-auto mb-4" />
-                <CardTitle>Community Service</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Making a difference through local service projects, mission trips, and outreach programs that help those in need.
-                </CardDescription>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <Music className="w-12 h-12 text-warm-gold mx-auto mb-4" />
-                <CardTitle>Fun & Friendship</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Building lasting friendships through games, retreats, social events, and shared experiences that create memories for life.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            {/* Enhanced Cards with Planetshakers styling */}
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <Heart className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-heading text-2xl font-black text-gray-900 mb-4 tracking-tight">Faith & Fellowship</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Deepening our relationship with God through powerful worship, Bible study, and authentic conversations about faith and life's biggest questions.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-heading text-2xl font-black text-gray-900 mb-4 tracking-tight">Community Impact</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Transforming our community through service projects, mission trips, and outreach programs that demonstrate God's love in action.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <Music className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-heading text-2xl font-black text-gray-900 mb-4 tracking-tight">Fun & Friendship</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Building lifelong friendships through exciting events, retreats, games, and shared experiences that create unforgettable memories together.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
