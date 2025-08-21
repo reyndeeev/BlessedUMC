@@ -81,6 +81,19 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### GitHub Deployment Preparation (August 21, 2025)
+- **Achievement**: Successfully prepared project for GitHub publication
+- **Files Created**: README.md, LICENSE, .env.example, GitHub Actions workflow, deployment guides
+- **Documentation**: Comprehensive project documentation with technology stack, installation instructions, and deployment options
+- **Repository**: Ready for upload to https://github.com/vooooooooooooos/blessed-umc-website
+- **Deployment Options**: GitHub Pages workflow created, Replit Deploy recommended for full-stack support
+
+### UI Styling Enhancements (August 21, 2025)
+- **Facebook Buttons**: Updated styling across main hero and UMYF sections with consistent yellow/black semi-transparent theme
+- **UMYF Header Icons**: Added icons to all menu items (About, Activities, Contact) matching Home button design
+- **Navigation Cleanup**: Removed "Plan a Visit" buttons from both desktop and mobile headers for cleaner navigation
+- **Transparent Styling**: Maintained dark transparent backgrounds with backdrop blur effects throughout
+
 ### Bug Fix - JSX Syntax Error in UMYFheader (August 20, 2025)
 - **Issue**: Application failed to start due to JSX syntax errors in `client/src/components/UMYFheader.tsx`
 - **Root Cause**: Duplicated JSX elements and missing closing parenthesis for conditional rendering
