@@ -52,7 +52,7 @@
                           alt="UMYF Logo" 
                           className="w-10 h-10 rounded-full object-cover"
                         />
-                        <span className="text-white font-semibold text-lg">BLESSED UMYF</span>
+                        <span className="text-white font-semibold text-sm md:text-lg">Blessed United Methodist Youth Fellowship</span>
                       </div>
 
                       {/* Desktop Menu */}
