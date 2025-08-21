@@ -41,7 +41,7 @@
               return (
                 <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10 shadow-sm">
                   <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-14">
+                    <div className="flex justify-between items-center h-16">
                       {/* Logo */}
                       <div
                         className="cursor-pointer flex items-center space-x-3"
@@ -50,13 +50,13 @@
                         <img 
                           src="https://cdn.discordapp.com/attachments/948276718609772597/1407790711054799010/lllAcgAAAAZJREFUAwCMaEhuxYNxJwAAAABJRU5ErkJggg.png?ex=68a762c5&is=68a61145&hm=41724f25a2579387d9f1e87f885fbe61a08de5c33df7ab5cdfe3b771274e4783&"
                           alt="UMYF Logo" 
-                          className="w-10 h-10 rounded-full object-cover"
+                          className="w-12 h-12 rounded-full object-cover"
                         />
                         <div className="flex flex-col">
-                          <h1 className="text-lg md:text-xl font-heading font-extrabold tracking-tight text-white leading-none">
+                          <h1 className="text-xl md:text-2xl font-heading font-extrabold tracking-tight text-white leading-none">
                             BLESSED
                           </h1>
-                          <p className="text-xs md:text-sm text-gray-300 font-medium tracking-wide leading-tight">
+                          <p className="text-sm md:text-base text-gray-300 font-medium tracking-wide leading-tight">
                             United Methodist Youth Fellowship
                           </p>
                         </div>
