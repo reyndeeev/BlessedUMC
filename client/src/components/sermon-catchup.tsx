@@ -14,7 +14,7 @@ interface SermonData {
 const recentSermons: SermonData[] = [
   {
     id: "1",
-    title: "Add",
+    title: "",
     speaker: "Rev. John B. Manalo",
     thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
@@ -22,11 +22,11 @@ const recentSermons: SermonData[] = [
   },
   {
     id: "2", 
-    title: "The Power Of Waiting On The Lord",
-    speaker: "Pastor John",
-    thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=225&fit=crop&crop=face",
-    videoUrl: "https://www.facebook.com/BlessedUMC",
-    date: "Sunday, Dec 8"
+    title: "Rooted in Grace, Growing in Discipleship",
+    speaker: "Rev. John",
+    thumbnail: "https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/523382685_122235131786219109_1230725115846883199_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEiY6JWOuNAzcS_pTX5E7ixs4a2ftlpXi6zhrZ-2WleLqqKgbjLPW9FUpyOKqLLi04n3PpiPN2zXPy_7_ECcADJ&_nc_ohc=63l0huMpaLUQ7kNvwE3-MAK&_nc_oc=AdnbaNZVSn5pIaJqwO1z2r1azGGTlfSqU4-JtEjjtEvpFNPiFcrgB6TOqvCW-wxPgj0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=8sK0mcuPoePwv2Fo-VcsdQ&oh=00_AfWOU3PFwRYGM4dQYvTdjHcl05RbGDg4AhFRcFUYowCR7w&oe=68ACE3CB",
+    videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
+    date: "Sunday, July 27"
   },
   {
     id: "3",
