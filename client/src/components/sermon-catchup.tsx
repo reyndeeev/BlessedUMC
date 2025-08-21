@@ -24,7 +24,7 @@ const recentSermons: SermonData[] = [
   {
     id: "2",
     title: "Watchful and Trusting Stewardship",
-    speaker: "Rev. John",
+    speaker: "Rev. John B. Manalo",
     thumbnail:
       "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1111171580908275",
@@ -33,7 +33,7 @@ const recentSermons: SermonData[] = [
   {
     id: "3",
     title: "Guarding the Heart from Greed",
-    speaker: "Rev. John",
+    speaker: "Rev. John B. Manalo",
     thumbnail:
       "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68a8556f&is=68a703ef&hm=33e24421001ca43c90e5e2e719858b33acc9eaabdfcae918a931164856002173&=&format=webp&quality=lossless",
     videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
@@ -42,7 +42,7 @@ const recentSermons: SermonData[] = [
   {
     id: "4",
     title: "Lord Teach Us To Pray",
-    speaker: "Rev. John",
+    speaker: "Rev. John B. Manalo",
     thumbnail:
       "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68a8567c&is=68a704fc&hm=c59322284cd6abc6113e112cabb625f201849aa5c26f45297953c47492b611bb",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
