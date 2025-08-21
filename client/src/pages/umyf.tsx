@@ -48,9 +48,12 @@ export default function UMYF() {
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
               Youth Fellowship
             </h3>
-            <h1 className="font-heading text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-none tracking-tight">
-              BLESSED UNITED METHODIST YOUTH FELLOWSHIP
+            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
+              BLESSED
             </h1>
+            <h2 className="font-heading text-xl md:text-3xl lg:text-4xl font-black mb-6 leading-none tracking-tight text-blue-100">
+              UNITED METHODIST YOUTH FELLOWSHIP
+            </h2>
             <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
               Where Young Hearts Meet God
             </p>
