@@ -93,12 +93,6 @@ export default function Header() {
             >
               Events
             </button>
-            <button
-              onClick={() => scrollToSection("sermons")}
-              className="text-warm-gray hover:text-methodist-blue transition-colors"
-            >
-              Sermons
-            </button>
             <Link
               href="/umyf"
               className={`${location === "/umyf" ? "text-methodist-blue font-medium" : "text-warm-gray hover:text-methodist-blue"} transition-colors`}
@@ -257,15 +251,6 @@ export default function Header() {
                 className="block px-3 py-2 text-warm-gray w-full text-left"
               >
                 Events
-              </button>
-              <button
-                onClick={() => {
-                  scrollToSection("sermons");
-                  setMobileMenuOpen(false);
-                }}
-                className="block px-3 py-2 text-warm-gray w-full text-left"
-              >
-                Sermons
               </button>
               <Link
                 href="/umyf"
