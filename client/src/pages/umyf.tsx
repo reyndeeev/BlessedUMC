@@ -61,7 +61,7 @@ export default function UMYF() {
             <Button
               variant="outline"
               onClick={() => window.open("https://www.facebook.com/BlessedUMCDasmarinasCavite", "_blank")}
-              className="border-warm-gold/50 bg-transparent text-warm-gold hover:bg-warm-gold/20 hover:text-warm-gold px-8 py-3 text-lg font-semibold backdrop-blur-sm"
+              className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-3 text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
               data-testid="button-visit-facebook"
             >
               Visit our Facebook Page
