@@ -17,7 +17,7 @@ export default function QuickInfo() {
               className="font-heading text-xl font-bold text-methodist-blue mb-3"
               data-testid="quick-info-worship-title"
             >
-              Worship Times
+              Worship Time
             </h3>
             <div className="space-y-2 text-warm-gray">
               <p data-testid="quick-info-worship-sunday">

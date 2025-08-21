@@ -16,34 +16,38 @@ const recentSermons: SermonData[] = [
     id: "1",
     title: "Costly Commitment to Kingdom Values",
     speaker: "Rev. John B. Manalo",
-    thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
+    thumbnail:
+      "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
-    date: "Sunday, Aug 17"
+    date: "Sunday, Aug 17",
   },
   {
-    id: "2", 
+    id: "2",
     title: "Watchful and Trusting Stewardship",
     speaker: "Rev. John",
-    thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
+    thumbnail:
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1111171580908275",
-    date: "Sunday, Aug 10"
+    date: "Sunday, Aug 10",
   },
   {
     id: "3",
-    title: "Guarding the Heart from Greed", 
+    title: "Guarding the Heart from Greed",
     speaker: "Rev. John",
-    thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68a8556f&is=68a703ef&hm=33e24421001ca43c90e5e2e719858b33acc9eaabdfcae918a931164856002173&=&format=webp&quality=lossless",
+    thumbnail:
+      "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68a8556f&is=68a703ef&hm=33e24421001ca43c90e5e2e719858b33acc9eaabdfcae918a931164856002173&=&format=webp&quality=lossless",
     videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
-    date: "Sunday, Aug 3"
+    date: "Sunday, Aug 3",
   },
   {
     id: "4",
     title: "Lord Teach Us To Pray",
-    speaker: "Rev. John", 
-    thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68a8567c&is=68a704fc&hm=c59322284cd6abc6113e112cabb625f201849aa5c26f45297953c47492b611bb",
+    speaker: "Rev. John",
+    thumbnail:
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68a8567c&is=68a704fc&hm=c59322284cd6abc6113e112cabb625f201849aa5c26f45297953c47492b611bb",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
-    date: "Sunday, July 27"
-  }
+    date: "Sunday, July 27",
+  },
 ];
 
 export default function SermonCatchup() {
@@ -52,11 +56,17 @@ export default function SermonCatchup() {
   };
 
   const handleViewMore = () => {
-    window.open("https://www.facebook.com/profile.php?id=61556573281040&sk=videos", "_blank");
+    window.open(
+      "https://www.facebook.com/profile.php?id=61556573281040&sk=videos",
+      "_blank",
+    );
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100" id="sermons">
+    <section
+      className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100"
+      id="sermons"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Planetshakers-style section header */}
         <div className="text-center mb-16">
@@ -67,7 +77,8 @@ export default function SermonCatchup() {
             Catch up from Sunday
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Don't miss the powerful messages that are transforming lives. Watch our latest sermons and be inspired.
+            Don't miss the powerful messages that are transforming lives. Watch
+            our latest sermons and be inspired.
           </p>
         </div>
 
@@ -79,7 +90,9 @@ export default function SermonCatchup() {
                 Never Miss a Message
               </h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Stay connected with our church family through powerful, life-changing messages that speak directly to your heart and circumstances.
+                Stay connected with our church family through powerful,
+                life-changing messages that speak directly to your heart and
+                circumstances.
               </p>
               <Button
                 onClick={handleViewMore}
@@ -98,7 +111,7 @@ export default function SermonCatchup() {
               <div
                 className="relative bg-cover bg-center rounded-2xl overflow-hidden shadow-2xl cursor-pointer group h-80 lg:h-96 border border-gray-200"
                 style={{
-                  backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%), url('${recentSermons[0].thumbnail}')`
+                  backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%), url('${recentSermons[0].thumbnail}')`,
                 }}
                 onClick={() => handleSermonClick(recentSermons[0].videoUrl)}
                 data-testid={`featured-sermon-${recentSermons[0].id}`}
@@ -109,7 +122,7 @@ export default function SermonCatchup() {
                   </div>
                 </div>
                 <div className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                  ● Live
+                  ● New
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-8">
                   <div className="text-warm-gold text-3xl lg:text-5xl font-black mb-3 font-heading tracking-tight">
@@ -136,7 +149,7 @@ export default function SermonCatchup() {
                       <div
                         className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                         style={{
-                          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%), url('${sermon.thumbnail}')`
+                          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%), url('${sermon.thumbnail}')`,
                         }}
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -155,9 +168,7 @@ export default function SermonCatchup() {
                       <p className="text-gray-600 text-sm font-medium mb-1">
                         {sermon.speaker}
                       </p>
-                      <p className="text-gray-400 text-xs">
-                        {sermon.date}
-                      </p>
+                      <p className="text-gray-400 text-xs">{sermon.date}</p>
                     </div>
                   </div>
                 </div>
