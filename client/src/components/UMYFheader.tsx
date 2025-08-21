@@ -1,5 +1,5 @@
             import { useState } from "react";
-            import { Menu, X, Home } from "lucide-react";
+            import { Menu, X, Home, Info, Calendar, MessageCircle } from "lucide-react";
             import { Link } from "wouter";
             import Logo from "./logo";
 
@@ -73,21 +73,24 @@
                         </Link>
                         <button
                           onClick={() => scrollToSection("about")}
-                          className="text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
                         >
-                          About
+                          <Info className="w-4 h-4" />
+                          <span>About</span>
                         </button>
                         <button
                           onClick={() => scrollToSection("activities")}
-                          className="text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
                         >
-                          Activities
+                          <Calendar className="w-4 h-4" />
+                          <span>Activities</span>
                         </button>
                         <button
                           onClick={() => scrollToSection("contact")}
-                          className="text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
                         >
-                          Contact
+                          <MessageCircle className="w-4 h-4" />
+                          <span>Contact</span>
                         </button>
                       </div>
 
@@ -116,21 +119,24 @@
                         </Link>
                         <button
                           onClick={() => scrollToSection("about")}
-                          className="block w-full text-left text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
                         >
-                          About
+                          <Info className="w-4 h-4" />
+                          <span>About</span>
                         </button>
                         <button
                           onClick={() => scrollToSection("activities")}
-                          className="block w-full text-left text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
                         >
-                          Activities
+                          <Calendar className="w-4 h-4" />
+                          <span>Activities</span>
                         </button>
                         <button
                           onClick={() => scrollToSection("contact")}
-                          className="block w-full text-left text-white hover:text-warm-gold transition"
+                          className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
                         >
-                          Contact
+                          <MessageCircle className="w-4 h-4" />
+                          <span>Contact</span>
                         </button>
                       </div>
                     )}
