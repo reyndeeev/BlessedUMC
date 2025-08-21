@@ -26,6 +26,9 @@ The following files have been added to make your site Netlify-ready:
 ### `netlify.toml`
 Main configuration file with build settings and redirects
 
+### `build-for-netlify.js`
+Custom build script that ensures all dependencies are available during Netlify build
+
 ### `_redirects`
 Fallback file for Single Page Application routing
 
@@ -33,7 +36,7 @@ Fallback file for Single Page Application routing
 Security headers for better website protection
 
 ### `netlify/functions/api.js`
-Serverless function for contact form API (requires Git deployment)
+Simplified serverless function for contact form API (works with Git deployment)
 
 ### `.env.example`
 Template for environment variables

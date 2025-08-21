@@ -1,0 +1,93 @@
+The Netlify deploy errored, with the following guidance provided:
+
+### Diagnosis
+The build failure is caused by the command `vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist` not being able to find the `vite` executable, resulting in an exit code 127.
+
+### Solution
+1. The error indicates that the `vite` command is not found. This can happen if `vite` is not installed or available in the project dependencies.
+2. To resolve this issue:
+   - Add `vite` as a devDependency in the `package.json` file by running:
+     ```bash
+     npm install vite --save-dev
+     ```
+   - Ensure that the `vite` package is included in the `package.json` file or committed to the repository.
+   - After adding `vite` as a devDependency, the build should be able to find the `vite` executable and complete successfully.
+
+Make sure to follow these steps to resolve the issue and successfully build the project.
+
+The relevant error logs are:
+
+Line 0: build-image version: 9b5eda74bd0982ea06a6fdf058a78c4ba15c7b10 (noble)
+Line 1: buildbot version: 9b5eda74bd0982ea06a6fdf058a78c4ba15c7b10
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/austriadanielreigne-dev/finalWEBSITE
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Custom publish path detected. Proceeding with the specified path: 'dist/public'
+Line 9: Custom functions path detected. Proceeding with the specified path: 'netlify/functions'
+Line 10: Custom build command detected. Proceeding with the specified command: 'npm run build'
+Line 11: Starting to install dependencies
+Line 12: Downloading and installing node v20.19.4...
+Line 13: Downloading https://nodejs.org/dist/v20.19.4/node-v20.19.4-linux-x64.tar.xz...
+Line 17: Enabling Node.js Corepack
+Line 18: Started restoring cached build plugins
+Line 19: Finished restoring cached build plugins
+Line 20: WARNING: The environment variable 'NODE_ENV' is set to 'production'. Any 'devDependencies' in package.json will not be installed
+Line 21: Started restoring cached corepack dependencies
+Line 22: Finished restoring cached corepack dependencies
+Line 23: No npm workspaces detected
+Line 24: Started restoring cached node modules
+Line 25: Finished restoring cached node modules
+Line 26: Installing npm packages using npm version 10.8.2
+Line 27: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 28: added 373 packages in 6s
+Line 29: npm packages installed
+Line 30: Successfully installed dependencies
+Line 31: Starting build script
+Line 32: Detected 1 framework(s)
+Line 33: "vite" at version "5.4.19"
+Line 34: Section completed: initializing
+Line 35: [96m[1m​[22m[39m
+Line 36: [96m[1mNetlify Build                                                 [22m[39m
+Line 37: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 55:   production
+Line 56: [96m[1m​[22m[39m
+Line 57: [96m[1mbuild.command from netlify.toml                               [22m[39m
+Line 58: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 59: ​
+Line 60: [36m$ npm run build[39m
+Line 61: > rest-express@1.0.0 build
+Line 62: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+Line 63: sh: 1: vite: not found
+Line 64: [91m[1m​[22m[39m
+Line 65: [91m[1m"build.command" failed                                        [22m[39m
+Line 66: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 67: ​
+Line 68:   [31m[1mError message[22m[39m
+Line 69:   Command failed with exit code 127: npm run build
+Line 70: ​
+Line 71:   [31m[1mError location[22m[39m
+Line 72:   In build.command from netlify.toml:
+Line 73:   npm run build
+Line 74: ​
+Line 75:   [31m[1mResolved config[22m[39m
+Line 76:   build:
+Line 77:     base: /opt/build/repo
+Line 78:     command: npm run build
+Line 79:     commandOrigin: config
+Line 80:     environment:
+Line 81:       - NODE_ENV
+Line 82:       - NODE_VERSION
+Line 83:     publish: /opt/build/repo/dist/public
+Line 84:     publishOrigin: config
+Line 85:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 86:   headers:
+Line 87:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+   
+Line 88: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 89: Failing build: Failed to build site
