@@ -1,0 +1,85 @@
+The Netlify deploy errored, with the following guidance provided:
+
+### Diagnosis
+The build is failing with an error because the command `vite` is not found when running `npm run build` at line 63 in the build logs [#L63](#L63).
+
+### Solution
+1. Ensure that the necessary package (`vite`) is added to the `package.json` file or was committed to the repository.
+2. If the package is missing, install `vite` by running `npm install vite --save-dev`.
+3. After adding `vite` to the dependencies, redeploy the site to see if the issue is resolved.
+
+The relevant error logs are:
+
+Line 0: build-image version: 9b5eda74bd0982ea06a6fdf058a78c4ba15c7b10 (noble)
+Line 1: buildbot version: 9b5eda74bd0982ea06a6fdf058a78c4ba15c7b10
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/austriadanielreigne-dev/finalWEBSITE
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Custom publish path detected. Proceeding with the specified path: 'dist/public'
+Line 9: Custom functions path detected. Proceeding with the specified path: 'netlify/functions'
+Line 10: Custom build command detected. Proceeding with the specified command: 'npm run build'
+Line 11: Starting to install dependencies
+Line 12: Downloading and installing node v20.19.4...
+Line 13: Downloading https://nodejs.org/dist/v20.19.4/node-v20.19.4-linux-x64.tar.xz...
+Line 36: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 37: [36m[1m​[22m[39m
+Line 38: [36m[1m❯ Version[22m[39m
+Line 39:   @netlify/build 35.1.2
+Line 40: [36m[1m​[22m[39m
+Line 41: [36m[1m❯ Flags[22m[39m
+Line 42:   accountId: 68a6f1d8ea38cba556ece01b
+Line 43:   baseRelDir: true
+Line 44:   buildId: 68a6f2d37913f564f15bc9e3
+Line 45:   deployId: 68a6f2d37913f564f15bc9e5
+Line 46: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 47: [36m[1m​[22m[39m
+Line 48: [36m[1m❯ Current directory[22m[39m
+Line 49:   /opt/build/repo
+Line 50: [36m[1m​[22m[39m
+Line 51: [36m[1m❯ Config file[22m[39m
+Line 52:   /opt/build/repo/netlify.toml
+Line 53: [36m[1m​[22m[39m
+Line 54: [36m[1m❯ Context[22m[39m
+Line 55:   production
+Line 56: [96m[1m​[22m[39m
+Line 57: [96m[1mbuild.command from netlify.toml                               [22m[39m
+Line 58: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 59: ​
+Line 60: [36m$ npm run build[39m
+Line 61: > rest-express@1.0.0 build
+Line 62: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+Line 63: sh: 1: vite: not found
+Line 64: [91m[1m​[22m[39m
+Line 65: [91m[1m"build.command" failed                                        [22m[39m
+Line 66: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 67: ​
+Line 68:   [31m[1mError message[22m[39m
+Line 69:   Command failed with exit code 127: npm run build
+Line 70: ​
+Line 71:   [31m[1mError location[22m[39m
+Line 72:   In build.command from netlify.toml:
+Line 73:   npm run build
+Line 74: ​
+Line 75:   [31m[1mResolved config[22m[39m
+Line 76:   build:
+Line 77:     base: /opt/build/repo
+Line 78:     command: npm run build
+Line 79:     commandOrigin: config
+Line 80:     environment:
+Line 81:       - NODE_ENV
+Line 82:       - NODE_VERSION
+Line 83:     publish: /opt/build/repo/dist/public
+Line 84:     publishOrigin: config
+Line 85:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 86:   headers:
+Line 87:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+   
+Line 88: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 89: Failing build: Failed to build site
+Line 90: Finished processing build request in 13.842s
