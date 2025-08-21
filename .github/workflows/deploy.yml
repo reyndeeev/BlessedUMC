@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
@@ -26,8 +26,17 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build project
-      run: npm run build
+    - name: Build frontend only
+      run: |
+        cd client
+        npm run build
+
+    - name: Prepare deployment files
+      run: |
+        # Copy client build to root for GitHub Pages
+        cp -r client/dist/* .
+        # Create 404.html for SPA routing
+        cp index.html 404.html
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
@@ -35,7 +44,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./dist/public
+        path: .
 
     - name: Deploy to GitHub Pages
       id: deployment
