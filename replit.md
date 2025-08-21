@@ -106,6 +106,23 @@ Preferred communication style: Simple, everyday language.
 - **Final Fix**: Updated netlify.toml to use `npx` commands that work with devDependencies
 - **Status**: ✅ Ready for successful Netlify deployment with npx-based build commands
 
+### Planetshakers-Style Features Added (August 21, 2025)
+- **Online Dropdown Menu**: Added comprehensive "Online" dropdown in header with 6 key services:
+  - Watch Live Service (Facebook Live integration)
+  - Past Services (Facebook page access) 
+  - Online Giving (donation portal)
+  - Prayer Requests (contact form integration)
+  - Connect Groups (ministries section)
+  - Visit Our Location (Google Maps integration)
+- **Sermon Catchup Section**: Created "Catch up from the previous week" section matching Planetshakers design:
+  - Featured sermon with large video thumbnail and "WE WIN!" styling
+  - Grid of recent sermon thumbnails with pastor names and dates
+  - Professional video play buttons and hover effects
+  - "View More Sermons" button linking to Facebook videos
+  - Fully responsive for desktop and mobile
+- **Navigation Enhancement**: Added "Sermons" menu item to both desktop and mobile navigation
+- **Visual Design**: Implemented professional church styling with Methodist colors and smooth animations
+
 ### Initial Netlify Deployment Preparation (August 21, 2025)
 - **Achievement**: Website fully prepared for Netlify deployment with comprehensive configuration
 - **Bug Fix**: Resolved TypeScript type error in `server/storage.ts` - phone field compatibility issue

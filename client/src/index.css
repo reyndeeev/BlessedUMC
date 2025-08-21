@@ -61,4 +61,12 @@
   .bg-soft-green { background-color: var(--soft-green); }
   .text-warm-gray { color: var(--warm-gray); }
   .bg-warm-gray { background-color: var(--warm-gray); }
+
+  /* Additional utility classes */
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 }
