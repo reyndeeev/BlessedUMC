@@ -134,7 +134,7 @@ export default function Header() {
                 
                 <DropdownMenuItem 
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
-                  onClick={() => window.open("https://www.facebook.com/BlessedUMC", "_blank")}
+                  onClick={() => scrollToSection("sermons")}
                   data-testid="menu-past-services"
                 >
                   <Calendar className="w-5 h-5 text-methodist-blue" />
@@ -302,7 +302,7 @@ export default function Header() {
                     </button>
                     <button
                       onClick={() => {
-                        window.open("https://www.facebook.com/BlessedUMC", "_blank");
+                        scrollToSection("sermons");
                         setMobileMenuOpen(false);
                         setOnlineMenuOpen(false);
                       }}
