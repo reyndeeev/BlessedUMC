@@ -43,7 +43,7 @@ export default function UMYF() {
           }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-[#960303]">BLESSED</h1>
+          <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6 text-[#ffffff]">BLESSED</h1>
           <h2 className="text-2xl md:text-3xl font-heading font-medium mb-4">
             United Methodist Youth Fellowship
           </h2>
