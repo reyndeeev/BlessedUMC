@@ -13,67 +13,99 @@ export default function Events() {
       gradient: "from-methodist-blue to-soft-green"
     },
     {
-      date: { day: "22", month: "DEC" },
-      title: "Christmas Eve Service",
-      description: "Celebrate the birth of Christ with candlelight, carols, and communion.",
-      dateText: "Christmas Eve",
-      time: "5:00 PM & 11:00 PM",
-      location: "Main Sanctuary",
+      date: { day: "", month: "" },
+      title: "TBA",
+      description: "",
+      dateText: "",
+      time: "",
+      location: "",
       gradient: "from-warm-gold to-methodist-blue"
     },
     {
-      date: { day: "05", month: "JAN" },
-      title: "New Year Prayer Service",
-      description: "Start the new year with prayer, reflection, and commitment to God.",
-      dateText: "Sunday, January 5th",
-      time: "6:00 PM",
-      location: "Fellowship Hall",
+      date: { day: "", month: "" },
+      title: "TBA",
+      description: "",
+      dateText: "",
+      time: "",
+      location: "",
       gradient: "from-soft-green to-warm-gold"
     }
   ];
 
   return (
-    <section id="events" className="py-20 bg-gray-50">
+    <section id="events" className="py-24 bg-gradient-to-br from-gray-100 via-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Planetshakers-style section header */}
         <div className="text-center mb-16">
-          <h2 className="font-heading text-4xl font-bold text-methodist-blue mb-4">Upcoming Events</h2>
-          <p className="text-xl text-warm-gray max-w-3xl mx-auto">
-            Join us for special events, fellowship opportunities, and community gatherings throughout the year.
+          <h3 className="font-heading text-sm font-bold tracking-wide text-methodist-blue uppercase mb-4">
+            Church Life
+          </h3>
+          <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
+            Upcoming Events
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Experience God's love through dynamic events, fellowship opportunities, and life-changing gatherings.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
-              <div className={`h-48 bg-gradient-to-br ${event.gradient} flex items-center justify-center`}>
-                <div className="text-center text-white">
-                  <div className="text-3xl font-bold">{event.date.day}</div>
-                  <div className="text-lg">{event.date.month}</div>
+            <div key={index} className="group">
+              {/* Enhanced Event Card */}
+              <div className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:-translate-y-2 border border-gray-100">
+                {/* Date Header with Gradient */}
+                <div className={`h-56 bg-gradient-to-br ${event.gradient} flex items-center justify-center relative overflow-hidden`}>
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+                  <div className="relative text-center text-white z-10">
+                    <div className="text-5xl font-black mb-2">{event.date.day}</div>
+                    <div className="text-xl font-bold tracking-wide">{event.date.month}</div>
+                  </div>
+                  {event.title !== "TBA" && (
+                    <div className="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
+                      UPCOMING
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div className="p-6">
-                <h3 className="font-heading text-xl font-bold text-methodist-blue mb-2">{event.title}</h3>
-                <p className="text-warm-gray mb-3">{event.description}</p>
-                <div className="space-y-2 text-sm text-warm-gray mb-4">
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <span>{event.dateText}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4" />
-                    <span>{event.time}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="mr-2 h-4 w-4" />
-                    <span>{event.location}</span>
-                  </div>
+                
+                {/* Content */}
+                <div className="p-8">
+                  <h3 className="font-heading text-2xl font-black text-gray-900 mb-3 tracking-tight">{event.title}</h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{event.description}</p>
+                  
+                  {event.title !== "TBA" && (
+                    <>
+                      <div className="space-y-3 text-sm text-gray-600 mb-6">
+                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
+                          <Calendar className="mr-3 h-4 w-4 text-methodist-blue" />
+                          <span className="font-medium">{event.dateText}</span>
+                        </div>
+                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
+                          <Clock className="mr-3 h-4 w-4 text-methodist-blue" />
+                          <span className="font-medium">{event.time}</span>
+                        </div>
+                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
+                          <MapPin className="mr-3 h-4 w-4 text-methodist-blue" />
+                          <span className="font-medium">{event.location}</span>
+                        </div>
+                      </div>
+                      
+                      <Button
+                        className="bg-methodist-blue hover:bg-methodist-blue/90 text-white px-6 py-3 rounded-full text-sm font-bold w-full transition-all transform hover:scale-105 shadow-lg"
+                        data-testid={`button-event-${index}`}
+                      >
+                        Learn More
+                      </Button>
+                    </>
+                  )}
+                  
+                  {event.title === "TBA" && (
+                    <div className="text-center py-8">
+                      <p className="text-gray-400 font-medium">More amazing events coming soon!</p>
+                      <div className="mt-4 text-xs text-gray-300">Stay tuned for updates</div>
+                    </div>
+                  )}
                 </div>
-                <button 
-                  className="text-methodist-blue hover:text-warm-gold font-medium"
-                  data-testid={`button-event-${index}`}
-                >
-                  Learn More →
-                </button>
               </div>
             </div>
           ))}

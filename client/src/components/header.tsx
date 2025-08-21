@@ -114,7 +114,7 @@ export default function Header() {
               <DropdownMenuContent className="w-64 bg-white shadow-lg border border-gray-200">
                 <DropdownMenuItem 
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
-                  onClick={() => window.open("https://www.facebook.com/BlessedUMC/live", "_blank")}
+                  onClick={() => window.open("https://www.facebook.com/profile.php?id=61556573281040&sk=videos", "_blank")}
                   data-testid="menu-watch-live"
                 >
                   <Play className="w-5 h-5 text-red-500" />

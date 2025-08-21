@@ -1,97 +1,118 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Users, BookOpen, Handshake } from "lucide-react";
+import { Heart, Users, BookOpen, Handshake, CheckCircle, Star } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-black/50 backdrop-blur-md">
+    <section id="about" className="py-24 bg-gradient-to-br from-white via-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Section Header - Planetshakers style */}
+        <div className="text-center mb-16">
+          <h3 className="font-heading text-sm font-bold tracking-wide text-methodist-blue uppercase mb-4">
+            About Blessed UMC
+          </h3>
+          <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
+            Our Story & Mission
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Building God's kingdom through authentic community, powerful worship, and radical love.
+          </p>
+        </div>
+        
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="font-heading text-4xl font-bold text-white mb-6">
-              Our Story & Mission
-            </h2>
-            <p className="text-lg text-gray-200 mb-6 leading-relaxed">
-              For over 30 years, Blessed United Methodist Church has been a beacon of hope and love in our community. Since our founding in 1994, we’ve grown from our humble beginnings into a thriving church family that continues to serve with faith and love.
-            </p>
-            <p className="text-lg text-gray-200 mb-8 leading-relaxed">
-              Our mission is simple: to make disciples of Jesus Christ for the
-              transformation of the world. We believe in open hearts, open
-              minds, and open doors - welcoming all people to experience God's
-              grace and love.
-            </p>
+            <div className="bg-white rounded-3xl p-10 shadow-2xl border border-gray-100">
+              <h3 className="font-heading text-2xl font-bold text-gray-900 mb-6">
+                30+ Years of Faith & Service
+              </h3>
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                Since 1994, Blessed United Methodist Church has been transforming lives and strengthening our community through the power of God's love. We've grown from humble beginnings into a thriving church family committed to authentic worship and radical service.
+              </p>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Our mission is clear: <span className="font-semibold text-methodist-blue">to make disciples of Jesus Christ for the transformation of the world.</span> We believe in open hearts, open minds, and open doors - creating space where everyone can encounter God's amazing grace.
+              </p>
 
-            {/* Mission Values */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-methodist-blue rounded-full flex items-center justify-center">
-                  <Heart className="text-white text-sm" />
+              {/* Core Values - Enhanced Design */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="flex items-center space-x-3 p-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors">
+                  <div className="w-10 h-10 bg-methodist-blue rounded-full flex items-center justify-center shadow-lg">
+                    <Heart className="text-white w-5 h-5" />
+                  </div>
+                  <span className="font-semibold text-gray-800 text-sm">
+                    Compassionate Care
+                  </span>
                 </div>
-                <span className="font-medium text-white">
-                  Compassionate Care
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-warm-gold rounded-full flex items-center justify-center">
-                  <Handshake className="text-white text-sm" />
+                <div className="flex items-center space-x-3 p-3 rounded-xl bg-yellow-50 hover:bg-yellow-100 transition-colors">
+                  <div className="w-10 h-10 bg-warm-gold rounded-full flex items-center justify-center shadow-lg">
+                    <Handshake className="text-white w-5 h-5" />
+                  </div>
+                  <span className="font-semibold text-gray-800 text-sm">
+                    Community Service
+                  </span>
                 </div>
-                <span className="font-medium text-white">
-                  Community Service
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-soft-green rounded-full flex items-center justify-center">
-                  <BookOpen className="text-white text-sm" />
+                <div className="flex items-center space-x-3 p-3 rounded-xl bg-green-50 hover:bg-green-100 transition-colors">
+                  <div className="w-10 h-10 bg-soft-green rounded-full flex items-center justify-center shadow-lg">
+                    <BookOpen className="text-white w-5 h-5" />
+                  </div>
+                  <span className="font-semibold text-gray-800 text-sm">
+                    Biblical Teaching
+                  </span>
                 </div>
-                <span className="font-medium text-white">
-                  Biblical Teaching
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-methodist-blue rounded-full flex items-center justify-center">
-                  <Users className="text-white text-sm" />
+                <div className="flex items-center space-x-3 p-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors">
+                  <div className="w-10 h-10 bg-methodist-blue rounded-full flex items-center justify-center shadow-lg">
+                    <Users className="text-white w-5 h-5" />
+                  </div>
+                  <span className="font-semibold text-gray-800 text-sm">
+                    Inclusive Fellowship
+                  </span>
                 </div>
-                <span className="font-medium text-white">
-                  Inclusive Fellowship
-                </span>
               </div>
+
+              <Button
+                className="bg-methodist-blue text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-methodist-blue/90 transition-all transform hover:scale-105 shadow-lg w-full"
+                data-testid="button-learn-more"
+              >
+                Discover Our Story
+              </Button>
             </div>
-
-            <Button
-              className="bg-methodist-blue text-white px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all"
-              data-testid="button-learn-more"
-            >
-              Learn More About Us
-            </Button>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480823083_122203830032219109_7273106123492049540_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeE5ke5wGYGnKRGjmNaFURjUYLo6q3-dY51gujqrf51jnd7C9oQIcGHdExMjGnEOBBcLgrtc5Nc2P75K2961dq6h&_nc_ohc=uTOq47RxpBEQ7kNvwGdgfZJ&_nc_oc=AdnRTTXswsFLzq7XgJNR3bD7ZXpodye66mfEz3N0qY5OrOCCTjq1XZj17ZPxszZbgJM&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=H0fW5bv0zx3NWNRLS1wO_w&oh=00_AfX7gzy4n0BHNa3m4SCZlE0FhC2AScCYm-KIko_3aPr0hg&oe=68ABA735"
-              alt="Diverse congregation in worship"
-              className="rounded-xl shadow-lg w-full h-64 object-cover"
-              data-testid="image-congregation"
-            />
+          {/* Image Grid - Modern Layout */}
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-6">
+              <img
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480823083_122203830032219109_7273106123492049540_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeE5ke5wGYGnKRGjmNaFURjUYLo6q3-dY51gujqrf51jnd7C9oQIcGHdExMjGnEOBBcLgrtc5Nc2P75K2961dq6h&_nc_ohc=uTOq47RxpBEQ7kNvwGdgfZJ&_nc_oc=AdnRTTXswsFLzq7XgJNR3bD7ZXpodye66mfEz3N0qY5OrOCCTjq1XZj17ZPxszZbgJM&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=H0fW5bv0zx3NWNRLS1wO_w&oh=00_AfX7gzy4n0BHNa3m4SCZlE0FhC2AScCYm-KIko_3aPr0hg&oe=68ABA735"
+                alt="Diverse congregation in worship"
+                className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+                data-testid="image-congregation"
+              />
+              
+              {/* Stats Card */}
+              <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
+                <div className="flex items-center justify-between mb-3">
+                  <Star className="w-6 h-6 text-warm-gold" />
+                  <span className="text-2xl font-black text-methodist-blue">30+</span>
+                </div>
+                <p className="text-gray-600 font-medium">Years of faithful service to our community</p>
+              </div>
+            </div>
+            
+            <div className="space-y-6 pt-8">
+              <img
+                src="https://images.unsplash.com/photo-1469285994282-454ceb49e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                alt="Church community serving together"
+                className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+                data-testid="image-community"
+              />
 
-            <img
-              src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480845914_122203824758219109_1965428847500889802_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHgwynWF_095mdGRZbJjZNH9AeeCakTB6r0B54JqRMHqk3eBWrp7PcQ794OV5igTD0twg0YMK-yCA5hxdhudns0&_nc_ohc=D_kqeKPNOtsQ7kNvwERMCU9&_nc_oc=AdmxWhabyqWjAzyyJk6dtgeevKtbVkoB5_L0GMSH8K52rY0CC6XKCAXrFDReKrZiL1Y&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=WYK-ATytekaBCsBQqjving&oh=00_AfWUcO7fUs5rIey57T0GH3QtGBK-aovH2dOr-BpE7m5OiA&oe=68AB99EE"
-              alt="Prayer circle showing community"
-              className="rounded-xl shadow-lg w-full h-48 object-cover mt-4"
-              data-testid="image-prayer-circle"
-            />
-
-            <img
-              src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/525108691_10162977892671768_663072904411918780_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cf85f3&_nc_eui2=AeHSJ4u9mvplFLz8CUOae3F9nZp9WrdsKUqdmn1at2wpSvjeOCYruBUKOT-geFjIzakc2aEcbUOW3_B28ZShP_gA&_nc_ohc=zFIlw1Ec8dsQ7kNvwF5GSOT&_nc_oc=AdkryzD5KxgingwdJ3GznTdzCe6-2OHK-uKKZdbk_h8N3YHGekHxpyvBCe_Ctn_hWMc&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=NgzftV7LUrrM-ffB4sSfSw&oh=00_AfV54pPjQ1didyrD6ST02ktgJhaR_e5mN1Jq_jHcRrNUrg&oe=68AB8B3E"
-              alt="Church exterior architecture"
-              className="rounded-xl shadow-lg w-full h-48 object-cover"
-              data-testid="image-church-exterior"
-            />
-
-            <img
-              src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/468934349_122189032268219109_3305669879632406230_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeEmOY_YNYJKdmTMFKVgIAJhI9DQIcFU10kj0NAhwVTXSTq1jyvbK3UD-fh-by5fsI9rdakbl0PJPkOlFYNQx1Qr&_nc_ohc=546LyrMph7MQ7kNvwEQWS1S&_nc_oc=Adl_bDysVDvOcAkrCGDFRETjdOBVpL6BBmRxZN_PJWd4tV8ql-oANP7X4HH8ZUl0U9c&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=vE6LEco-GlJzA6taMjWfJg&oh=00_AfU6z2gonNq0UTUL3_JdHhEM78NOqHAe3oMEJUEosXJfnQ&oe=68AB9843"
-              alt="Community service and outreach"
-              className="rounded-xl shadow-lg w-full h-64 object-cover mt-4"
-              data-testid="image-community-service"
-            />
+              {/* Mission Statement Card */}
+              <div className="bg-methodist-blue rounded-2xl p-6 shadow-xl text-white">
+                <CheckCircle className="w-6 h-6 text-warm-gold mb-3" />
+                <p className="font-bold text-lg leading-tight">
+                  "Open hearts, open minds, open doors"
+                </p>
+                <p className="text-blue-100 text-sm mt-2">Our Methodist motto</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
