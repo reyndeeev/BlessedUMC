@@ -48,7 +48,7 @@ export default function Hero() {
             data-testid="button-watch-online"
           >
             <Play className="mr-2 h-5 w-5" />
-            Watch Online
+            Visit our Facebook Page
           </Button>
         </div>
       </div>
