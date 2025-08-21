@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown, Play, Calendar, MapPin, MessageCircle, Users, Heart } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import Logo from "./logo";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [onlineMenuOpen, setOnlineMenuOpen] = useState(false);
   const [location] = useLocation();
 
   const scrollToSection = (sectionId: string) => {
@@ -91,6 +99,97 @@ export default function Header() {
             >
               UMYF
             </Link>
+            
+            {/* Online Dropdown Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="flex items-center space-x-1 text-warm-gray hover:text-methodist-blue transition-colors"
+                  data-testid="dropdown-online"
+                >
+                  <span>Online</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-64 bg-white shadow-lg border border-gray-200">
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => window.open("https://www.facebook.com/BlessedUMC/live", "_blank")}
+                  data-testid="menu-watch-live"
+                >
+                  <Play className="w-5 h-5 text-red-500" />
+                  <div>
+                    <div className="font-semibold">Watch Live Service</div>
+                    <div className="text-sm text-gray-500">Join our Sunday worship online</div>
+                  </div>
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => window.open("https://www.facebook.com/BlessedUMC", "_blank")}
+                  data-testid="menu-past-services"
+                >
+                  <Calendar className="w-5 h-5 text-methodist-blue" />
+                  <div>
+                    <div className="font-semibold">Past Services</div>
+                    <div className="text-sm text-gray-500">Catch up on previous messages</div>
+                  </div>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => scrollToSection("about")}
+                  data-testid="menu-online-giving"
+                >
+                  <Heart className="w-5 h-5 text-warm-gold" />
+                  <div>
+                    <div className="font-semibold">Online Giving</div>
+                    <div className="text-sm text-gray-500">Support our ministry financially</div>
+                  </div>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => scrollToSection("contact")}
+                  data-testid="menu-prayer-requests"
+                >
+                  <MessageCircle className="w-5 h-5 text-soft-green" />
+                  <div>
+                    <div className="font-semibold">Prayer Requests</div>
+                    <div className="text-sm text-gray-500">Submit your prayer needs</div>
+                  </div>
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => scrollToSection("ministries")}
+                  data-testid="menu-connect-groups"
+                >
+                  <Users className="w-5 h-5 text-methodist-blue" />
+                  <div>
+                    <div className="font-semibold">Connect Groups</div>
+                    <div className="text-sm text-gray-500">Find community and fellowship</div>
+                  </div>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
+                  onClick={() => window.open("https://goo.gl/maps/YOUR_CHURCH_LOCATION", "_blank")}
+                  data-testid="menu-visit-location"
+                >
+                  <MapPin className="w-5 h-5 text-red-500" />
+                  <div>
+                    <div className="font-semibold">Visit Our Location</div>
+                    <div className="text-sm text-gray-500">Find directions to our church</div>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <button
               onClick={() => scrollToSection("contact")}
               className="text-warm-gray hover:text-methodist-blue transition-colors"
@@ -160,6 +259,96 @@ export default function Header() {
               >
                 UMYF
               </Link>
+              
+              {/* Mobile Online Menu */}
+              <div className="py-1">
+                <button
+                  onClick={() => setOnlineMenuOpen(!onlineMenuOpen)}
+                  className="flex items-center justify-between px-3 py-2 text-warm-gray w-full text-left"
+                  data-testid="mobile-dropdown-online"
+                >
+                  <span>Online</span>
+                  <ChevronDown className={`w-4 h-4 transform transition-transform ${onlineMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {onlineMenuOpen && (
+                  <div className="pl-6 space-y-1 bg-gray-50">
+                    <button
+                      onClick={() => {
+                        window.open("https://www.facebook.com/BlessedUMC/live", "_blank");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-watch-live"
+                    >
+                      <Play className="w-4 h-4 text-red-500" />
+                      <span>Watch Live Service</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.open("https://www.facebook.com/BlessedUMC", "_blank");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-past-services"
+                    >
+                      <Calendar className="w-4 h-4 text-methodist-blue" />
+                      <span>Past Services</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        scrollToSection("about");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-online-giving"
+                    >
+                      <Heart className="w-4 h-4 text-warm-gold" />
+                      <span>Online Giving</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        scrollToSection("contact");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-prayer-requests"
+                    >
+                      <MessageCircle className="w-4 h-4 text-soft-green" />
+                      <span>Prayer Requests</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        scrollToSection("ministries");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-connect-groups"
+                    >
+                      <Users className="w-4 h-4 text-methodist-blue" />
+                      <span>Connect Groups</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.open("https://goo.gl/maps/YOUR_CHURCH_LOCATION", "_blank");
+                        setMobileMenuOpen(false);
+                        setOnlineMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2 px-3 py-2 text-sm text-warm-gray w-full text-left hover:text-methodist-blue"
+                      data-testid="mobile-menu-visit-location"
+                    >
+                      <MapPin className="w-4 h-4 text-red-500" />
+                      <span>Visit Our Location</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+              
               <button
                 onClick={() => {
                   scrollToSection("contact");
