@@ -97,9 +97,7 @@ export default function Header() {
             >
               Contact
             </button>
-            <Button className="bg-methodist-blue text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-all">
-              Plan a Visit
-            </Button>
+
           </div>
 
           <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -171,9 +169,7 @@ export default function Header() {
               >
                 Contact
               </button>
-              <Button className="w-full mt-3 bg-methodist-blue text-white px-6 py-2 rounded-lg">
-                Plan a Visit
-              </Button>
+
             </div>
           </div>
         )}

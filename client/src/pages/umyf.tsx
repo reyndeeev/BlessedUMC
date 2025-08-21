@@ -60,7 +60,7 @@ export default function UMYF() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.open("https://www.facebook.com/BlessedUMCDasmarinasCavite", "_blank")}
+              onClick={() => window.open("https://www.facebook.com/BlessedUMCYouth", "_blank")}
               className="border-2 border-yellow-400 text-yellow-400 bg-black bg-opacity-30 px-8 py-3 text-lg font-semibold hover:bg-yellow-400 hover:text-black transition-all"
               data-testid="button-visit-facebook"
             >
