@@ -46,7 +46,7 @@ export default function UMYF() {
           {/* Planetshakers-style youth headline */}
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
-              Youth Fellowship
+              Welcome to
             </h3>
             <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
               BLESSED
@@ -183,9 +183,9 @@ export default function UMYF() {
                 <div className="flex items-start space-x-4">
                   <Clock className="w-6 h-6 text-warm-gold mt-1" />
                   <div>
-                    <h3 className="text-xl font-semibold text-methodist-blue mb-2">Wednesday Bible Study</h3>
-                    <p className="text-warm-gray mb-1">Mid-week fellowship and study</p>
-                    <p className="text-warm-gray">7:00 PM - 8:30 PM</p>
+                    <h3 className="text-xl font-semibold text-methodist-blue mb-2">Care Group</h3>
+                    <p className="text-warm-gray mb-1">TBA</p>
+                    <p className="text-warm-gray"></p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
@@ -193,7 +193,7 @@ export default function UMYF() {
                   <div>
                     <h3 className="text-xl font-semibold text-methodist-blue mb-2">Monthly Service Projects</h3>
                     <p className="text-warm-gray mb-1">Community outreach and service</p>
-                    <p className="text-warm-gray">Fourth Saturday of each month</p>
+                    <p className="text-warm-gray">Fourth Sunday of each month</p>
                   </div>
                 </div>
               </div>
@@ -203,29 +203,29 @@ export default function UMYF() {
               <div className="space-y-4">
                 <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
                   <CardHeader>
-                    <CardTitle className="text-blue-800">Youth Winter Retreat</CardTitle>
-                    <CardDescription className="text-blue-600">February 14-16, 2025</CardDescription>
+                    <CardTitle className="text-blue-800">TBA</CardTitle>
+                    <CardDescription className="text-blue-600">Stay tuned for updates!</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-blue-700">Join us for a weekend of faith, fun, and fellowship at Camp Marymount. Registration now open!</p>
+                    <p className="text-blue-700">More amazing events coming soon!</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
                   <CardHeader>
-                    <CardTitle className="text-green-800">Community Food Drive</CardTitle>
-                    <CardDescription className="text-green-600">March 1-8, 2025</CardDescription>
+                    <CardTitle className="text-green-800">TBA</CardTitle>
+                    <CardDescription className="text-green-600">Stay tuned for updates!</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-green-700">Help us collect food donations for local families in need. Every contribution makes a difference!</p>
+                    <p className="text-green-700">More amazing events coming soon!</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200">
                   <CardHeader>
-                    <CardTitle className="text-purple-800">Youth Sunday Leadership</CardTitle>
-                    <CardDescription className="text-purple-600">March 15, 2025</CardDescription>
+                    <CardTitle className="text-purple-800">TBA</CardTitle>
+                    <CardDescription className="text-purple-600">Stay tuned for updates!</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-purple-700">Our youth will lead worship service, sharing their faith with the congregation. Come support our young leaders!</p>
+                    <p className="text-purple-700">More amazing events coming soon!</p>
                   </CardContent>
                 </Card>
                 <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-300">

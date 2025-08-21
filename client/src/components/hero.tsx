@@ -18,7 +18,7 @@ export default function Hero() {
         {/* Planetshakers-style bold headline */}
         <div className="mb-8">
           <h2 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
-            Church
+            Welcome to
           </h2>
           <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
             BLESSED
@@ -30,11 +30,12 @@ export default function Hero() {
             Empowering Generations To Win Generations
           </p>
         </div>
-        
+
         <p className="text-lg md:text-xl mb-12 font-light max-w-2xl mx-auto leading-relaxed opacity-90">
-          Where faith grows, hearts heal, and everyone belongs. Join us in worship, fellowship, and service as we follow Christ together.
+          Where faith grows, hearts heal, and everyone belongs. Join us in
+          worship, fellowship, and service as we follow Christ together.
         </p>
-        
+
         {/* Planetshakers-style action buttons */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <Button
@@ -48,9 +49,9 @@ export default function Hero() {
             data-testid="button-watch-online"
           >
             <Play className="mr-3 h-6 w-6" />
-            Watch Live Service
+            Visit Our Facebook Page
           </Button>
-          
+
           <Button
             onClick={() =>
               window.open(
@@ -66,29 +67,46 @@ export default function Hero() {
             Listen to MDP
           </Button>
         </div>
-        
+
         {/* Quick links - Planetshakers style */}
         <div className="mt-16 flex flex-wrap justify-center gap-6 text-sm font-medium">
-          <button 
-            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+          <button
+            onClick={() =>
+              document
+                .getElementById("about")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
             className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
             Plan Your Visit
           </button>
-          <button 
-            onClick={() => window.open('https://www.facebook.com/profile.php?id=61556573281040', '_blank')}
+          <button
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/profile.php?id=61556573281040",
+                "_blank",
+              )
+            }
             className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
             Give Online
           </button>
-          <button 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          <button
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
             className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
             Prayer Requests
           </button>
-          <button 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          <button
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
             className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
             Contact Us
