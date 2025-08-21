@@ -14,7 +14,7 @@ interface SermonData {
 const recentSermons: SermonData[] = [
   {
     id: "1",
-    title: "",
+    title: "Costly Commitment to Kingdom Values",
     speaker: "Rev. John B. Manalo",
     thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
@@ -25,24 +25,24 @@ const recentSermons: SermonData[] = [
     title: "Watchful and Trusting Stewardship",
     speaker: "Rev. John",
     thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
-    videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
+    videoUrl: "https://www.facebook.com/61556573281040/videos/1111171580908275",
     date: "Sunday, Aug 10"
   },
   {
     id: "3",
-    title: "The Power Of Your Voice", 
-    speaker: "Pastor John",
-    thumbnail: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=225&fit=crop&crop=face",
-    videoUrl: "https://www.facebook.com/BlessedUMC",
-    date: "Sunday, Dec 1"
+    title: "Guarding the Heart from Greed", 
+    speaker: "Rev. John",
+    thumbnail: "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68a8556f&is=68a703ef&hm=33e24421001ca43c90e5e2e719858b33acc9eaabdfcae918a931164856002173&=&format=webp&quality=lossless",
+    videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
+    date: "Sunday, Aug 3"
   },
   {
     id: "4",
-    title: "The Lord Of Heaven's Armies",
-    speaker: "Pastor Daniel", 
-    thumbnail: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=400&h=225&fit=crop&crop=face",
-    videoUrl: "https://www.facebook.com/BlessedUMC",
-    date: "Sunday, Nov 24"
+    title: "Lord Teach Us To Pray",
+    speaker: "Rev. John", 
+    thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68a8567c&is=68a704fc&hm=c59322284cd6abc6113e112cabb625f201849aa5c26f45297953c47492b611bb",
+    videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
+    date: "Sunday, July 27"
   }
 ];
 
@@ -52,7 +52,7 @@ export default function SermonCatchup() {
   };
 
   const handleViewMore = () => {
-    window.open("https://www.facebook.com/BlessedUMC/videos", "_blank");
+    window.open("https://www.facebook.com/profile.php?id=61556573281040&sk=videos", "_blank");
   };
 
   return (
@@ -65,7 +65,7 @@ export default function SermonCatchup() {
               Catch up from the previous week.
             </h2>
             <p className="text-lg text-gray-600 mb-8">
-              Missed a Sunday service? No problem! Watch our recent messages and stay connected with what God is doing in our church family.
+              Missed a Sunday service? No problem! Watch our recent messages and stay connected with God.
             </p>
             <Button
               onClick={handleViewMore}
@@ -95,7 +95,7 @@ export default function SermonCatchup() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6">
                   <div className="text-warm-gold text-2xl lg:text-4xl font-bold mb-2 font-heading">
-                    WE WIN!
+                    Costly Commitment to Kingdom Values
                   </div>
                   <div className="text-white text-lg">
                     {recentSermons[0].speaker} | {recentSermons[0].date}
