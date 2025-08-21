@@ -26,7 +26,7 @@ const recentSermons: SermonData[] = [
     speaker: "Rev. John",
     thumbnail: "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
-    date: "Sunday, July 10"
+    date: "Sunday, Aug 10"
   },
   {
     id: "3",
@@ -95,7 +95,7 @@ export default function SermonCatchup() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6">
                   <div className="text-warm-gold text-2xl lg:text-4xl font-bold mb-2 font-heading">
-                    Costly Commitment to Kingdom Values
+                    WE WIN!
                   </div>
                   <div className="text-white text-lg">
                     {recentSermons[0].speaker} | {recentSermons[0].date}
