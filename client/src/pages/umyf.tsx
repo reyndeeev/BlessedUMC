@@ -46,10 +46,10 @@ export default function UMYF() {
           {/* Planetshakers-style youth headline */}
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
-              United Methodist Youth Fellowship
+              Youth Fellowship
             </h3>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-none tracking-tight">
-              BLESSED UMYF
+            <h1 className="font-heading text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-none tracking-tight">
+              BLESSED UNITED METHODIST YOUTH FELLOWSHIP
             </h1>
             <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
               Where Young Hearts Meet God
@@ -198,31 +198,40 @@ export default function UMYF() {
             <div>
               <h2 className="text-3xl font-heading font-bold text-methodist-blue mb-8">Upcoming Events</h2>
               <div className="space-y-4">
-                <Card>
+                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
                   <CardHeader>
-                    <CardTitle>Youth Winter Retreat</CardTitle>
-                    <CardDescription>February 14-16, 2025</CardDescription>
+                    <CardTitle className="text-blue-800">Youth Winter Retreat</CardTitle>
+                    <CardDescription className="text-blue-600">February 14-16, 2025</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-warm-gray">Join us for a weekend of faith, fun, and fellowship at Camp Marymount.</p>
+                    <p className="text-blue-700">Join us for a weekend of faith, fun, and fellowship at Camp Marymount. Registration now open!</p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
                   <CardHeader>
-                    <CardTitle>Community Food Drive</CardTitle>
-                    <CardDescription>March 1-8, 2025</CardDescription>
+                    <CardTitle className="text-green-800">Community Food Drive</CardTitle>
+                    <CardDescription className="text-green-600">March 1-8, 2025</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-warm-gray">Help us collect food donations for local families in need.</p>
+                    <p className="text-green-700">Help us collect food donations for local families in need. Every contribution makes a difference!</p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200">
                   <CardHeader>
-                    <CardTitle>Youth Sunday Leadership</CardTitle>
-                    <CardDescription>March 15, 2025</CardDescription>
+                    <CardTitle className="text-purple-800">Youth Sunday Leadership</CardTitle>
+                    <CardDescription className="text-purple-600">March 15, 2025</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-warm-gray">Our youth will lead worship service, sharing their faith with the congregation.</p>
+                    <p className="text-purple-700">Our youth will lead worship service, sharing their faith with the congregation. Come support our young leaders!</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-300">
+                  <CardHeader>
+                    <CardTitle className="text-orange-800">🎉 More Events Coming Soon!</CardTitle>
+                    <CardDescription className="text-orange-600">Stay tuned for announcements</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-orange-700">We're planning exciting activities, service projects, and fellowship opportunities. Follow our Facebook page for updates!</p>
                   </CardContent>
                 </Card>
               </div>
