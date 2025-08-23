@@ -194,24 +194,24 @@ export default function MYAF() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(255, 69, 0, 0.4) 0%, rgba(255, 140, 0, 0.3) 25%, rgba(255, 215, 0, 0.2) 50%, rgba(255, 69, 0, 0.3) 75%, rgba(220, 20, 60, 0.4) 100%), radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 0%, transparent 60%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
+            backgroundImage: `linear-gradient(135deg, rgba(255, 69, 0, 0.5) 0%, rgba(255, 140, 0, 0.4) 25%, rgba(255, 165, 0, 0.3) 50%, rgba(220, 20, 60, 0.4) 75%, rgba(255, 69, 0, 0.5) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
           }}
         />
-        {/* MYAF Subtle Energy Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-yellow-500/10" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-pink-500/5 via-transparent to-orange-500/5" />
+        {/* MYAF Energetic Orange Effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 via-red-600/10 to-yellow-600/10" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/5 via-transparent to-orange-600/5" /></div>
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
               Welcome to
             </h3>
-            <h1 className="font-heading text-7xl md:text-9xl lg:text-10xl font-black mb-6 leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-yellow-300 to-red-300 drop-shadow-2xl transform rotate-1">
+            <h1 className="font-heading text-7xl md:text-9xl lg:text-10xl font-black mb-6 leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-400 to-yellow-400 drop-shadow-2xl transform rotate-1">
               BLESSED
             </h1>
             <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-black mb-8 leading-none tracking-tight text-white drop-shadow-lg transform -rotate-1">
               METHODIST YOUNG ADULT FELLOWSHIP
             </h2>
-            <p className="text-4xl md:text-5xl lg:text-6xl font-heading font-light tracking-wide text-orange-200 drop-shadow-lg animate-bounce">
+            <p className="text-4xl md:text-5xl lg:text-6xl font-heading font-light tracking-wide text-red-300 drop-shadow-lg animate-bounce">
               GROWING TOGETHER IN FAITH & PURPOSE
             </p>
           </div>
@@ -242,19 +242,19 @@ export default function MYAF() {
           <div className="mt-16 flex flex-wrap justify-center gap-6 text-sm font-medium">
             <button 
               onClick={() => scrollToSection('activities')}
-              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+              className="text-orange-200 hover:text-white transition-colors underline underline-offset-4"
             >
               Young Adult Activities
             </button>
             <button 
               onClick={() => scrollToSection('about')}
-              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+              className="text-orange-200 hover:text-white transition-colors underline underline-offset-4"
             >
               About MYAF
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+              className="text-orange-200 hover:text-white transition-colors underline underline-offset-4"
             >
               Get Involved
             </button>
@@ -266,7 +266,7 @@ export default function MYAF() {
       <section id="about" className="py-24 bg-gradient-to-br from-white via-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="font-heading text-sm font-bold tracking-wide text-methodist-blue uppercase mb-4">
+            <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4">
               Young Adult Fellowship
             </h3>
             <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
@@ -320,7 +320,7 @@ export default function MYAF() {
       <section id="gallery" className="py-20 bg-gradient-to-br from-slate-50 via-orange-50 to-red-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="font-heading text-sm font-bold tracking-wide text-red-600 uppercase mb-4 transform skew-x-3">
+            <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4 transform skew-x-3">
               🔥 Our Community 🔥
             </h3>
             <h2 className="text-6xl lg:text-7xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight transform -skew-x-1">
@@ -358,7 +358,7 @@ export default function MYAF() {
                   alt="Community Service Project"
                   className="w-full h-full object-cover transform -rotate-45 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-45">
                     <h4 className="font-black text-xs">🤝 SERVICE</h4>
                   </div>
@@ -388,7 +388,7 @@ export default function MYAF() {
                   alt="Worship Night"
                   className="w-full h-full object-cover transform rotate-12 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-yellow-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform rotate-12">
                     <p className="font-black text-xs">🎵 WORSHIP</p>
                   </div>
@@ -403,7 +403,7 @@ export default function MYAF() {
                   alt="Annual Retreat"
                   className="w-full h-full object-cover transform -rotate-6 scale-140 group-hover:scale-150 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-pink-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-6">
                     <h4 className="font-black text-sm">🏕️ RETREAT</h4>
                   </div>
@@ -418,7 +418,7 @@ export default function MYAF() {
                   alt="Game Night"
                   className="w-full h-full object-cover transform rotate-6 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-1 left-1 text-white transform rotate-6">
                     <p className="font-black text-xs">🎮 GAMES</p>
                   </div>
@@ -433,7 +433,7 @@ export default function MYAF() {
                   alt="Mission Trip"
                   className="w-full h-full object-cover transform -rotate-18 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-18">
                     <p className="font-black text-xs">✈️ MISSIONS</p>
                   </div>
@@ -448,7 +448,7 @@ export default function MYAF() {
                   alt="Conference"
                   className="w-full h-full object-cover transform rotate-18 scale-140 group-hover:scale-150 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-700/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform rotate-18">
                     <p className="font-black text-xs">🎯 CONFERENCE</p>
                   </div>
@@ -463,7 +463,7 @@ export default function MYAF() {
                   alt="Community Outreach"
                   className="w-full h-full object-cover transform -rotate-30 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-30">
                     <h4 className="font-black text-xs">❤️ OUTREACH</h4>
                   </div>
@@ -478,7 +478,7 @@ export default function MYAF() {
                   alt="Worship Team"
                   className="w-full h-full object-cover transform rotate-12 scale-140 group-hover:scale-150 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-amber-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-700/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-3 left-3 text-white transform rotate-12">
                     <h4 className="font-black text-sm">🎤 WORSHIP</h4>
                     <p className="text-xs">TEAM</p>
@@ -494,7 +494,7 @@ export default function MYAF() {
                   alt="Prayer Circle"
                   className="w-full h-full object-cover transform -rotate-24 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-indigo-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-700/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-24">
                     <p className="font-black text-xs">🙏 PRAYER</p>
                   </div>
@@ -509,7 +509,7 @@ export default function MYAF() {
                   alt="Bible Study"
                   className="w-full h-full object-cover transform rotate-30 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-teal-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-700/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform rotate-30">
                     <p className="font-black text-xs">📚 STUDY</p>
                   </div>
@@ -524,7 +524,7 @@ export default function MYAF() {
                   alt="Youth Activities"
                   className="w-full h-full object-cover transform -rotate-36 scale-150 group-hover:scale-160 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-800/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-2 left-2 text-white transform -rotate-36">
                     <p className="font-black text-xs">⚡ ACTIVITIES</p>
                   </div>
@@ -580,7 +580,7 @@ export default function MYAF() {
           
           {/* Dynamic MYAF Adventures - Always Visible, Festival Style */}
           <div className="mb-12">
-            <h3 className="text-4xl font-heading font-black text-orange-800 mb-8 text-center tracking-tight transform -rotate-1">
+            <h3 className="text-4xl font-heading font-black text-red-800 mb-8 text-center tracking-tight transform -rotate-1">
               ⚡ MORE MYAF ADVENTURES ⚡
             </h3>
             
@@ -592,7 +592,7 @@ export default function MYAF() {
                   alt="MYAF Leadership Training"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🏆 LEADERSHIP</p>
                   </div>
@@ -605,7 +605,7 @@ export default function MYAF() {
                   alt="MYAF Community Service"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🤝 SERVICE</p>
                   </div>
@@ -618,7 +618,7 @@ export default function MYAF() {
                   alt="MYAF Professional Development"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-yellow-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-700/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">💼 CAREER DEV</p>
                   </div>
@@ -631,7 +631,7 @@ export default function MYAF() {
                   alt="MYAF Conference"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-pink-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-700/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🎯 CONFERENCES</p>
                   </div>
@@ -644,7 +644,7 @@ export default function MYAF() {
                   alt="MYAF Team Building"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-700/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🔥 TEAM BUILDING</p>
                   </div>
@@ -657,7 +657,7 @@ export default function MYAF() {
                   alt="MYAF Networking"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🌟 NETWORKING</p>
                   </div>
@@ -670,7 +670,7 @@ export default function MYAF() {
                   alt="MYAF Social Activities"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🎉 SOCIAL EVENTS</p>
                   </div>
@@ -683,7 +683,7 @@ export default function MYAF() {
                   alt="MYAF Mentorship"
                   className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-800/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute bottom-4 left-4 text-white">
                     <p className="text-lg font-black">🎓 MENTORSHIP</p>
                   </div>
@@ -699,7 +699,7 @@ export default function MYAF() {
                   alt="MYAF Workshop"
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 via-orange-500/50 to-transparent">
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-700/90 via-red-600/50 to-transparent">
                   <div className="absolute bottom-6 left-6 text-white">
                     <h4 className="font-black text-2xl mb-2 transform -rotate-1">🛠️ SKILLS WORKSHOPS</h4>
                     <p className="text-lg">Building practical life skills together</p>
@@ -713,7 +713,7 @@ export default function MYAF() {
                   alt="MYAF Small Groups"
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 via-yellow-500/50 to-transparent">
+                <div className="absolute inset-0 bg-gradient-to-t from-red-700/90 via-orange-600/50 to-transparent">
                   <div className="absolute bottom-6 left-6 text-white">
                     <h4 className="font-black text-2xl mb-2 transform rotate-1">🙏 SMALL GROUPS</h4>
                     <p className="text-lg">Deeper connections and accountability</p>
