@@ -299,219 +299,268 @@ export default function MYAF() {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section id="gallery" className="py-20 bg-gradient-to-br from-gray-900 via-methodist-blue to-gray-900">
+      {/* Gallery Section with Unique Grid Layout */}
+      <section id="gallery" className="py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="font-heading text-sm font-bold tracking-wide text-warm-gold uppercase mb-4">
-              Our Journey
+            <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4">
+              Our Community
             </h3>
-            <h2 className="text-5xl lg:text-6xl font-heading font-black text-white mb-6 leading-tight tracking-tight">
-              MYAF Moments
+            <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
+              MYAF Gallery
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Capturing the essence of young adult fellowship, growth, and community impact.
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Witness our journey of faith, friendship, and service through these precious moments shared together.
             </p>
           </div>
           
-          {/* Masonry Gallery Layout */}
-          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
-            {/* Large Featured Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=800&fit=crop" 
-                  alt="Young Adult Bible Study"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Bible Study Night</h4>
-                    <p className="text-sm text-gray-300">Deepening our faith together</p>
-                  </div>
+          {/* Featured Highlight Section */}
+          <div className="mb-16">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1200&h=600&fit=crop" 
+                alt="MYAF Group Photo"
+                className="w-full h-96 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-methodist-blue/80 via-transparent to-orange-600/80">
+                <div className="absolute bottom-8 left-8 text-white">
+                  <h3 className="font-heading text-3xl font-black mb-2">United in Faith</h3>
+                  <p className="text-lg">Our MYAF family growing stronger together</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Unique Grid Layout - Different from UMYF */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+            {/* Row 1 - Mixed sizes */}
+            <div className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&h=600&fit=crop" 
+                alt="Community Service Project"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h4 className="font-bold">Community Service</h4>
                 </div>
               </div>
             </div>
 
-            {/* Medium Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&h=500&fit=crop" 
-                  alt="Community Service"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Community Outreach</h4>
-                    <p className="text-sm text-gray-300">Serving with purpose</p>
-                  </div>
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=300&h=300&fit=crop" 
+                alt="Fellowship Dinner"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Fellowship</p>
                 </div>
               </div>
             </div>
 
-            {/* Small Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=300&fit=crop" 
-                  alt="Fellowship Dinner"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Fellowship Meals</h4>
-                    <p className="text-sm text-gray-300">Breaking bread together</p>
-                  </div>
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&h=300&fit=crop" 
+                alt="Worship Night"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Worship</p>
                 </div>
               </div>
             </div>
 
-            {/* Tall Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=700&fit=crop" 
-                  alt="Worship Night"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Worship & Prayer</h4>
-                    <p className="text-sm text-gray-300">Hearts united in praise</p>
-                  </div>
+            <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=300&fit=crop" 
+                alt="Annual Retreat"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Annual Retreat</p>
                 </div>
               </div>
             </div>
 
-            {/* Wide Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=400&fit=crop" 
-                  alt="Retreat Weekend"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Annual Retreat</h4>
-                    <p className="text-sm text-gray-300">Growing in community</p>
-                  </div>
+            {/* Row 2 - Continuing grid */}
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
+                alt="Game Night"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Game Night</p>
                 </div>
               </div>
             </div>
 
-            {/* Square Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&h=400&fit=crop" 
-                  alt="Group Activities"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Game Nights</h4>
-                    <p className="text-sm text-gray-300">Fun and fellowship</p>
-                  </div>
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=300&h=300&fit=crop" 
+                alt="Mission Trip"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Missions</p>
                 </div>
               </div>
             </div>
 
-            {/* Medium-Tall Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=400&h=600&fit=crop" 
-                  alt="Mission Trip"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Mission Trips</h4>
-                    <p className="text-sm text-gray-300">Making a global impact</p>
-                  </div>
+            <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=300&fit=crop" 
+                alt="Conference"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Conferences</p>
                 </div>
               </div>
             </div>
 
-            {/* Landscape Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=300&fit=crop" 
-                  alt="Conference Events"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Conferences</h4>
-                    <p className="text-sm text-gray-300">Learning and growing</p>
-                  </div>
+            {/* Row 3 - More varied layouts */}
+            <div className="col-span-3 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1552581234-26160f608093?w=900&h=400&fit=crop" 
+                alt="Community Outreach"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h4 className="font-bold">Local Outreach</h4>
+                  <p className="text-sm">Serving our neighbors</p>
                 </div>
               </div>
             </div>
 
-            {/* Another Medium Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093?w=400&h=500&fit=crop" 
-                  alt="Volunteer Work"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Local Service</h4>
-                    <p className="text-sm text-gray-300">Hands and hearts serving</p>
-                  </div>
+            <div className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1509909756405-be0199881695?w=600&h=800&fit=crop" 
+                alt="Worship Team"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h4 className="font-bold">Worship Ministry</h4>
+                  <p className="text-sm">Leading hearts to God</p>
                 </div>
               </div>
             </div>
 
-            {/* Small Square */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1509909756405-be0199881695?w=400&h=400&fit=crop" 
-                  alt="Worship Team"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Worship Team</h4>
-                    <p className="text-sm text-gray-300">Leading in song</p>
-                  </div>
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop" 
+                alt="Prayer Circle"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Prayer</p>
                 </div>
               </div>
             </div>
 
-            {/* Portrait Image */}
-            <div className="relative group break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop" 
-                  alt="Prayer Circle"
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg">Prayer Circles</h4>
-                    <p className="text-sm text-gray-300">Lifting each other up</p>
-                  </div>
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=400&fit=crop" 
+                alt="Bible Study"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Bible Study</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=400&fit=crop" 
+                alt="Youth Activities"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm font-medium">Activities</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Featured Row */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=500&fit=crop" 
+                alt="Sunday Service"
+                className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h4 className="font-bold text-lg mb-1">Sunday Gatherings</h4>
+                  <p className="text-sm">Weekly fellowship after service</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=500&fit=crop" 
+                alt="Social Events"
+                className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h4 className="font-bold text-lg mb-1">Social Events</h4>
+                  <p className="text-sm">Building friendships that last</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+              <img 
+                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=500&fit=crop" 
+                alt="Spiritual Growth"
+                className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h4 className="font-bold text-lg mb-1">Spiritual Growth</h4>
+                  <p className="text-sm">Deepening our walk with Christ</p>
                 </div>
               </div>
             </div>
           </div>
           
           {/* Gallery CTA */}
-          <div className="text-center mt-16">
-            <Button
-              onClick={() => window.open("https://www.facebook.com/BlessedMYAF", "_blank")}
-              className="bg-warm-gold text-methodist-blue px-8 py-4 rounded-full text-lg font-bold hover:bg-warm-gold/90 transition-all transform hover:scale-105 shadow-xl"
-            >
-              See More on Facebook
-            </Button>
+          <div className="text-center">
+            <div className="bg-white rounded-3xl p-8 shadow-xl max-w-2xl mx-auto">
+              <h3 className="font-heading text-2xl font-bold text-gray-900 mb-4">Want to Join Our Community?</h3>
+              <p className="text-gray-600 mb-6">Follow us on social media to see more of our adventures and stay connected with our MYAF family!</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  onClick={() => window.open("https://www.facebook.com/BlessedMYAF", "_blank")}
+                  className="bg-orange-600 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-700 transition-all transform hover:scale-105 shadow-lg"
+                >
+                  Follow Us on Facebook
+                </Button>
+                <Button
+                  onClick={() => scrollToSection("contact")}
+                  variant="outline"
+                  className="border-2 border-orange-600 text-orange-600 px-6 py-3 rounded-full font-bold hover:bg-orange-600 hover:text-white transition-all transform hover:scale-105"
+                >
+                  Get In Touch
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
