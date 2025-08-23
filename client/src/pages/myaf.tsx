@@ -199,6 +199,9 @@ export default function MYAF() {
         <div className="absolute inset-0 bg-gradient-to-b from-orange-900/20 via-transparent to-red-900/30" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
+            <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-orange-200 uppercase mb-4">
+              Welcome to
+            </h3>
             <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl font-black mb-6 leading-none tracking-tighter drop-shadow-2xl">
               BLESSED
             </h1>
