@@ -89,6 +89,13 @@ export default function MYAF() {
                 <Home className="w-4 h-4" />
                 <span>Home</span>
               </Link>
+              <Link
+                href="/umyf"
+                className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
+              >
+                <Users className="w-4 h-4" />
+                <span>UMYF</span>
+              </Link>
               <button
                 onClick={() => scrollToSection("about")}
                 className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
@@ -141,6 +148,13 @@ export default function MYAF() {
               >
                 <Home className="w-4 h-4" />
                 <span>Home</span>
+              </Link>
+              <Link
+                href="/umyf"
+                className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
+              >
+                <Users className="w-4 h-4" />
+                <span>UMYF</span>
               </Link>
               <button
                 onClick={() => scrollToSection("about")}

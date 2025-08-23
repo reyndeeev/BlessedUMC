@@ -1,5 +1,5 @@
             import { useState } from "react";
-            import { Menu, X, Home, Info, Calendar, MessageCircle } from "lucide-react";
+            import { Menu, X, Home, Info, Calendar, MessageCircle, Users } from "lucide-react";
             import { Link } from "wouter";
             import Logo from "./logo";
 
@@ -71,6 +71,13 @@
                           <Home className="w-4 h-4" />
                           <span>Home</span>
                         </Link>
+                        <Link
+                          href="/myaf"
+                          className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
+                        >
+                          <Users className="w-4 h-4" />
+                          <span>MYAF</span>
+                        </Link>
                         <button
                           onClick={() => scrollToSection("about")}
                           className="flex items-center space-x-1 text-white hover:text-warm-gold transition"
@@ -116,6 +123,13 @@
                         >
                           <Home className="w-4 h-4" />
                           <span>Home</span>
+                        </Link>
+                        <Link
+                          href="/myaf"
+                          className="flex items-center space-x-2 w-full text-left text-white hover:text-warm-gold transition"
+                        >
+                          <Users className="w-4 h-4" />
+                          <span>MYAF</span>
                         </Link>
                         <button
                           onClick={() => scrollToSection("about")}
