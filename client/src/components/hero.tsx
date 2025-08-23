@@ -1,7 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { CalendarPlus, Play, ChevronDown, Headphones } from "lucide-react";
+import { CalendarPlus, Play, ChevronDown, Headphones, ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
+  const [showBackButton, setShowBackButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowBackButton(window.scrollY > 300);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <section
       id="home"
@@ -114,6 +124,16 @@ export default function Hero() {
         </div>
       </div>
       
+      {/* Back to Top Button */}
+      {showBackButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-methodist-blue text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-50 hover:scale-110"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-6 h-6" />
+        </button>
+      )}
     </section>
   );
 }
