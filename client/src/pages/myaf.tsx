@@ -239,7 +239,7 @@ export default function MYAF() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-gradient-to-br from-white via-gray-50 to-orange-50">
+      <section id="about" className="py-24 bg-gradient-to-br from-white via-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4">
@@ -293,7 +293,7 @@ export default function MYAF() {
       </section>
 
       {/* Gallery Section - Same Format as UMYF */}
-      <section id="gallery" className="py-20 bg-gradient-to-br from-orange-50 via-red-50 to-yellow-50">
+      <section id="gallery" className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4">
