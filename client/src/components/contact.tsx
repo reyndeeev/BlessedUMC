@@ -143,9 +143,9 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gray-50 rounded-xl p-8">
-            <h3 className="font-heading text-2xl font-bold text-methodist-blue mb-6">
-              Send us a Message
+          <div className="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100 hover-lift">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center animate-fade-in-down">
+              💌 Send Us a Message
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -281,11 +281,11 @@ export default function Contact() {
               <Button
                 type="submit"
                 disabled={contactMutation.isPending}
-                className="w-full bg-methodist-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-methodist-blue to-blue-700 hover:from-blue-700 hover:to-methodist-blue text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg glow-blue"
                 data-testid="button-submit-contact"
               >
                 <Send className="mr-2 h-4 w-4" />
-                {contactMutation.isPending ? "Sending..." : "Send Message"}
+                {contactMutation.isPending ? "✈️ Sending..." : "📤 Send Message"}
               </Button>
             </form>
           </div>
