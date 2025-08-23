@@ -282,9 +282,9 @@ export default function UMYF() {
             </div>
           </div>
 
-          {/* Dynamic Grid Layout - Planetshakers Style */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-12">
-            {/* Row 1 - Mixed sizes */}
+          {/* Simplified Grid Layout - Planetshakers Style */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {/* Featured large image */}
             <div className="col-span-2 row-span-2 relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
                 src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&h=600&fit=crop" 
@@ -302,7 +302,7 @@ export default function UMYF() {
             <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
                 src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=300&h=300&fit=crop" 
-                alt="Youth Fellowship Dinner"
+                alt="Youth Fellowship"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
@@ -325,110 +325,16 @@ export default function UMYF() {
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=300&h=300&fit=crop" 
-                alt="Youth Games"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Games</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Row 2 */}
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
-                alt="Youth Fun Night"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Fun Night</p>
-                </div>
-              </div>
-            </div>
-
             <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=600&h=300&fit=crop" 
-                alt="Youth Mission"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Mission Trips</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Row 3 - Asymmetric layout */}
-            <div className="col-span-3 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1552581234-26160f608093?w=900&h=400&fit=crop" 
-                alt="Youth Community Outreach"
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=300&fit=crop" 
+                alt="Youth Prayer & Devotion"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
                 <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-bold">Community Outreach</h4>
-                  <p className="text-sm">Serving our neighbors with love</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-2 row-span-2 relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" 
-                alt="Youth Prayer Circle"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-bold text-lg">Prayer & Devotion</h4>
+                  <h4 className="font-bold">Prayer & Devotion</h4>
                   <p className="text-sm">Growing closer to God together</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=400&fit=crop" 
-                alt="Youth Bible Study"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Bible Study</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=400&fit=crop" 
-                alt="Youth Conference"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Conferences</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=400&fit=crop" 
-                alt="Youth Team Building"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Team Building</p>
                 </div>
               </div>
             </div>
