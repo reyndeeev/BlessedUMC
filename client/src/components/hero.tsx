@@ -1,115 +1,160 @@
-import React from 'react';
-import { Button } from './ui/button';
-import { Calendar, Clock, MapPin, Heart, Users, ChevronDown } from 'lucide-react';
-import { Link } from 'wouter';
+import { Button } from "@/components/ui/button";
+import { CalendarPlus, Play, ChevronDown, Headphones, ArrowUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
-  const scrollToSection = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const [showBackButton, setShowBackButton] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => setShowBackButton(window.scrollY > 300);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    const startPosition = window.pageYOffset;
+    const distance = -startPosition;
+    const duration = 800;
+    let start: number | null = null;
+
+    const easeInOutQuad = (t: number) =>
+      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+    function step(timestamp: number) {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const percent = Math.min(progress / duration, 1);
+      const ease = easeInOutQuad(percent);
+      window.scrollTo(0, startPosition + distance * ease);
+      if (progress < duration) {
+        window.requestAnimationFrame(step);
+      }
+    }
+
+    window.requestAnimationFrame(step);
+  };
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+    <section
+      id="home"
+      className="relative h-screen flex items-center justify-center"
+    >
+      {/* Church interior background with overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/attached_assets/image_1755699549465.png')`,
+          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.6) 25%, rgba(0, 0, 0, 0.7) 50%, rgba(120, 60, 30, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480849794_122203836704219109_1468100116698178807_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEkn9oBRIB09U6avg7imh4W8hMDmHpBTp7yEwOYekFOnub4Xk1cBBvqIByM9gT-5TlPxwKqF8s6-FnaRX11tntW&_nc_ohc=O8Jp7py7RxAQ7kNvwHJ2Bxs&_nc_oc=Adm-seNLqZxKkdBx9Mn9ed5SoVzVz9nG9bTom16nzLOt-6LE_l6SEma7el2CQcHWIGo&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=tQL4pOFtfub8zNtHnb86hA&oh=00_AfWld6-gWTIUoI3HP6kOGByEB8j9Pc2sfoi3CcfouI49QQ&oe=68AB7671')`,
         }}
       />
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
-
-      {/* Hero Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
+        {/* Planetshakers-style bold headline */}
         <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+          <h2 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
             Welcome to
-            <span className="block text-warm-gold">
-              Blessed UMC
-            </span>
+          </h2>
+          <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
+            BLESSED
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            A place where faith grows, hearts heal, and everyone belongs in God's love
+          <h2 className="font-heading text-2xl md:text-4xl lg:text-5xl font-black mb-6 leading-none tracking-tight text-blue-100">
+            UNITED METHODIST CHURCH
+          </h2>
+          <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
+            Empowering Generations To Win Generations
           </p>
         </div>
 
-        {/* Service Times Card */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-8 border border-white/20">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-white">
-            <div className="flex items-center gap-3">
-              <Calendar className="text-warm-gold" size={24} />
-              <div>
-                <p className="font-semibold">Sunday Worship</p>
-                <p className="text-gray-200">Every Sunday</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="text-warm-gold" size={24} />
-              <div>
-                <p className="font-semibold">9:00 AM</p>
-                <p className="text-gray-200">Service Time</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <MapPin className="text-warm-gold" size={24} />
-              <div>
-                <p className="font-semibold">In-Person</p>
-                <p className="text-gray-200">Join us live</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p className="text-lg md:text-xl mb-12 font-light max-w-2xl mx-auto leading-relaxed opacity-90">
+          Where faith grows, hearts heal, and everyone belongs. Join us in
+          worship, fellowship, and service as we follow Christ together.
+        </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+        {/* Planetshakers-style action buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <Button
-            onClick={() => scrollToSection('about')}
-            size="lg"
-            className="bg-warm-gold hover:bg-warm-gold/90 text-black font-semibold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/profile.php?id=61556573281040",
+                "_blank",
+              )
+            }
+            className="bg-white text-methodist-blue px-10 py-5 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+            data-testid="button-watch-online"
           >
-            <Heart className="mr-2" size={20} />
-            Learn More About Us
+            <Play className="mr-3 h-6 w-6" />
+            Visit Our Facebook Page
           </Button>
 
           <Button
-            onClick={() => scrollToSection('contact')}
+            onClick={() =>
+              window.open(
+                "https://open.spotify.com/show/1HvXzv9OQgpEhfbA05HshK?si=c1ed91207dd24a58",
+                "_blank",
+              )
+            }
             variant="outline"
-            size="lg"
-            className="border-2 border-white/50 text-white hover:bg-white/20 backdrop-blur-md px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+            className="border-3 border-warm-gold text-warm-gold bg-transparent px-10 py-5 rounded-full text-lg font-bold hover:bg-warm-gold hover:text-methodist-blue transition-all transform hover:scale-105"
+            data-testid="button-mdp-hero"
           >
-            <Users className="mr-2" size={20} />
-            Connect With Us
+            <Headphones className="mr-3 h-6 w-6" />
+            Listen to MDP
           </Button>
         </div>
 
-        {/* Facebook Integration */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <Button
-            onClick={() => window.open('https://www.facebook.com/profile.php?id=61556573281040', '_blank')}
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-3 transition-all duration-300 hover:scale-105"
+        {/* Quick links - Planetshakers style */}
+        <div className="mt-16 flex flex-wrap justify-center gap-6 text-sm font-medium">
+          <button
+            onClick={() =>
+              document
+                .getElementById("about")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
-            Follow Our Main Page
-          </Button>
-
-          <Button
-            onClick={() => window.open('https://www.facebook.com/blessedumyf01', '_blank')}
-            className="bg-warm-gold/20 hover:bg-warm-gold/30 backdrop-blur-md border border-warm-gold/50 text-white px-6 py-3 transition-all duration-300 hover:scale-105"
+            Plan Your Visit
+          </button>
+          <button
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/profile.php?id=61556573281040",
+                "_blank",
+              )
+            }
+            className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
           >
-            Follow Our Youth (UMYF)
-          </Button>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div
-          onClick={() => scrollToSection('about')}
-          className="cursor-pointer animate-bounce"
-        >
-          <ChevronDown className="text-white/70 hover:text-white transition-colors" size={32} />
+            Give Online
+          </button>
+          <button
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+          >
+            Prayer Requests
+          </button>
+          <button
+            onClick={() =>
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
-    </div>
+      
+      {/* Back to Top Button */}
+      {showBackButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-methodist-blue text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-50 hover:scale-110"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-6 h-6" />
+        </button>
+      )}
+    </section>
   );
 }
