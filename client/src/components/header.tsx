@@ -105,7 +105,7 @@ export default function Header() {
             >
               MYAF
             </Link>
-            
+
             {/* Online Dropdown Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -118,7 +118,7 @@ export default function Header() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-64 bg-white shadow-lg border border-gray-200">
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => window.open("https://www.facebook.com/profile.php?id=61556573281040&sk=videos", "_blank")}
                   data-testid="menu-watch-live"
@@ -129,10 +129,10 @@ export default function Header() {
                     <div className="text-sm text-gray-500">Join our Sunday worship online</div>
                   </div>
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuSeparator />
-                
-                <DropdownMenuItem 
+
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => scrollToSection("sermons")}
                   data-testid="menu-past-services"
@@ -143,8 +143,8 @@ export default function Header() {
                     <div className="text-sm text-gray-500">Catch up on previous messages</div>
                   </div>
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem 
+
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => scrollToSection("about")}
                   data-testid="menu-online-giving"
@@ -155,8 +155,8 @@ export default function Header() {
                     <div className="text-sm text-gray-500">Support our ministry financially</div>
                   </div>
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem 
+
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => scrollToSection("contact")}
                   data-testid="menu-prayer-requests"
@@ -167,22 +167,22 @@ export default function Header() {
                     <div className="text-sm text-gray-500">Submit your prayer needs</div>
                   </div>
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuSeparator />
-                
-                <DropdownMenuItem 
+
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => scrollToSection("ministries")}
                   data-testid="menu-connect-groups"
                 >
-                  <Users className="w-5 h-5 text-methodist-blue" />
+                  <Users className="w-4 h-4 text-methodist-blue" />
                   <div>
                     <div className="font-semibold">Connect Groups</div>
                     <div className="text-sm text-gray-500">Find community and fellowship</div>
                   </div>
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem 
+
+                <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
                   onClick={() => window.open("https://goo.gl/maps/YOUR_CHURCH_LOCATION", "_blank")}
                   data-testid="menu-visit-location"
@@ -265,7 +265,14 @@ export default function Header() {
               >
                 UMYF
               </Link>
-              
+              <Link
+                href="/myaf"
+                className={`block px-3 py-2 w-full text-left ${location === "/myaf" ? "text-methodist-blue font-medium" : "text-warm-gray"}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                MYAF
+              </Link>
+
               {/* Mobile Online Menu */}
               <div className="py-1">
                 <button
@@ -276,7 +283,7 @@ export default function Header() {
                   <span>Online</span>
                   <ChevronDown className={`w-4 h-4 transform transition-transform ${onlineMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
-                
+
                 {onlineMenuOpen && (
                   <div className="pl-6 space-y-1 bg-gray-50">
                     <button
@@ -354,7 +361,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-              
+
               <button
                 onClick={() => {
                   scrollToSection("contact");
