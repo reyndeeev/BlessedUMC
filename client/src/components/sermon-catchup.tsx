@@ -17,7 +17,7 @@ const recentSermons: SermonData[] = [
     title: "Costly Commitment to Kingdom Values",
     speaker: "Rev. John B. Manalo",
     thumbnail:
-      "https://media.discordapp.net/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68a84ba9&is=68a6fa29&hm=d19c78b79064d3d5d6627aa61d952856c7d5d315f81b20fbf846523b1e3e6985&=&format=webp",
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68aaeea9&is=68a99d29&hm=05be20882d5e3c155ac4862744eec9a891272cdb784091fcee1d1c2bbe323f1a&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
     date: "Sunday, Aug 17",
   },
@@ -26,7 +26,7 @@ const recentSermons: SermonData[] = [
     title: "Watchful and Trusting Stewardship",
     speaker: "Rev. John B. Manalo",
     thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68a85326&is=68a701a6&hm=6046a7fa2c986ae9d52d5beae13dfdeffd20df5147c452c43e5376310cd509ff&",
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68aaf626&is=68a9a4a6&hm=1a5ba2bcd10ea907ba229d9e456571ec08408f5898370d3e8d66bea95960e0da&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1111171580908275",
     date: "Sunday, Aug 10",
   },
@@ -35,7 +35,7 @@ const recentSermons: SermonData[] = [
     title: "Guarding the Heart from Greed",
     speaker: "Rev. John B. Manalo",
     thumbnail:
-      "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68a8556f&is=68a703ef&hm=33e24421001ca43c90e5e2e719858b33acc9eaabdfcae918a931164856002173&=&format=webp&quality=lossless",
+      "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68aaf86f&is=68a9a6ef&hm=a46e2b114a171ab2702bf25cb70e5764fee3bd4e254572e3685675d18eed5c68&=&format=webp&quality=lossless",
     videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
     date: "Sunday, Aug 3",
   },
@@ -44,7 +44,7 @@ const recentSermons: SermonData[] = [
     title: "Lord Teach Us To Pray",
     speaker: "Rev. John B. Manalo",
     thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68a8567c&is=68a704fc&hm=c59322284cd6abc6113e112cabb625f201849aa5c26f45297953c47492b611bb",
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68aaf97c&is=68a9a7fc&hm=1defe10107a002a604b4a92d9fbee749ed653207b9d9772813fc357576dd75f7&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
     date: "Sunday, July 27",
   },

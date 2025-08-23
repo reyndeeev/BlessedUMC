@@ -240,7 +240,7 @@ export default function AboutPage() {
                 <MapPin className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-lg mb-2">Address</h3>
-              <p className="opacity-90">123 Church Street<br />Your City, State 12345</p>
+              <p className="opacity-90">69 Don Placido Campos Ave., San Jose<br />Dasmariñas, Cavitet</p>
             </div>
 
             <div className="text-center">
@@ -248,7 +248,7 @@ export default function AboutPage() {
                 <Clock className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-lg mb-2">Service Times</h3>
-              <p className="opacity-90">Sunday: 9:00 AM<br />Wednesday: 7:00 PM</p>
+              <p className="opacity-90">Sunday: 9:15 AM<br /></p>
             </div>
 
             <div className="text-center">
@@ -264,7 +264,7 @@ export default function AboutPage() {
                 <Mail className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-lg mb-2">Email</h3>
-              <p className="opacity-90">info@blessedumc.org</p>
+              <p className="opacity-90">iamblessedchurch@gmail.com</p>
             </div>
           </div>
 

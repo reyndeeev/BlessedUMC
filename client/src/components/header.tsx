@@ -184,7 +184,7 @@ export default function Header() {
 
                 <DropdownMenuItem
                   className="flex items-center space-x-3 p-4 hover:bg-methodist-blue hover:text-white cursor-pointer"
-                  onClick={() => window.open("https://goo.gl/maps/YOUR_CHURCH_LOCATION", "_blank")}
+                  onClick={() => window.open("https://maps.app.goo.gl/gd6XTEFnNv4rCJBe8", "_blank")}
                   data-testid="menu-visit-location"
                 >
                   <MapPin className="w-5 h-5 text-red-500" />

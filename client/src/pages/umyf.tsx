@@ -271,7 +271,7 @@ export default function UMYF() {
           <div className="mb-16">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=600&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/506712672_706634195447669_3586623967235578761_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFbMyLxz3yxweLPpKMMjDDGL5tZ7MtMaOkvm1nsy0xo6W4Rks312DXAWoPbdT72VU9wZWbvo7GDC_-Ch_XwQJIH&_nc_ohc=c6J3mOinNmMQ7kNvwGyKNvs&_nc_oc=AdnKm9eUge1FU3fb8Bf_7b1o-eMyeHw0k9wmD6HtF0c8NCkKaNxZrxP1fe-kJyyfYBU&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=Tgmc9TxeRQz3pWMQEaqTZw&oh=00_AfXPwN08gGu7GQCUaGGAW4OL-gSBbiZkB4BTox814cy7XA&oe=68AFECB3" 
                 alt="UMYF Youth Worship"
                 className="w-full h-96 object-cover"
               />
@@ -289,7 +289,7 @@ export default function UMYF() {
             {/* Featured large image */}
             <div className="col-span-2 row-span-2 relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&h=600&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/483969249_636295449148211_2026287748428530527_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEbHNIW8r4aGEA8-_PlUZ_kTvOuBYXHbkZO864FhcduRs24hWJqHFx4fqRqgMLmPV940PRAxAnQwdvmMykz1MLN&_nc_ohc=YNDG9vz34FUQ7kNvwGHXM5D&_nc_oc=AdlOsGykXJobSwWCi4d-b_txeopjF6MtL0SvuwdoBsO1XdPg5zhNZ2HJmhbDaHzpy6o&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=9YieLzSR03RdX4w-GVNh3A&oh=00_AfVRONt0PPKc4UkoGORvxupuSk5C1AjAHguRQZk8nSBJvw&oe=68B0024C" 
                 alt="Youth Service Project"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -303,7 +303,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=300&h=300&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/492133066_666011709509918_1704696767511708694_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEeZ4TgICjWhiIpO7yQ7oeUASsQReZmEekBKxBF5mYR6Y976PQVQflBbHA6OcHs35S_qB3vKos_sgXnRJt24iSR&_nc_ohc=yx4xiNZ3QEMQ7kNvwEOR_Mx&_nc_oc=AdmDtdTS4IEjgD546kQspfAgYKlZuarKv2FkavkZJZVJMeu5lETK6AO_khy5kWr8lSg&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=ztobGDAD4eI0zm7QGByTCA&oh=00_AfV-1eARSEyFRYDmTQ1SstEHyyF_BfrivHEavj2NSJ7rsQ&oe=68B00DDF" 
                 alt="Youth Fellowship"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -316,7 +316,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1509909756405-be0199881695?w=300&h=300&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/482013599_633421326102290_370273174270203519_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEkyzXTIWuoyrePMeE6OHFo9RMe0jidtun1Ex7SOJ226XF7yOBjkr1gslFu7y_1pQspPR60o-989e_paXkx3HrM&_nc_ohc=ckl1_FykAIIQ7kNvwENyHa0&_nc_oc=AdmNg8oG8reNk1okDJG9YMrGcrYODOaUHWDemmd86im7QQYR51vXh9L-c3w4-hPkgvE&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=qHySqgdv6tnnfLGEpH2P_A&oh=00_AfX0B6vysWNcRUVsRfbsFY_k6vIq-wviW2F9V-05jrWl2w&oe=68AFEC01" 
                 alt="Youth Worship"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -329,7 +329,7 @@ export default function UMYF() {
 
             <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=300&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/482199358_634860322625057_8542889231456107281_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHA7bjYjcvGJ7x6Wr6oruPtG6wFC2sWBkIbrAULaxYGQni6O5DT2mNMqUSurJwqtFGQmdtue6rNkgMmLRjDo_i8&_nc_ohc=2l_eeVFukbEQ7kNvwG-_ntq&_nc_oc=AdlXOqfUhZRulTD3v1CtplaTwZUSCD5jCgUws-0mEqGbi9RfY3GCSlTOBhbDS5lyXrU&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=1ksWrA4-JcKpcYEZcPt7Aw&oh=00_AfXOArr8le262amb2W7U2iaYsxF4QZ9v8uQPUtufv-aCbg&oe=68AFF4B8" 
                 alt="Youth Prayer & Devotion"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -346,7 +346,7 @@ export default function UMYF() {
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <div className="relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=500&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481980974_632279442883145_5416678316800124088_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFd8Yf5Y89g-VESphBs-pvixy971lx-PO7HL3vWXH487jFMGd687Bprx5Uyfc52H8BRBkdj-6t1K1igoa09VSut&_nc_ohc=CuXtvZtOXY8Q7kNvwEOr_V_&_nc_oc=AdlhHEdFK3A3-4Eix5IJFkJToDph2zezaxA4CTGT9HQA6L5sPFsL_yRyAokLZqY5s1k&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=ZRuR_6gH4Bki05a76ZuKQQ&oh=00_AfWPAuv2IfR7mp5HR69bDQ_dvYDfxNyEWlDrWuXhW6tX5w&oe=68B00D7D" 
                 alt="Sunday Youth Service"
                 className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -360,7 +360,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=500&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/484397934_637360735708349_4939873914610432653_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFhhKImVJO1noufOD-pG2yTGyfmqtCY35MbJ-aq0Jjfk8-rHVCydmzXAG1LXWILAbkjJPPnfSSeASNk5iSIC_1N&_nc_ohc=DZuXs8vRWMcQ7kNvwF0r9X3&_nc_oc=AdmGFQuhHFqFnL1CrrKQwo-EfPFcC-_x3Sr56lyPNQ-WmNdFpdYwJZynvCLN6uXRIMM&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=G05WoQLDt4Pb8QiUKY-CJg&oh=00_AfW4KHNtrU3Pm_JN1j_k_jWp1Iu8jxb4YohWwSdAwewr4A&oe=68B014D8" 
                 alt="Youth Social Events"
                 className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -374,7 +374,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=500&fit=crop" 
+                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/509022136_709194385191650_6811050871046148173_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHunjxJOJCI11w536rK8Qhq6hdKDvcLvU_qF0oO9wu9T-S48cgsKPvUltUbNbfbsYazBalAFWK0SDMXW5ka8DBB&_nc_ohc=pFpeGUqOohwQ7kNvwHzhYHT&_nc_oc=AdmawjAdyoWrEs866-3lDIgYSraV-eSkt19EcfrSChZO_3EEDAvMXMDugTpjLgH0RLI&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7rk2JR4ivMeDM8AdrlyCxA&oh=00_AfXR-Tz-SPvEZsUx9onucOp8XFQAvi22MulrM2xmWyPn5A&oe=68AFFC17" 
                 alt="Youth Spiritual Growth"
                 className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -394,7 +394,7 @@ export default function UMYF() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/509360583_709167175194371_4684710157190126259_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGfPgesl-8fsDq8ieR8P63v6KFIqTHPjx3ooUipMc-PHezL3V_Vz4rm6MqujK3RdKAjDGSqib7ubNJ51aDpa-00&_nc_ohc=Nwisss07UUcQ7kNvwF6Q-Lv&_nc_oc=AdmPclFXE9bWsZ0N5wMFwRwxnUohOuvNzx_Vt84UXT7YMw9aJX89BI6Vec1gVk6arRs&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=W7r3nSl91Vh5nWMLuhWGDA&oh=00_AfW9xo6edGdI5NYVIRbHMCLatGua_4k8DeVoCsgBTJxfeg&oe=68AFE96F" 
                   alt="Youth Game Night"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -407,7 +407,7 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/492916253_1190317292894026_5738367445172444705_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFq4QzDhOQKdbBOBlP_lhi1qui9AbvIT32q6L0Bu8hPfecHJ6Ky4Mk8z6LA_XNuU3q_lW175iAk5TiCvcE2U4rD&_nc_ohc=gQvau8YBGO0Q7kNvwEc52Ln&_nc_oc=AdmExr7YmPmns6U4DyJ0c3a-li-lDR_5mWSFHznE8E9u8i6QA1HNYXljG3uzivcocH0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=gutO43is4v-Pgitt82C17w&oh=00_AfXvR0xavCQ0HT3qkDWKByn_vug13wBeHygltrNfF0C3Hw&oe=68AFFF9B" 
                   alt="Youth Sports"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -420,7 +420,7 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=300&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/482959794_634852812625808_5124563586784370264_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeH_dZtBmeanRrB3pFxgcdYYT64W64iAKDNPrhbriIAoM55ihrD_fsNjMvXCcPzQfwEeNRsYtvGN-2Jo0VzB1rpQ&_nc_ohc=a2xW5W0ZLzQQ7kNvwE1Lp0D&_nc_oc=Adl2l_YfHPzPx6hfJ0LnctigxKddpbglxYWJl6zRYpwbgBJyLHRJR_xdDsJ2MvATF70&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=vAqtBJXKlDtpDp1rUUS-4A&oh=00_AfVbfnireMgfUcXwSBN82nmj4bSdfnznbObke88JdK78hQ&oe=68AFFBCB" 
                   alt="Youth Bible Study"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -433,7 +433,7 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093?w=300&h=300&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/484304010_636295345814888_8857990127270516538_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHRR23YwX-lhfjnQGKJ168Pe2EjdHh1rrl7YSN0eHWuufI09BNgeLEtPNjN_YWSMl97Avj5H2Ap38c6_OzPau5j&_nc_ohc=CscFj63vACcQ7kNvwEVhN-s&_nc_oc=AdlfEr0wPQJ8BpQx4DbNfV7xSgOK-TGBwYaHJX0iO4RiYmTCi1FMc2eJcfVvmgWUpBQ&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7whHPTlBAjuNsO26v3699Q&oh=00_AfVXlDL_POC1DUxKZ-aYTUg6ouayczQYSVcx1LfkyfAPiw&oe=68AFEE08" 
                   alt="Youth Outreach"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -448,7 +448,7 @@ export default function UMYF() {
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=400&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/482030876_636296499148106_4936260980061906026_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEDSupDpll9BT1Qyp1-OPkt-kQTQt_Yp_f6RBNC39in9wCTQBAvQy4Q6g4GR5Vwbr11GcV5AVxwqTHkQBUgZbMD&_nc_ohc=1zDIP54-44cQ7kNvwGcKml1&_nc_oc=Adlj092Ha9QsrCiqmSXXXEX6-SzhbdVPsEDZLxkhXZGnHe0zr0aFKtOSnN69rbtm_w0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=JDWbXcho2Kny_PRmjKBiPQ&oh=00_AfWl6bYZEzOGhsrKin2PmPcrVK6cbxfw5HpslXpZSGhaDw&oe=68B01656" 
                   alt="Youth Conference"
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -462,13 +462,13 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=600&h=400&fit=crop" 
+                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/475150877_122136221870505444_5767081832231920458_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGn4-jEHUSPTBYsWtcLH8jMQBGelLkroHhAEZ6UuSugeIFrrjmInO3tQYJBnf-nZ0LE7qxAXrwaaZH0L5p0tKTj&_nc_ohc=GMe6cr5oNyoQ7kNvwFCptZe&_nc_oc=AdmeTi7i4y-YbE7zTwLI77-RfPyDplBgz2fmsQnzkbKWDcvauhlpL0Xnx7sGkgXWa3g&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=zNrKOqXojDnDuSi1Hu26-Q&oh=00_AfXmWjKZhGz92pY2skUbzh-YGAqS_AKg8RyM8OGAZWGrLA&oe=68B012D2" 
                   alt="Youth Mission Trip"
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 text-white">
-                    <h4 className="font-bold text-lg mb-1">MISSION TRIPS</h4>
+                    <h4 className="font-bold text-lg mb-1">UMYF Youth Camps</h4>
                     <p className="text-sm">Serving God's people worldwide</p>
                   </div>
                 </div>
