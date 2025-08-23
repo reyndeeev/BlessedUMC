@@ -37,13 +37,13 @@ export default function UMYF() {
       {/* Hero Section - Enhanced Planetshakers Style */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden" id="home">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-pulse"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(30, 64, 175, 0.8) 25%, rgba(147, 51, 234, 0.7) 50%, rgba(59, 130, 246, 0.8) 75%, rgba(0, 0, 0, 0.9) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
+            backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(30, 64, 175, 0.4) 25%, rgba(147, 51, 234, 0.3) 50%, rgba(59, 130, 246, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
           }}
         />
-        {/* Planetshakers-style moving particles */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20 animate-pulse" />
+        {/* Planetshakers-style subtle effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           {/* Planetshakers-style youth headline */}
           <div className="mb-8">

@@ -175,17 +175,17 @@ export default function MYAF() {
         </nav>
       </header>
 
-      {/* Hero Section - MYAF Energetic Planetshakers Style */}
+      {/* Hero Section - MYAF Modern Planetshakers Style */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden" id="home">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(45deg, rgba(255, 69, 0, 0.9) 0%, rgba(255, 140, 0, 0.8) 25%, rgba(255, 215, 0, 0.7) 50%, rgba(255, 69, 0, 0.8) 75%, rgba(220, 20, 60, 0.9) 100%), radial-gradient(circle at top right, rgba(255, 255, 255, 0.2) 0%, transparent 60%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
+            backgroundImage: `linear-gradient(135deg, rgba(255, 69, 0, 0.4) 0%, rgba(255, 140, 0, 0.3) 25%, rgba(255, 215, 0, 0.2) 50%, rgba(255, 69, 0, 0.3) 75%, rgba(220, 20, 60, 0.4) 100%), radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 0%, transparent 60%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
           }}
         />
-        {/* MYAF Dynamic Energy Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-500/30 to-yellow-500/30 animate-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-pink-500/20 via-transparent to-orange-500/20" />
+        {/* MYAF Subtle Energy Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-yellow-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-pink-500/5 via-transparent to-orange-500/5" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
@@ -302,18 +302,18 @@ export default function MYAF() {
         </div>
       </section>
 
-      {/* Gallery Section with Unique Grid Layout */}
-      <section id="gallery" className="py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+      {/* Gallery Section - Hexagonal/Diamond Style */}
+      <section id="gallery" className="py-20 bg-gradient-to-br from-slate-50 via-orange-50 to-red-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h3 className="font-heading text-sm font-bold tracking-wide text-orange-600 uppercase mb-4">
-              Our Community
+            <h3 className="font-heading text-sm font-bold tracking-wide text-red-600 uppercase mb-4 transform skew-x-3">
+              🔥 Our Community 🔥
             </h3>
-            <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
-              MYAF Gallery
+            <h2 className="text-6xl lg:text-7xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight transform -skew-x-1">
+              MYAF GALLERY
             </h2>
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-              Witness our journey of faith, friendship, and service through these precious moments shared together.
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto transform skew-x-1">
+              ⚡ Witness our journey of faith, friendship, and service through these electrifying moments! ⚡
             </p>
           </div>
           
@@ -334,165 +334,186 @@ export default function MYAF() {
             </div>
           </div>
 
-          {/* Unique Grid Layout - Different from UMYF */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-            {/* Row 1 - Mixed sizes */}
-            <div className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&h=600&fit=crop" 
-                alt="Community Service Project"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-bold">Community Service</h4>
+          {/* Hexagonal/Diamond Pattern Layout - Completely Different from UMYF */}
+          <div className="flex flex-wrap justify-center gap-6 mb-12 transform -rotate-1">
+            {/* Diamond/Hexagonal Cards */}
+            <div className="w-40 h-40 relative group transform rotate-45 hover:rotate-12 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=300&fit=crop" 
+                  alt="Community Service Project"
+                  className="w-full h-full object-cover transform -rotate-45 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-45">
+                    <h4 className="font-black text-xs">🤝 SERVICE</h4>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=300&h=300&fit=crop" 
-                alt="Fellowship Dinner"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Fellowship</p>
+            <div className="w-32 h-32 relative group transform rotate-12 hover:rotate-45 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=300&h=300&fit=crop" 
+                  alt="Fellowship Dinner"
+                  className="w-full h-full object-cover transform -rotate-12 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-1 left-1 text-white transform -rotate-12">
+                    <p className="font-black text-xs">🍽️ FELLOWSHIP</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&h=300&fit=crop" 
-                alt="Worship Night"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Worship</p>
+            <div className="w-36 h-36 relative group transform -rotate-12 hover:-rotate-45 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&h=300&fit=crop" 
+                  alt="Worship Night"
+                  className="w-full h-full object-cover transform rotate-12 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform rotate-12">
+                    <p className="font-black text-xs">🎵 WORSHIP</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=300&fit=crop" 
-                alt="Annual Retreat"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Annual Retreat</p>
+            <div className="w-44 h-44 relative group transform rotate-6 hover:rotate-30 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=300&fit=crop" 
+                  alt="Annual Retreat"
+                  className="w-full h-full object-cover transform -rotate-6 scale-140 group-hover:scale-150 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-pink-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-6">
+                    <h4 className="font-black text-sm">🏕️ RETREAT</h4>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Row 2 - Continuing grid */}
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
-                alt="Game Night"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Game Night</p>
+            <div className="w-32 h-32 relative group transform -rotate-6 hover:-rotate-30 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
+                  alt="Game Night"
+                  className="w-full h-full object-cover transform rotate-6 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-green-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-1 left-1 text-white transform rotate-6">
+                    <p className="font-black text-xs">🎮 GAMES</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=300&h=300&fit=crop" 
-                alt="Mission Trip"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Missions</p>
+            <div className="w-38 h-38 relative group transform rotate-18 hover:rotate-60 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=300&h=300&fit=crop" 
+                  alt="Mission Trip"
+                  className="w-full h-full object-cover transform -rotate-18 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-18">
+                    <p className="font-black text-xs">✈️ MISSIONS</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=300&fit=crop" 
-                alt="Conference"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Conferences</p>
+            <div className="w-40 h-40 relative group transform -rotate-18 hover:-rotate-60 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=300&fit=crop" 
+                  alt="Conference"
+                  className="w-full h-full object-cover transform rotate-18 scale-140 group-hover:scale-150 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform rotate-18">
+                    <p className="font-black text-xs">🎯 CONFERENCE</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Row 3 - More varied layouts */}
-            <div className="col-span-3 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1552581234-26160f608093?w=900&h=400&fit=crop" 
-                alt="Community Outreach"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-bold">Local Outreach</h4>
-                  <p className="text-sm">Serving our neighbors</p>
+            <div className="w-36 h-36 relative group transform rotate-30 hover:rotate-75 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1552581234-26160f608093?w=900&h=400&fit=crop" 
+                  alt="Community Outreach"
+                  className="w-full h-full object-cover transform -rotate-30 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-30">
+                    <h4 className="font-black text-xs">❤️ OUTREACH</h4>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1509909756405-be0199881695?w=600&h=800&fit=crop" 
-                alt="Worship Team"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-3 left-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h4 className="font-bold">Worship Ministry</h4>
-                  <p className="text-sm">Leading hearts to God</p>
+            <div className="w-48 h-48 relative group transform -rotate-12 hover:-rotate-45 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1509909756405-be0199881695?w=600&h=800&fit=crop" 
+                  alt="Worship Team"
+                  className="w-full h-full object-cover transform rotate-12 scale-140 group-hover:scale-150 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-amber-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-3 left-3 text-white transform rotate-12">
+                    <h4 className="font-black text-sm">🎤 WORSHIP</h4>
+                    <p className="text-xs">TEAM</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop" 
-                alt="Prayer Circle"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Prayer</p>
+            <div className="w-34 h-34 relative group transform rotate-24 hover:rotate-60 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop" 
+                  alt="Prayer Circle"
+                  className="w-full h-full object-cover transform -rotate-24 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-indigo-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-24">
+                    <p className="font-black text-xs">🙏 PRAYER</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=400&fit=crop" 
-                alt="Bible Study"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Bible Study</p>
+            <div className="w-36 h-36 relative group transform -rotate-30 hover:-rotate-75 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=400&fit=crop" 
+                  alt="Bible Study"
+                  className="w-full h-full object-cover transform rotate-30 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-teal-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform rotate-30">
+                    <p className="font-black text-xs">📚 STUDY</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-              <img 
-                src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=400&fit=crop" 
-                alt="Youth Activities"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-sm font-medium">Activities</p>
+            <div className="w-42 h-42 relative group transform rotate-36 hover:rotate-90 transition-all duration-700 hover:scale-110">
+              <div className="w-full h-full rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
+                <img 
+                  src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=400&fit=crop" 
+                  alt="Youth Activities"
+                  className="w-full h-full object-cover transform -rotate-36 scale-150 group-hover:scale-160 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-2 left-2 text-white transform -rotate-36">
+                    <p className="font-black text-xs">⚡ ACTIVITIES</p>
+                  </div>
                 </div>
               </div>
             </div>
