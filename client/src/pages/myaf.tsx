@@ -17,6 +17,7 @@ import { Link } from "wouter";
 export default function MYAF() {
   const [showBackButton, setShowBackButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showMoreMYAF, setShowMoreMYAF] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -540,6 +541,160 @@ export default function MYAF() {
             </div>
           </div>
           
+          {/* Additional Gallery Section with Show More */}
+          {showMoreMYAF && (
+            <div className="mb-12 animate-in slide-in-from-bottom-4 duration-500">
+              <h3 className="text-2xl font-heading font-bold text-orange-800 mb-8 text-center">More MYAF Adventures</h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=300&h=300&fit=crop" 
+                    alt="MYAF Leadership Training"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Leadership</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1600298881974-6be191ceeda1?w=300&h=300&fit=crop" 
+                    alt="MYAF Community Service"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Service</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1573164713712-03790a178651?w=300&h=300&fit=crop" 
+                    alt="MYAF Professional Development"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Career Dev</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=300&fit=crop" 
+                    alt="MYAF Conference"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Conferences</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=300&fit=crop" 
+                    alt="MYAF Team Building"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Team Building</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=300&fit=crop" 
+                    alt="MYAF Networking"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Networking</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=300&h=300&fit=crop" 
+                    alt="MYAF Social Activities"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Social Events</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=300&h=300&fit=crop" 
+                    alt="MYAF Mentorship"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Mentorship</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop" 
+                    alt="MYAF Workshop"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h4 className="font-bold text-lg mb-1">Skills Workshops</h4>
+                      <p className="text-sm">Building practical life skills together</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop" 
+                    alt="MYAF Small Groups"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h4 className="font-bold text-lg mb-1">Small Groups</h4>
+                      <p className="text-sm">Deeper connections and accountability</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Show More/Less Button */}
+          <div className="text-center mb-12">
+            <Button
+              onClick={() => setShowMoreMYAF(!showMoreMYAF)}
+              className="bg-orange-600 text-white px-8 py-3 rounded-full font-bold hover:bg-orange-700 transition-all transform hover:scale-105 shadow-lg"
+            >
+              {showMoreMYAF ? 'Show Less' : 'Show More Photos'} 
+              <span className="ml-2">{showMoreMYAF ? '↑' : '↓'}</span>
+            </Button>
+          </div>
+
           {/* Gallery CTA */}
           <div className="text-center">
             <div className="bg-white rounded-3xl p-8 shadow-xl max-w-2xl mx-auto">

@@ -15,6 +15,7 @@ import { Calendar, Clock, Users, Heart, BookOpen, Music, ArrowUp } from "lucide-
 
 export default function UMYF() {
   const [showBackButton, setShowBackButton] = useState(false);
+  const [showMoreUMYF, setShowMoreUMYF] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -383,6 +384,108 @@ export default function UMYF() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Additional Gallery Section with Show More */}
+          {showMoreUMYF && (
+            <div className="mb-12 animate-in slide-in-from-bottom-4 duration-500">
+              <h3 className="text-2xl font-heading font-bold text-blue-800 mb-8 text-center">More UMYF Memories</h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
+                    alt="Youth Game Night"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Game Night</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop" 
+                    alt="Youth Sports"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Sports Day</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=300&fit=crop" 
+                    alt="Youth Bible Study"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Bible Study</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552581234-26160f608093?w=300&h=300&fit=crop" 
+                    alt="Youth Outreach"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
+                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Outreach</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=400&fit=crop" 
+                    alt="Youth Conference"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-600/60 to-transparent">
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h4 className="font-bold text-lg mb-1">Youth Conference</h4>
+                      <p className="text-sm">Growing in wisdom and knowledge</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <img 
+                    src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=600&h=400&fit=crop" 
+                    alt="Youth Mission Trip"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-600/60 to-transparent">
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <h4 className="font-bold text-lg mb-1">Mission Trips</h4>
+                      <p className="text-sm">Serving God's people worldwide</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Show More/Less Button */}
+          <div className="text-center mb-12">
+            <Button
+              onClick={() => setShowMoreUMYF(!showMoreUMYF)}
+              className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg"
+            >
+              {showMoreUMYF ? 'Show Less' : 'Show More Photos'} 
+              <span className="ml-2">{showMoreUMYF ? '↑' : '↓'}</span>
+            </Button>
           </div>
           
           {/* Gallery CTA - Planetshakers Style */}
