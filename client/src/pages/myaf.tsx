@@ -17,7 +17,6 @@ import { Link } from "wouter";
 export default function MYAF() {
   const [showBackButton, setShowBackButton] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showMoreMYAF, setShowMoreMYAF] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -176,27 +175,30 @@ export default function MYAF() {
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center" id="home">
+      {/* Hero Section - MYAF Energetic Planetshakers Style */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden" id="home">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.6) 25%, rgba(0, 0, 0, 0.7) 50%, rgba(139, 69, 19, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
+            backgroundImage: `linear-gradient(45deg, rgba(255, 69, 0, 0.9) 0%, rgba(255, 140, 0, 0.8) 25%, rgba(255, 215, 0, 0.7) 50%, rgba(255, 69, 0, 0.8) 75%, rgba(220, 20, 60, 0.9) 100%), radial-gradient(circle at top right, rgba(255, 255, 255, 0.2) 0%, transparent 60%), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop')`,
           }}
         />
+        {/* MYAF Dynamic Energy Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-red-500/30 to-yellow-500/30 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-tl from-pink-500/20 via-transparent to-orange-500/20" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
               Welcome to
             </h3>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
+            <h1 className="font-heading text-7xl md:text-9xl lg:text-10xl font-black mb-6 leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-yellow-300 to-red-300 drop-shadow-2xl transform rotate-1">
               BLESSED
             </h1>
-            <h2 className="font-heading text-xl md:text-3xl lg:text-4xl font-black mb-6 leading-none tracking-tight text-blue-100">
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl font-black mb-8 leading-none tracking-tight text-white drop-shadow-lg transform -rotate-1">
               METHODIST YOUNG ADULT FELLOWSHIP
             </h2>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
-              Growing Together In Faith & Purpose
+            <p className="text-4xl md:text-5xl lg:text-6xl font-heading font-light tracking-wide text-orange-200 drop-shadow-lg animate-bounce">
+              GROWING TOGETHER IN FAITH & PURPOSE
             </p>
           </div>
           
@@ -541,158 +543,149 @@ export default function MYAF() {
             </div>
           </div>
           
-          {/* Additional Gallery Section with Show More */}
-          {showMoreMYAF && (
-            <div className="mb-12 animate-in slide-in-from-bottom-4 duration-500">
-              <h3 className="text-2xl font-heading font-bold text-orange-800 mb-8 text-center">More MYAF Adventures</h3>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=300&h=300&fit=crop" 
-                    alt="MYAF Leadership Training"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Leadership</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1600298881974-6be191ceeda1?w=300&h=300&fit=crop" 
-                    alt="MYAF Community Service"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Service</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1573164713712-03790a178651?w=300&h=300&fit=crop" 
-                    alt="MYAF Professional Development"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Career Dev</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=300&fit=crop" 
-                    alt="MYAF Conference"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Conferences</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=300&fit=crop" 
-                    alt="MYAF Team Building"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Team Building</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=300&fit=crop" 
-                    alt="MYAF Networking"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Networking</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=300&h=300&fit=crop" 
-                    alt="MYAF Social Activities"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Social Events</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=300&h=300&fit=crop" 
-                    alt="MYAF Mentorship"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-orange-600/0 group-hover:bg-orange-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Mentorship</p>
-                    </div>
+          {/* Dynamic MYAF Adventures - Always Visible, Festival Style */}
+          <div className="mb-12">
+            <h3 className="text-4xl font-heading font-black text-orange-800 mb-8 text-center tracking-tight transform -rotate-1">
+              ⚡ MORE MYAF ADVENTURES ⚡
+            </h3>
+            
+            {/* Unique Masonry-Style Layout - Different from UMYF */}
+            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 mb-8">
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:rotate-2 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=300&h=400&fit=crop" 
+                  alt="MYAF Leadership Training"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🏆 LEADERSHIP</p>
                   </div>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop" 
-                    alt="MYAF Workshop"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h4 className="font-bold text-lg mb-1">Skills Workshops</h4>
-                      <p className="text-sm">Building practical life skills together</p>
-                    </div>
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-rotate-2 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1600298881974-6be191ceeda1?w=300&h=300&fit=crop" 
+                  alt="MYAF Community Service"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🤝 SERVICE</p>
                   </div>
                 </div>
+              </div>
 
-                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop" 
-                    alt="MYAF Small Groups"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-orange-600/60 to-transparent">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h4 className="font-bold text-lg mb-1">Small Groups</h4>
-                      <p className="text-sm">Deeper connections and accountability</p>
-                    </div>
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:rotate-1 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1573164713712-03790a178651?w=300&h=350&fit=crop" 
+                  alt="MYAF Professional Development"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">💼 CAREER DEV</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-rotate-1 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=250&fit=crop" 
+                  alt="MYAF Conference"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-pink-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🎯 CONFERENCES</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:rotate-3 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=380&fit=crop" 
+                  alt="MYAF Team Building"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🔥 TEAM BUILDING</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-rotate-3 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=300&h=320&fit=crop" 
+                  alt="MYAF Networking"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🌟 NETWORKING</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:rotate-2 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=300&h=280&fit=crop" 
+                  alt="MYAF Social Activities"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🎉 SOCIAL EVENTS</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-rotate-2 break-inside-avoid">
+                <img 
+                  src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=300&h=360&fit=crop" 
+                  alt="MYAF Mentorship"
+                  className="w-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-lg font-black">🎓 MENTORSHIP</p>
                   </div>
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Show More/Less Button */}
-          <div className="text-center mb-12">
-            <Button
-              onClick={() => setShowMoreMYAF(!showMoreMYAF)}
-              className="bg-orange-600 text-white px-8 py-3 rounded-full font-bold hover:bg-orange-700 transition-all transform hover:scale-105 shadow-lg"
-            >
-              {showMoreMYAF ? 'Show Less' : 'Show More Photos'} 
-              <span className="ml-2">{showMoreMYAF ? '↑' : '↓'}</span>
-            </Button>
+            {/* Festival-Style Feature Section */}
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div className="relative group rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105 transform rotate-1 hover:rotate-0">
+                <img 
+                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop" 
+                  alt="MYAF Workshop"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-red-600/90 via-orange-500/50 to-transparent">
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="font-black text-2xl mb-2 transform -rotate-1">🛠️ SKILLS WORKSHOPS</h4>
+                    <p className="text-lg">Building practical life skills together</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105 transform -rotate-1 hover:rotate-0">
+                <img 
+                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=400&fit=crop" 
+                  alt="MYAF Small Groups"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 via-yellow-500/50 to-transparent">
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="font-black text-2xl mb-2 transform rotate-1">🙏 SMALL GROUPS</h4>
+                    <p className="text-lg">Deeper connections and accountability</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Gallery CTA */}

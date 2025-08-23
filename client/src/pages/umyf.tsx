@@ -15,7 +15,6 @@ import { Calendar, Clock, Users, Heart, BookOpen, Music, ArrowUp } from "lucide-
 
 export default function UMYF() {
   const [showBackButton, setShowBackButton] = useState(false);
-  const [showMoreUMYF, setShowMoreUMYF] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,28 +34,30 @@ export default function UMYF() {
     <div className="font-sans bg-gray-50 min-h-screen flex flex-col">
       {/* UMYF-Specific Header */}
       <UMYFHeader />
-      {/* Hero Section - Planetshakers Style */}
-      <section className="relative h-screen flex items-center justify-center" id="home">
+      {/* Hero Section - Enhanced Planetshakers Style */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden" id="home">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-pulse"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.8) 0%, rgba(60, 30, 120, 0.6) 25%, rgba(0, 0, 0, 0.7) 50%, rgba(34, 139, 34, 0.5) 75%, rgba(27, 54, 93, 0.8) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
+            backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(30, 64, 175, 0.8) 25%, rgba(147, 51, 234, 0.7) 50%, rgba(59, 130, 246, 0.8) 75%, rgba(0, 0, 0, 0.9) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
           }}
         />
+        {/* Planetshakers-style moving particles */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-indigo-600/20 animate-pulse" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           {/* Planetshakers-style youth headline */}
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
               Welcome to
             </h3>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black mb-2 leading-none tracking-tight">
+            <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl font-black mb-4 leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 drop-shadow-2xl">
               BLESSED
             </h1>
-            <h2 className="font-heading text-xl md:text-3xl lg:text-4xl font-black mb-6 leading-none tracking-tight text-blue-100">
+            <h2 className="font-heading text-2xl md:text-4xl lg:text-5xl font-black mb-8 leading-none tracking-tight text-white drop-shadow-lg">
               UNITED METHODIST YOUTH FELLOWSHIP
             </h2>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-heading font-light tracking-wide text-blue-100">
-              Where Young Hearts Meet God
+            <p className="text-3xl md:text-4xl lg:text-5xl font-heading font-light tracking-wide text-yellow-300 drop-shadow-lg animate-pulse">
+              WHERE YOUNG HEARTS MEET GOD
             </p>
           </div>
 
@@ -386,106 +387,93 @@ export default function UMYF() {
             </div>
           </div>
 
-          {/* Additional Gallery Section with Show More */}
-          {showMoreUMYF && (
-            <div className="mb-12 animate-in slide-in-from-bottom-4 duration-500">
-              <h3 className="text-2xl font-heading font-bold text-blue-800 mb-8 text-center">More UMYF Memories</h3>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
-                    alt="Youth Game Night"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Game Night</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop" 
-                    alt="Youth Sports"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Sports Day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=300&fit=crop" 
-                    alt="Youth Bible Study"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Bible Study</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1552581234-26160f608093?w=300&h=300&fit=crop" 
-                    alt="Youth Outreach"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300">
-                    <div className="absolute bottom-2 left-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Outreach</p>
-                    </div>
+          {/* Extended Gallery - Always Visible */}
+          <div className="mb-12">
+            <h3 className="text-3xl font-heading font-black text-blue-800 mb-8 text-center tracking-tight">MORE UMYF MEMORIES</h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+              <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&h=300&fit=crop" 
+                  alt="Youth Game Night"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <p className="text-sm font-bold">GAME NIGHT</p>
                   </div>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=400&fit=crop" 
-                    alt="Youth Conference"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-600/60 to-transparent">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h4 className="font-bold text-lg mb-1">Youth Conference</h4>
-                      <p className="text-sm">Growing in wisdom and knowledge</p>
-                    </div>
+              <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop" 
+                  alt="Youth Sports"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <p className="text-sm font-bold">SPORTS DAY</p>
                   </div>
                 </div>
+              </div>
 
-                <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <img 
-                    src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=600&h=400&fit=crop" 
-                    alt="Youth Mission Trip"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-600/60 to-transparent">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h4 className="font-bold text-lg mb-1">Mission Trips</h4>
-                      <p className="text-sm">Serving God's people worldwide</p>
-                    </div>
+              <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=300&fit=crop" 
+                  alt="Youth Bible Study"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <p className="text-sm font-bold">BIBLE STUDY</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1552581234-26160f608093?w=300&h=300&fit=crop" 
+                  alt="Youth Outreach"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <p className="text-sm font-bold">OUTREACH</p>
                   </div>
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Show More/Less Button */}
-          <div className="text-center mb-12">
-            <Button
-              onClick={() => setShowMoreUMYF(!showMoreUMYF)}
-              className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg"
-            >
-              {showMoreUMYF ? 'Show Less' : 'Show More Photos'} 
-              <span className="ml-2">{showMoreUMYF ? '↑' : '↓'}</span>
-            </Button>
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=400&fit=crop" 
+                  alt="Youth Conference"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h4 className="font-bold text-lg mb-1">YOUTH CONFERENCE</h4>
+                    <p className="text-sm">Growing in wisdom and knowledge</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative group rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <img 
+                  src="https://images.unsplash.com/photo-1519333471862-2c7496ba58a3?w=600&h=400&fit=crop" 
+                  alt="Youth Mission Trip"
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h4 className="font-bold text-lg mb-1">MISSION TRIPS</h4>
+                    <p className="text-sm">Serving God's people worldwide</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Gallery CTA - Planetshakers Style */}
