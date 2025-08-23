@@ -1,123 +1,157 @@
-import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin } from "lucide-react";
+
+import React from 'react';
+import { Calendar, Clock, MapPin, Users, ExternalLink } from 'lucide-react';
+import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
 export default function Events() {
   const events = [
     {
-      date: { day: "30", month: "NOV" },
-      title: "Church Anniversary",
-      description: "Join a beautiful presentation of the Church Anniversary",
-      dateText: "Sunday, November 30th",
+      title: "Sunday Worship Service",
+      description: "Join us for our weekly worship service with inspiring music and meaningful messages.",
+      date: "Every Sunday",
+      time: "9:00 AM",
+      location: "Main Sanctuary",
+      type: "Weekly Service",
+      color: "bg-methodist-blue",
+      recurring: true
+    },
+    {
+      title: "UMYF Youth Meeting",
+      description: "Young people gathering for fellowship, games, and spiritual growth activities.",
+      date: "Every Friday",
+      time: "6:00 PM",
+      location: "Youth Room",
+      type: "Youth Ministry",
+      color: "bg-warm-gold",
+      recurring: true
+    },
+    {
+      title: "Bible Study Group",
+      description: "Deep dive into Scripture with fellow believers in an intimate small group setting.",
+      date: "Every Wednesday",
       time: "7:00 PM",
-      location: "Blessed UMC",
-      gradient: "from-methodist-blue to-soft-green"
+      location: "Fellowship Hall",
+      type: "Bible Study",
+      color: "bg-soft-green",
+      recurring: true
     },
     {
-      date: { day: "", month: "" },
-      title: "TBA",
-      description: "",
-      dateText: "",
-      time: "",
-      location: "",
-      gradient: "from-warm-gold to-methodist-blue"
+      title: "Community Outreach",
+      description: "Serving our local community through acts of kindness and support programs.",
+      date: "2nd Saturday",
+      time: "10:00 AM",
+      location: "Various Locations",
+      type: "Community Service",
+      color: "bg-purple-600",
+      recurring: true
     },
     {
-      date: { day: "", month: "" },
-      title: "TBA",
-      description: "",
-      dateText: "",
-      time: "",
-      location: "",
-      gradient: "from-soft-green to-warm-gold"
+      title: "Prayer & Praise Night",
+      description: "An evening dedicated to prayer, worship music, and spiritual reflection.",
+      date: "1st Friday",
+      time: "7:30 PM",
+      location: "Main Sanctuary",
+      type: "Prayer Service",
+      color: "bg-blue-600",
+      recurring: true
+    },
+    {
+      title: "Children's Ministry",
+      description: "Fun and educational activities for our youngest church members.",
+      date: "Every Sunday",
+      time: "9:00 AM",
+      location: "Children's Wing",
+      type: "Children's Ministry",
+      color: "bg-pink-600",
+      recurring: true
     }
   ];
 
   return (
-    <section id="events" className="py-24 bg-gradient-to-br from-gray-100 via-white to-gray-50">
+    <section id="events" className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Planetshakers-style section header */}
         <div className="text-center mb-16">
-          <h3 className="font-heading text-sm font-bold tracking-wide text-methodist-blue uppercase mb-4">
-            Church Life
-          </h3>
-          <h2 className="text-5xl lg:text-6xl font-heading font-black text-gray-900 mb-6 leading-tight tracking-tight">
-            Upcoming Events
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Upcoming Events & Activities
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Experience God's love through dynamic events, fellowship opportunities, and life-changing gatherings.
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Join us for worship, fellowship, and community service. There's always something 
+            happening at Blessed UMC for every age and interest.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {events.map((event, index) => (
-            <div key={index} className="group">
-              {/* Enhanced Event Card */}
-              <div className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group-hover:-translate-y-2 border border-gray-100">
-                {/* Date Header with Gradient */}
-                <div className={`h-56 bg-gradient-to-br ${event.gradient} flex items-center justify-center relative overflow-hidden`}>
-                  {/* Background Pattern */}
-                  <div className="absolute inset-0 bg-black bg-opacity-10"></div>
-                  <div className="relative text-center text-white z-10">
-                    <div className="text-5xl font-black mb-2">{event.date.day}</div>
-                    <div className="text-xl font-bold tracking-wide">{event.date.month}</div>
+            <Card 
+              key={index} 
+              className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-0 overflow-hidden"
+            >
+              <div className={`h-2 ${event.color}`} />
+              <CardHeader className="pb-4">
+                <div className="flex justify-between items-start mb-2">
+                  <span className={`px-3 py-1 text-xs font-semibold rounded-full text-white ${event.color}`}>
+                    {event.type}
+                  </span>
+                  {event.recurring && (
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                      Recurring
+                    </span>
+                  )}
+                </div>
+                <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-methodist-blue transition-colors">
+                  {event.title}
+                </CardTitle>
+                <CardDescription className="text-gray-600 leading-relaxed">
+                  {event.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  <div className="flex items-center text-gray-700">
+                    <Calendar className="mr-3 text-methodist-blue" size={18} />
+                    <span className="font-medium">{event.date}</span>
                   </div>
-                  {event.title !== "TBA" && (
-                    <div className="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
-                      UPCOMING
-                    </div>
-                  )}
+                  <div className="flex items-center text-gray-700">
+                    <Clock className="mr-3 text-methodist-blue" size={18} />
+                    <span>{event.time}</span>
+                  </div>
+                  <div className="flex items-center text-gray-700">
+                    <MapPin className="mr-3 text-methodist-blue" size={18} />
+                    <span>{event.location}</span>
+                  </div>
                 </div>
-                
-                {/* Content */}
-                <div className="p-8">
-                  <h3 className="font-heading text-2xl font-black text-gray-900 mb-3 tracking-tight">{event.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{event.description}</p>
-                  
-                  {event.title !== "TBA" && (
-                    <>
-                      <div className="space-y-3 text-sm text-gray-600 mb-6">
-                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
-                          <Calendar className="mr-3 h-4 w-4 text-methodist-blue" />
-                          <span className="font-medium">{event.dateText}</span>
-                        </div>
-                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
-                          <Clock className="mr-3 h-4 w-4 text-methodist-blue" />
-                          <span className="font-medium">{event.time}</span>
-                        </div>
-                        <div className="flex items-center p-2 rounded-lg bg-gray-50">
-                          <MapPin className="mr-3 h-4 w-4 text-methodist-blue" />
-                          <span className="font-medium">{event.location}</span>
-                        </div>
-                      </div>
-                      
-                      <Button
-                        className="bg-methodist-blue hover:bg-methodist-blue/90 text-white px-6 py-3 rounded-full text-sm font-bold w-full transition-all transform hover:scale-105 shadow-lg"
-                        data-testid={`button-event-${index}`}
-                      >
-                        Learn More
-                      </Button>
-                    </>
-                  )}
-                  
-                  {event.title === "TBA" && (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400 font-medium">More amazing events coming soon!</p>
-                      <div className="mt-4 text-xs text-gray-300">Stay tuned for updates</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Button 
-            className="bg-methodist-blue text-white px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all"
-            data-testid="button-view-calendar"
-          >
-            View Full Calendar
-          </Button>
+        {/* Call to Action Section */}
+        <div className="bg-methodist-blue/5 backdrop-blur-sm rounded-2xl p-8 text-center border border-methodist-blue/10">
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Want to Stay Updated?
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Follow us on Facebook to get the latest updates on events, activities, and church announcements.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => window.open('https://www.facebook.com/profile.php?id=61556573281040', '_blank')}
+                className="bg-methodist-blue hover:bg-methodist-blue/90 text-white"
+              >
+                <ExternalLink className="mr-2" size={18} />
+                Follow Main Church Page
+              </Button>
+              <Button
+                onClick={() => window.open('https://www.facebook.com/blessedumyf01', '_blank')}
+                className="bg-warm-gold hover:bg-warm-gold/90 text-black"
+              >
+                <Users className="mr-2" size={18} />
+                Follow Youth Ministry
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

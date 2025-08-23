@@ -1,293 +1,330 @@
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { MapPin, Phone, Mail, Clock, Map, Send } from "lucide-react";
-import type { InsertContactMessage } from "@shared/schema";
+
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Separator } from './ui/separator';
+import { Mail, Phone, MapPin, Clock, Send, Heart, Users } from 'lucide-react';
+import { useToast } from '../hooks/use-toast';
+
+const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email'),
+  phone: z.string().optional(),
+  subject: z.string().min(5, 'Subject must be at least 5 characters'),
+  message: z.string().min(10, 'Message must be at least 10 characters'),
+  type: z.enum(['general', 'prayer', 'ministry', 'youth', 'pastoral'])
+});
+
+const newsletterSchema = z.object({
+  email: z.string().email('Please enter a valid email'),
+  name: z.string().min(2, 'Name must be at least 2 characters')
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false);
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema)
   });
 
-  const contactMutation = useMutation({
-    mutationFn: async (data: InsertContactMessage) => {
-      const response = await apiRequest("POST", "/api/contact", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you as soon as possible.",
-      });
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Failed to send message",
-        description: error.message || "Please try again later.",
-        variant: "destructive",
-      });
-    },
+  const {
+    register: registerNewsletter,
+    handleSubmit: handleNewsletterSubmit,
+    formState: { errors: newsletterErrors },
+    reset: resetNewsletter
+  } = useForm<NewsletterFormData>({
+    resolver: zodResolver(newsletterSchema)
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.subject ||
-      !formData.message
-    ) {
-      toast({
-        title: "Please fill in all required fields",
-        variant: "destructive",
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
       });
-      return;
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "Thank you for reaching out. We'll get back to you soon.",
+        });
+        reset();
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    contactMutation.mutate(formData);
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const onNewsletterSubmit = async (data: NewsletterFormData) => {
+    setIsNewsletterSubmitting(true);
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Welcome!",
+          description: "You've been added to our newsletter. Stay blessed!",
+        });
+        resetNewsletter();
+      } else {
+        throw new Error('Failed to subscribe');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to subscribe. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsNewsletterSubmitting(false);
+    }
   };
 
   return (
-    <section id="contact" className="py-20 bg-black/50 backdrop-blur-md">
+    <section id="contact" className="py-20 bg-gradient-to-br from-methodist-blue/5 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Get In Touch
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            We'd love to hear from you! Whether you have questions, need prayer, 
+            or want to get involved, we're here for you.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Contact Information */}
-          <div>
-            <h2 className="font-heading text-4xl font-bold text-white mb-6">
-              Get in Touch
-            </h2>
-            <p className="text-lg text-gray-200 mb-8 leading-relaxed">
-              We'd love to hear from you! Whether you're planning a visit, have
-              questions about our ministries, or need pastoral care, we're here
-              to help.
-            </p>
+          <div className="space-y-6">
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl text-methodist-blue flex items-center">
+                  <Heart className="mr-2" size={24} />
+                  Visit Us
+                </CardTitle>
+                <CardDescription>
+                  Come join our loving church family
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-start">
+                  <MapPin className="mr-3 mt-1 text-methodist-blue" size={20} />
+                  <div>
+                    <p className="font-semibold">Our Location</p>
+                    <p className="text-gray-600">
+                      [Church Address]<br />
+                      [City, State ZIP]
+                    </p>
+                  </div>
+                </div>
+                
+                <Separator />
+                
+                <div className="flex items-start">
+                  <Clock className="mr-3 mt-1 text-methodist-blue" size={20} />
+                  <div>
+                    <p className="font-semibold">Worship Times</p>
+                    <p className="text-gray-600">
+                      Sunday: 9:00 AM<br />
+                      Wednesday Bible Study: 7:00 PM<br />
+                      Friday Youth (UMYF): 6:00 PM
+                    </p>
+                  </div>
+                </div>
 
-            <div className="space-y-6 mb-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-methodist-blue rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin className="text-white" />
-                </div>
-                <div>
-                  <h3 className="font-heading text-lg font-bold text-white mb-1">
-                    Address
-                  </h3>
-                  <p className="text-gray-200">
-                    69 Don Placido Campos Ave., San Jose
-                    <br />
-                    Dasmariñas, Cavite
-                  </p>
-                </div>
-              </div>
+                <Separator />
 
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-soft-green rounded-full flex items-center justify-center flex-shrink-0">
-                  <Mail className="text-white" />
+                <div className="flex items-start">
+                  <Phone className="mr-3 mt-1 text-methodist-blue" size={20} />
+                  <div>
+                    <p className="font-semibold">Phone</p>
+                    <p className="text-gray-600">[Church Phone Number]</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-heading text-lg font-bold text-white mb-1">
-                    Email
-                  </h3>
-                  <p className="text-gray-200">iamblessedchurch@gmail.com</p>
-                </div>
-              </div>
-            </div>
 
-            {/* Google Maps Embed */}
-            <div className="rounded-xl overflow-hidden h-64">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4585.426065009781!2d120.92917507573804!3d14.331747283601128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d4fcea32b8f5%3A0xaacc0220724690e7!2sBlessed%20United%20Methodist%20Church!5e1!3m2!1sen!2sus!4v1755699777991!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Blessed United Methodist Church Location"
-              />
-            </div>
+                <div className="flex items-start">
+                  <Mail className="mr-3 mt-1 text-methodist-blue" size={20} />
+                  <div>
+                    <p className="font-semibold">Email</p>
+                    <p className="text-gray-600">[Church Email]</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Newsletter Signup */}
+            <Card className="border-0 shadow-lg bg-warm-gold/10">
+              <CardHeader>
+                <CardTitle className="text-2xl text-methodist-blue">
+                  Stay Connected
+                </CardTitle>
+                <CardDescription>
+                  Subscribe to our newsletter for updates and inspiration
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleNewsletterSubmit(onNewsletterSubmit)} className="space-y-4">
+                  <div>
+                    <Input
+                      placeholder="Your Name"
+                      {...registerNewsletter('name')}
+                      className={newsletterErrors.name ? 'border-red-500' : ''}
+                    />
+                    {newsletterErrors.name && (
+                      <p className="text-red-500 text-sm mt-1">{newsletterErrors.name.message}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <Input
+                      type="email"
+                      placeholder="Your Email"
+                      {...registerNewsletter('email')}
+                      className={newsletterErrors.email ? 'border-red-500' : ''}
+                    />
+                    {newsletterErrors.email && (
+                      <p className="text-red-500 text-sm mt-1">{newsletterErrors.email.message}</p>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isNewsletterSubmitting}
+                    className="w-full bg-warm-gold hover:bg-warm-gold/90 text-black"
+                  >
+                    {isNewsletterSubmitting ? 'Subscribing...' : 'Subscribe'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gray-50 rounded-xl p-8">
-            <h3 className="font-heading text-2xl font-bold text-methodist-blue mb-6">
-              Send us a Message
-            </h3>
+          <div className="lg:col-span-2">
+            <Card className="border-0 shadow-xl">
+              <CardHeader>
+                <CardTitle className="text-2xl text-methodist-blue flex items-center">
+                  <Send className="mr-2" size={24} />
+                  Send Us a Message
+                </CardTitle>
+                <CardDescription>
+                  Fill out the form below and we'll get back to you as soon as possible
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <Input
+                        placeholder="Your Name *"
+                        {...register('name')}
+                        className={errors.name ? 'border-red-500' : ''}
+                      />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                      )}
+                    </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <Label
-                    htmlFor="firstName"
-                    className="text-sm font-medium text-methodist-blue mb-2"
+                    <div>
+                      <Input
+                        type="email"
+                        placeholder="Your Email *"
+                        {...register('email')}
+                        className={errors.email ? 'border-red-500' : ''}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <Input
+                        type="tel"
+                        placeholder="Phone Number (Optional)"
+                        {...register('phone')}
+                      />
+                    </div>
+
+                    <div>
+                      <select
+                        {...register('type')}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-methodist-blue"
+                      >
+                        <option value="general">General Inquiry</option>
+                        <option value="prayer">Prayer Request</option>
+                        <option value="ministry">Join a Ministry</option>
+                        <option value="youth">Youth Ministry (UMYF)</option>
+                        <option value="pastoral">Pastoral Care</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Input
+                      placeholder="Subject *"
+                      {...register('subject')}
+                      className={errors.subject ? 'border-red-500' : ''}
+                    />
+                    {errors.subject && (
+                      <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <Textarea
+                      placeholder="Your Message *"
+                      rows={6}
+                      {...register('message')}
+                      className={errors.message ? 'border-red-500' : ''}
+                    />
+                    {errors.message && (
+                      <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    size="lg"
+                    className="w-full bg-methodist-blue hover:bg-methodist-blue/90 text-white py-3 text-lg"
                   >
-                    First Name *
-                  </Label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) =>
-                      handleInputChange("firstName", e.target.value)
-                    }
-                    placeholder="Your first name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
-                    required
-                    data-testid="input-first-name"
-                  />
-                </div>
-                <div>
-                  <Label
-                    htmlFor="lastName"
-                    className="text-sm font-medium text-methodist-blue mb-2"
-                  >
-                    Last Name *
-                  </Label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      handleInputChange("lastName", e.target.value)
-                    }
-                    placeholder="Your last name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
-                    required
-                    data-testid="input-last-name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium text-methodist-blue mb-2"
-                >
-                  Email Address *
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="your.email@example.com"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
-                  required
-                  data-testid="input-email"
-                />
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="phone"
-                  className="text-sm font-medium text-methodist-blue mb-2"
-                >
-                  Phone Number
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  placeholder="(555) 123-4567"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
-                  data-testid="input-phone"
-                />
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="subject"
-                  className="text-sm font-medium text-methodist-blue mb-2"
-                >
-                  Subject *
-                </Label>
-                <Select
-                  value={formData.subject}
-                  onValueChange={(value) => handleInputChange("subject", value)}
-                >
-                  <SelectTrigger
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all"
-                    data-testid="select-subject"
-                  >
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="general">General Question</SelectItem>
-                    <SelectItem value="visit">Planning a Visit</SelectItem>
-                    <SelectItem value="ministry">
-                      Ministry Information
-                    </SelectItem>
-                    <SelectItem value="pastoral">Pastoral Care</SelectItem>
-                    <SelectItem value="event">Event Information</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="message"
-                  className="text-sm font-medium text-methodist-blue mb-2"
-                >
-                  Message *
-                </Label>
-                <Textarea
-                  id="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => handleInputChange("message", e.target.value)}
-                  placeholder="Please share your message or question..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-methodist-blue focus:border-transparent outline-none transition-all resize-none"
-                  required
-                  data-testid="textarea-message"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                disabled={contactMutation.isPending}
-                className="w-full bg-methodist-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-opacity-90 transition-all transform hover:scale-[1.02]"
-                data-testid="button-submit-contact"
-              >
-                <Send className="mr-2 h-4 w-4" />
-                {contactMutation.isPending ? "Sending..." : "Send Message"}
-              </Button>
-            </form>
+                    <Send className="mr-2" size={20} />
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
