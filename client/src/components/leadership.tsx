@@ -7,7 +7,7 @@ export default function Leadership() {
     description:
       "Rev. John B. Manalo faithfully serves as our Church Local Pastor, leading with dedication, humility, and a heart for God’s people.",
     image:
-      "https://media.discordapp.net/attachments/948276718609772597/1407757423070150798/480479933_122203818086219109_7130687937921583998_n.jpg?ex=68a743c4&is=68a5f244&hm=58bfe1fa7091ecff624f97ed88d477e5f1eae04abf7325f044417582ec12f669&=&format=webp&width=648&height=648",
+"https://media.discordapp.net/attachments/948276718609772597/1407757423070150798/480479933_122203818086219109_7130687937921583998_n.jpg?ex=68ab3844&is=68a9e6c4&hm=4b8d6402c041cc004e537945a82164d6e98f8418762d27d12fad240fc217d51f&=&format=webp&width=648&height=648",
     email: "john.manalo@example.com", // replace with real email if available
     phone: "+63 900 000 0000",        // replace with real number if available
   };
