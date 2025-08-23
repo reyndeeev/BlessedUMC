@@ -196,7 +196,7 @@ export default function MYAF() {
             backgroundImage: `linear-gradient(135deg, rgba(255, 69, 0, 0.6) 0%, rgba(255, 140, 0, 0.5) 25%, rgba(255, 165, 0, 0.4) 50%, rgba(220, 20, 60, 0.5) 75%, rgba(255, 69, 0, 0.6) 100%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/484078347_122111038202770547_2119252781533538610_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeHsoEPhJLlyfUgk9YK9XiP8IRJcyE6o6QUhElzITqjpBQAXKgpQy4fLElr-P39haq1SgRNczLnt8BrLi5K0bB29&_nc_ohc=j7s4pDASEe4Q7kNvwHQIrI2&_nc_oc=Adk4TDQ_T5e3X4QtjnQM-E_4CAzTztPpNj5FTGIOJ9S12kKJM4PPWGCwtNoW0xeMRSE&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=qCryPvHJ6HXSmrVyBd4OWw&oh=00_AfUb7eQoW7QAG1jRtMEtUvB3JFLdQkFp1R_Kh-A6UHcrBw&oe=68AFE76A')`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-900/50 via-orange-800/30 to-red-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-900/30 via-orange-800/20 to-red-900/40" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-orange-200 uppercase mb-4">
