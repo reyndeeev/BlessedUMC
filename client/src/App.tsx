@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import UMYF from "@/pages/umyf";
 import MYAF from "@/pages/myaf";
+import AboutPage from "@/pages/about";
+import MinistriesPage from "@/pages/ministries";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +16,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/umyf" component={UMYF} />
       <Route path="/myaf" component={MYAF} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/ministries" component={MinistriesPage} />
       <Route component={NotFound} />
     </Switch>
   );

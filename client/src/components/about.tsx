@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Heart, Users, BookOpen, Handshake, CheckCircle, Star } from "lucide-react";
+import { Link } from "wouter";
 
 export default function About() {
   return (
@@ -67,12 +68,14 @@ export default function About() {
                 </div>
               </div>
 
-              <Button
-                className="bg-methodist-blue text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-methodist-blue/90 transition-all transform hover:scale-105 shadow-lg w-full"
-                data-testid="button-learn-more"
-              >
-                Discover Our Story
-              </Button>
+              <Link href="/about">
+                <Button
+                  className="bg-methodist-blue text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-methodist-blue/90 transition-all transform hover:scale-105 shadow-lg w-full"
+                  data-testid="button-learn-more"
+                >
+                  Discover Our Story
+                </Button>
+              </Link>
             </div>
           </div>
 

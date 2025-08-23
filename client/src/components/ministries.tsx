@@ -1,4 +1,5 @@
 import { Baby, Users, BookOpen, Handshake, Music, Home } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Ministries() {
   const ministries = [
@@ -100,12 +101,14 @@ export default function Ministries() {
                     <li key={programIndex}>• {program}</li>
                   ))}
                 </ul>
-                <button 
-                  className="text-methodist-blue hover:text-warm-gold font-medium"
-                  data-testid={`button-ministry-${index}`}
-                >
-                  Learn More →
-                </button>
+                <Link href="/ministries">
+                  <button 
+                    className="text-methodist-blue hover:text-warm-gold font-medium"
+                    data-testid={`button-ministry-${index}`}
+                  >
+                    Learn More →
+                  </button>
+                </Link>
               </div>
             );
           })}
