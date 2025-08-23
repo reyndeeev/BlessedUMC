@@ -199,7 +199,7 @@ export default function MYAF() {
         />
         {/* MYAF Energetic Orange Effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 via-red-600/10 to-yellow-600/10" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/5 via-transparent to-orange-600/5" /></div>
+        <div className="absolute inset-0 bg-gradient-to-tl from-pink-600/5 via-transparent to-orange-600/5" />
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
           <div className="mb-8">
             <h3 className="font-heading text-lg md:text-xl font-medium tracking-wide text-warm-gold uppercase mb-4">
