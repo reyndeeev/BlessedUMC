@@ -67,26 +67,36 @@ export default function Hero() {
           worship, fellowship, and service as we follow Christ together.
         </p>
 
-        {/* Enhanced call to action buttons */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up">
-          <button
-            onClick={() => setActiveSection("worship")}
-            className="bg-gradient-to-r from-warm-gold to-yellow-500 hover:from-yellow-500 hover:to-warm-gold text-methodist-blue font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-warm-gold/50"
+        {/* Planetshakers-style action buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <Button
+            onClick={() =>
+              window.open(
+                "https://www.facebook.com/profile.php?id=61556573281040",
+                "_blank",
+              )
+            }
+            className="bg-white text-methodist-blue px-10 py-5 rounded-full text-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+            data-testid="button-watch-online"
           >
-            🙏 Join Us Sunday
-          </button>
-          <button
-            onClick={() => setActiveSection("contact")}
-            className="border-2 border-white hover:bg-white hover:text-methodist-blue text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm bg-white/10"
+            <Play className="mr-3 h-6 w-6" />
+            Visit Our Facebook Page
+          </Button>
+
+          <Button
+            onClick={() =>
+              window.open(
+                "https://open.spotify.com/show/1HvXzv9OQgpEhfbA05HshK?si=c1ed91207dd24a58",
+                "_blank",
+              )
+            }
+            variant="outline"
+            className="border-3 border-warm-gold text-warm-gold bg-transparent px-10 py-5 rounded-full text-lg font-bold hover:bg-warm-gold hover:text-methodist-blue transition-all transform hover:scale-105"
+            data-testid="button-mdp-hero"
           >
-            💬 Get Connected
-          </button>
-          <button
-            onClick={() => window.open("https://www.facebook.com/profile.php?id=61556573281040", "_blank")}
-            className="border-2 border-blue-400 hover:bg-blue-400 hover:text-white text-blue-400 font-bold py-3 px-6 rounded-full text-base transition-all duration-300 transform hover:scale-105 backdrop-blur-sm bg-blue-400/10"
-          >
-            📘 Follow Us
-          </button>
+            <Headphones className="mr-3 h-6 w-6" />
+            Listen to MDP
+          </Button>
         </div>
 
         {/* Quick links - Planetshakers style */}
@@ -134,7 +144,7 @@ export default function Hero() {
           </button>
         </div>
       </div>
-
+      
       {/* Back to Top Button */}
       {showBackButton && (
         <button
