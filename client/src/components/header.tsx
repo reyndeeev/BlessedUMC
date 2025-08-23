@@ -99,6 +99,12 @@ export default function Header() {
             >
               UMYF
             </Link>
+            <Link
+              href="/myaf"
+              className={`${location === "/myaf" ? "text-methodist-blue font-medium" : "text-warm-gray hover:text-methodist-blue"} transition-colors`}
+            >
+              MYAF
+            </Link>
             
             {/* Online Dropdown Menu */}
             <DropdownMenu>

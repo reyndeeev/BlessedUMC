@@ -58,11 +58,11 @@ export default function UMYF() {
               Where Young Hearts Meet God
             </p>
           </div>
-          
+
           <p className="text-lg md:text-xl mb-12 font-light max-w-2xl mx-auto leading-relaxed opacity-90">
             Join our vibrant youth community where faith grows, friendships thrive, and lives are transformed through God's amazing love.
           </p>
-          
+
           {/* Modern action buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button
@@ -73,7 +73,7 @@ export default function UMYF() {
               <Users className="mr-3 h-6 w-6" />
               Join Our Fellowship
             </Button>
-            
+
             <Button
               onClick={() => window.open("https://www.facebook.com/BlessedUMCYouth", "_blank")}
               variant="outline"
@@ -84,22 +84,28 @@ export default function UMYF() {
               Connect With Us
             </Button>
           </div>
-          
+
           {/* Quick youth links */}
           <div className="mt-16 flex flex-wrap justify-center gap-6 text-sm font-medium">
-            <button 
+            <button
+              onClick={() => scrollToSection('gallery')}
+              className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
+            >
+              Gallery
+            </button>
+            <button
               onClick={() => scrollToSection('activities')}
               className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
             >
               Youth Activities
             </button>
-            <button 
+            <button
               onClick={() => scrollToSection('about')}
               className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
             >
               About UMYF
             </button>
-            <button 
+            <button
               onClick={() => scrollToSection('contact')}
               className="text-blue-200 hover:text-white transition-colors underline underline-offset-4"
             >
@@ -136,7 +142,7 @@ export default function UMYF() {
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -148,7 +154,7 @@ export default function UMYF() {
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -242,6 +248,86 @@ export default function UMYF() {
           </div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-16 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-heading font-bold text-methodist-blue mb-4">UMYF Gallery</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Moments captured from our vibrant youth fellowship.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Placeholder for Gallery Images */}
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/FF5733/FFFFFF?text=Event+1"
+                alt="Gallery Image 1"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 1</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/33FF57/FFFFFF?text=Event+2"
+                alt="Gallery Image 2"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 2</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/3357FF/FFFFFF?text=Event+3"
+                alt="Gallery Image 3"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 3</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/FF33A1/FFFFFF?text=Event+4"
+                alt="Gallery Image 4"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 4</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/FFDA33/FFFFFF?text=Event+5"
+                alt="Gallery Image 5"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 5</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/A133FF/FFFFFF?text=Event+6"
+                alt="Gallery Image 6"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 6</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/33FFF5/FFFFFF?text=Event+7"
+                alt="Gallery Image 7"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 7</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center h-48">
+              <img
+                src="https://via.placeholder.com/150/FF8C33/FFFFFF?text=Event+8"
+                alt="Gallery Image 8"
+                className="rounded-lg mb-4 w-full h-32 object-cover"
+              />
+              <p className="text-gray-700 font-medium">Event 8</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-16 bg-white text-methodist-blue">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -261,7 +347,7 @@ export default function UMYF() {
             <h3 className="text-lg font-semibold mb-4 text-methodist-blue">Questions? Contact Our Youth Leaders:</h3>
             <div className="space-y-2 text-warm-gray">
               <p>Youth Pastor: Rev. John B. Manalo</p>
-              <p>Youth Coordinator: Anika Loreen Lagarto</p> 
+              <p>Youth Coordinator: Anika Loreen Lagarto</p>
               <p>Email: blessedumyf01@gmail.com</p>
               <p>Facebook Page: Blessed UMYF</p>
             </div>
