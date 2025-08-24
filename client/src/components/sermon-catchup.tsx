@@ -14,6 +14,15 @@ interface SermonData {
 const recentSermons: SermonData[] = [
   {
     id: "1",
+    title: "Compassionate Stewardship",
+    speaker: "Rev. John B. Manalo",
+    thumbnail:
+      "https://cdn.discordapp.com/attachments/948276718609772597/1409004953296441344/Messenger_creation_5B59B800-4D9D-4FFD-9E29-CD943AEF9DA5.jpg?ex=68abcd9e&is=68aa7c1e&hm=6b261fef5c36f1c2de2c232f3d2a1b588b1e2aacc9207d040861b224b9207669&",
+    videoUrl: "https://www.facebook.com/share/v/1CNqYxowwH/",
+    date: "Sunday, Aug 24",
+  },
+  {
+    id: "2",
     title: "Costly Commitment to Kingdom Values",
     speaker: "Rev. John B. Manalo",
     thumbnail:
@@ -22,7 +31,7 @@ const recentSermons: SermonData[] = [
     date: "Sunday, Aug 17",
   },
   {
-    id: "2",
+    id: "3",
     title: "Watchful and Trusting Stewardship",
     speaker: "Rev. John B. Manalo",
     thumbnail:
@@ -31,22 +40,13 @@ const recentSermons: SermonData[] = [
     date: "Sunday, Aug 10",
   },
   {
-    id: "3",
+    id: "4",
     title: "Guarding the Heart from Greed",
     speaker: "Rev. John B. Manalo",
     thumbnail:
       "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68aaf86f&is=68a9a6ef&hm=a46e2b114a171ab2702bf25cb70e5764fee3bd4e254572e3685675d18eed5c68&=&format=webp&quality=lossless",
     videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
     date: "Sunday, Aug 3",
-  },
-  {
-    id: "4",
-    title: "Lord Teach Us To Pray",
-    speaker: "Rev. John B. Manalo",
-    thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408052398395621506/523382685_122235131786219109_1230725115846883199_n.jpg?ex=68aaf97c&is=68a9a7fc&hm=1defe10107a002a604b4a92d9fbee749ed653207b9d9772813fc357576dd75f7&",
-    videoUrl: "https://www.facebook.com/61556573281040/videos/1057791889832504",
-    date: "Sunday, July 27",
   },
 ];
 
@@ -126,7 +126,7 @@ export default function SermonCatchup() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-8">
                   <div className="text-warm-gold text-3xl lg:text-5xl font-black mb-3 font-heading tracking-tight">
-                    Costly Commitment to Kingdom Values
+                    Compassionate Stewardship
                   </div>
                   <div className="text-white text-xl font-medium">
                     {recentSermons[0].speaker} • {recentSermons[0].date}

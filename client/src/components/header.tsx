@@ -348,7 +348,7 @@ export default function Header() {
                     </button>
                     <button
                       onClick={() => {
-                        window.open("https://goo.gl/maps/YOUR_CHURCH_LOCATION", "_blank");
+                        window.open("https://maps.app.goo.gl/fF1xDy4GyizBFSVXA", "_blank");
                         setMobileMenuOpen(false);
                         setOnlineMenuOpen(false);
                       }}
