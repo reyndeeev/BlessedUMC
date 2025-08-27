@@ -32,10 +32,10 @@ export default function Contact() {
       const response = await apiRequest("POST", "/api/contact", data);
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you as soon as possible.",
+        title: "✅ Message sent successfully!",
+        description: data.message || "We'll get back to you within 24 hours.",
       });
       setFormData({
         firstName: "",
@@ -47,26 +47,65 @@ export default function Contact() {
       });
     },
     onError: (error: any) => {
+      console.error("Contact form error:", error);
+      
+      // Parse error message if it's a JSON response
+      let errorMessage = "Please try again later.";
+      let errorTitle = "Failed to send message";
+      
+      try {
+        if (error.message.includes("400:") || error.message.includes("500:")) {
+          const jsonMatch = error.message.match(/:\s*(.+)/);
+          if (jsonMatch) {
+            try {
+              const errorData = JSON.parse(jsonMatch[1]);
+              errorMessage = errorData.message || errorMessage;
+              if (errorData.errors && Array.isArray(errorData.errors)) {
+                errorMessage = errorData.errors.join(", ");
+              }
+            } catch {
+              errorMessage = jsonMatch[1];
+            }
+          }
+        }
+      } catch {
+        errorMessage = error.message || errorMessage;
+      }
+      
       toast({
-        title: "Failed to send message",
-        description: error.message || "Please try again later.",
+        title: errorTitle,
+        description: errorMessage,
         variant: "destructive",
       });
     },
   });
 
+  const validateForm = () => {
+    const errors = [];
+    
+    if (!formData.firstName.trim()) errors.push("First name is required");
+    if (!formData.lastName.trim()) errors.push("Last name is required");
+    if (!formData.email.trim()) errors.push("Email address is required");
+    if (!formData.subject) errors.push("Please select a subject");
+    if (!formData.message.trim()) errors.push("Message is required");
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) {
+      errors.push("Please enter a valid email address");
+    }
+    
+    return errors;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.subject ||
-      !formData.message
-    ) {
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
       toast({
-        title: "Please fill in all required fields",
+        title: "Please fix the following errors:",
+        description: validationErrors.join(", "),
         variant: "destructive",
       });
       return;

@@ -26,7 +26,7 @@ const recentSermons: SermonData[] = [
     title: "Costly Commitment to Kingdom Values",
     speaker: "Rev. John B. Manalo",
     thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408040776075841566/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68aaeea9&is=68a99d29&hm=05be20882d5e3c155ac4862744eec9a891272cdb784091fcee1d1c2bbe323f1a&",
+      "https://cdn.discordapp.com/attachments/948276718609772597/1408040197937041607/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68ac3f9f&is=68aaee1f&hm=7d51fa9b5db119e1401d9129fe2cef9ea176fc5bff57fad2836c3ef6cc4acb67&",
     videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
     date: "Sunday, Aug 17",
   },
