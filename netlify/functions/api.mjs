@@ -169,47 +169,87 @@ app.get("/api/users", requireAuth, (req, res) => {
   res.json(publicUsers);
 });
 
-// Create new user
-app.post("/api/users", requireAuth, (req, res) => {
+// Public registration endpoint
+app.post("/api/auth/register", (req, res) => {
   try {
     const { username, password } = req.body;
-    
     if (!username || !password) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Username and password are required" 
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required"
       });
     }
-
     // Check if user already exists
     const existingUser = users.find(u => u.username === username);
     if (existingUser) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Username already exists" 
+      return res.status(400).json({
+        success: false,
+        message: "Username already exists"
       });
     }
-
     // Create new user
     const newUser = {
       id: `user_${Date.now()}`,
       username: username.trim(),
       password: password // In production, this should be hashed
     };
-    
     users.push(newUser);
-    
     // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;
-    res.json({ 
-      success: true, 
-      user: userWithoutPassword 
+    // Optionally, auto-login after registration:
+    const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString('base64');
+    activeTokens.set(token, userWithoutPassword);
+    res.json({
+      success: true,
+      user: userWithoutPassword,
+      token: token,
+      message: "Registration successful"
+    });
+  } catch (error) {
+    console.error("Register user error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+});
+
+// Create new user (admin only)
+app.post("/api/users", requireAuth, (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required"
+      });
+    }
+    // Check if user already exists
+    const existingUser = users.find(u => u.username === username);
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "Username already exists"
+      });
+    }
+    // Create new user
+    const newUser = {
+      id: `user_${Date.now()}`,
+      username: username.trim(),
+      password: password // In production, this should be hashed
+    };
+    users.push(newUser);
+    // Return user without password
+    const { password: _, ...userWithoutPassword } = newUser;
+    res.json({
+      success: true,
+      user: userWithoutPassword
     });
   } catch (error) {
     console.error("Create user error:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Server error" 
+    res.status(500).json({
+      success: false,
+      message: "Server error"
     });
   }
 });
