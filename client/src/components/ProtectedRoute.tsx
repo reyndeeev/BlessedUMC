@@ -39,12 +39,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="ml-2">
-              Unable to verify authentication status. Please try again.
+              You need to login to access this page.
             </AlertDescription>
           </Alert>
           <div className="mt-4 text-center">
-            <Button onClick={() => window.location.reload()}>
-              Retry
+            <Button onClick={() => setLocation("/login")}>
+              Go to Login
             </Button>
           </div>
         </div>
@@ -60,9 +60,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
           <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <Lock className="w-8 h-8 text-red-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Login Required</h2>
           <p className="text-gray-600 mb-6">
-            You need to be logged in to access this page.
+            You need to login to access the dashboard.
           </p>
           <Button 
             onClick={() => setLocation("/login")}
