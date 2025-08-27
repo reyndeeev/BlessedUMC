@@ -39,7 +39,9 @@ export function ImageUpload() {
       
       if (response.ok) {
         const result = await response.json();
-        setUploadedFiles(prev => [...prev, selectedFile.name]);
+        // Extract just the filename from the stored path
+        const filename = result.filename.replace('images/', '');
+        setUploadedFiles(prev => [...prev, filename]);
         alert(`Image uploaded successfully! URL: ${result.url}`);
       } else {
         throw new Error('Upload failed');
@@ -86,14 +88,21 @@ export function ImageUpload() {
         {/* Uploaded Files List */}
         {uploadedFiles.length > 0 && (
           <div className="mt-4">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</h4>
-            <ul className="space-y-1">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Images:</h4>
+            <div className="space-y-2">
               {uploadedFiles.map((fileName, index) => (
-                <li key={index} className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
-                  ✓ {fileName}
-                </li>
+                <div key={index} className="text-xs text-green-600 bg-green-50 p-2 rounded">
+                  <div className="flex items-center justify-between">
+                    <span>✓ {fileName}</span>
+                  </div>
+                  <img 
+                    src={`/api/image/images/${fileName}`} 
+                    alt={fileName}
+                    className="mt-2 max-w-full h-20 object-cover rounded border"
+                  />
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
       </CardContent>
