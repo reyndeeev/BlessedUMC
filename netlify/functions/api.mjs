@@ -1,4 +1,4 @@
-// TEMPORARY DEBUG ENDPOINT: List all users in the database
+// TEMPORARY DEBUG ENDPOINT: List all users in the database (safe version)
 app.get('/api/debug/users', async (req, res) => {
   try {
     const { data, error } = await supabase.from('users').select('*');
