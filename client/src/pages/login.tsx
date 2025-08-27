@@ -36,8 +36,14 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginForm) => {
+    console.log("Form submitted with:", { username: data.username, passwordLength: data.password.length });
     setError("");
-    login(data.username, data.password);
+    try {
+      await login(data.username, data.password);
+    } catch (error: any) {
+      console.error("Login form error:", error);
+      setError(error.message || "Login failed");
+    }
   };
 
   // Redirect to dashboard if authenticated

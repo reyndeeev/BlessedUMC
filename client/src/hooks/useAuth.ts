@@ -50,15 +50,20 @@ export function useAuth() {
   // Login mutation
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }: { username: string; password: string }) => {
+      console.log("Login attempt:", { username, passwordLength: password.length });
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
+      console.log("Response status:", response.status);
       const data = await response.json();
+      console.log("Response data:", data);
       if (!response.ok || !data.success) {
+        console.error("Login failed:", data.message);
         throw new Error(data.message || "Login failed");
       }
+      console.log("Login successful, setting token");
       setToken(data.token);
       return data;
     },
@@ -134,8 +139,13 @@ export function useAuth() {
     },
   });
 
-  const login = (username: string, password: string) => {
-    loginMutation.mutate({ username, password });
+  const login = async (username: string, password: string) => {
+    return new Promise<void>((resolve, reject) => {
+      loginMutation.mutate({ username, password }, {
+        onSuccess: () => resolve(),
+        onError: (error) => reject(error)
+      });
+    });
   };
 
   const register = (username: string, password: string) => {
