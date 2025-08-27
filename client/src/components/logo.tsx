@@ -25,11 +25,21 @@ export default function Logo({
       className={`flex items-center space-x-3 ${className}`}
       data-testid="logo-blessed-umc"
     >
-      {/* Modern Logo Icon - Facebook Style */}
+      {/* Church Logo Image - Facebook Style */}
       <div className={`${height} flex items-center`}>
-        {/* Primary Church Logo with modern styling */}
+        <img
+          src="https://s3.amazonaws.com/Website_Properties/Resources/graphics-library/Cross_Flame_CLR.png"
+          alt="Blessed United Methodist Church Logo"
+          className={`${height} w-auto object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-200`}
+          onError={(e) => {
+            // Fallback to styled "B" if church logo doesn't load
+            e.currentTarget.style.display = "none";
+            e.currentTarget.nextElementSibling?.classList.remove("hidden");
+          }}
+        />
+        {/* Fallback logo if image fails to load */}
         <div
-          className={`${height} w-auto flex items-center justify-center bg-gradient-to-br from-methodist-blue to-blue-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 px-2 border border-blue-800/20`}
+          className={`hidden ${height} w-auto flex items-center justify-center bg-gradient-to-br from-methodist-blue to-blue-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 px-2 border border-blue-800/20`}
         >
           <span
             className={`text-white font-black tracking-tight ${
