@@ -1,5 +1,8 @@
+
 import serverless from "serverless-http";
 import express from "express";
+import fs from "fs";
+import path from "path";
 
 const app = express();
 app.use(express.json());
@@ -28,14 +31,35 @@ app.use((req, res, next) => {
   }
 });
 
-// Simple in-memory storage for Netlify (since we can't use database easily)
-let users = [
-  {
-    id: "admin-001",
-    username: "admin", 
-    password: "admin123" // In production, this should be hashed
+
+// File-based user persistence for local development
+const USERS_FILE = path.resolve(__dirname, "users.json");
+function loadUsers() {
+  try {
+    if (fs.existsSync(USERS_FILE)) {
+      const data = fs.readFileSync(USERS_FILE, "utf-8");
+      return JSON.parse(data);
+    }
+  } catch (e) {
+    console.error("Failed to load users.json:", e);
   }
-];
+  // Default admin user
+  return [
+    {
+      id: "admin-001",
+      username: "admin",
+      password: "admin123"
+    }
+  ];
+}
+function saveUsers(users) {
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+  } catch (e) {
+    console.error("Failed to save users.json:", e);
+  }
+}
+let users = loadUsers();
 
 let contactMessages = [];
 let activeTokens = new Map();
@@ -193,7 +217,8 @@ app.post("/api/auth/register", (req, res) => {
       username: username.trim(),
       password: password // In production, this should be hashed
     };
-    users.push(newUser);
+  users.push(newUser);
+  saveUsers(users);
     // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;
     // Optionally, auto-login after registration:
@@ -275,7 +300,8 @@ app.delete("/api/users/:id", requireAuth, (req, res) => {
       });
     }
 
-    users.splice(userIndex, 1);
+  users.splice(userIndex, 1);
+  saveUsers(users);
     
     res.json({ 
       success: true, 
