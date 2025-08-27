@@ -21,6 +21,7 @@ const loginSchema = z.object({
 
 type LoginForm = z.infer<typeof loginSchema>;
 
+export default function Login() {
   const [, setLocation] = useLocation();
   const [error, setError] = useState<string>("");
   const { login, isAuthenticated, isLoggingIn } = useAuth();
