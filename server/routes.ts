@@ -24,20 +24,31 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Trust proxy for Replit environment
-  app.set('trust proxy', 1);
-  
-  // Temporary: Use memory store for debugging
+  // Add CORS headers for cookies
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Cookie');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    
+    if (req.method === 'OPTIONS') {
+      res.sendStatus(200);
+    } else {
+      next();
+    }
+  });
+
+  // Simple session configuration for Replit
   app.use(session({
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
-    resave: false,
-    saveUninitialized: true, // Allow session creation
-    rolling: true, // Reset expiry on each request
+    resave: true,
+    saveUninitialized: true,
+    name: 'sessionId',
     cookie: {
       secure: false,
-      httpOnly: false, // Temporarily disable for debugging
-      sameSite: 'none', // Try none for cross-origin issues
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      httpOnly: false,
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000
     }
   }));
 
