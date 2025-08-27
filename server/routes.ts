@@ -35,9 +35,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       try {
         const client = new Client();
-        await client.uploadFromBytes(fileName, req.file.buffer, {
+        const result = await client.uploadFromBytes(fileName, req.file.buffer, {
           contentType: req.file.mimetype,
-        });
+        } as any);
+        
+        if (!result.ok) {
+          console.error("Object Storage upload failed:", result.error);
+          return res.status(500).json({ 
+            success: false, 
+            message: "Failed to upload to Object Storage. Make sure Object Storage is enabled for your project." 
+          });
+        }
         
         const publicUrl = `/api/image/${fileName}`;
         
@@ -51,7 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Object Storage error:", storageError);
         res.status(500).json({ 
           success: false, 
-          message: "Failed to upload to Object Storage. Make sure Object Storage is configured." 
+          message: "Failed to upload to Object Storage. Make sure Object Storage is enabled for your project." 
         });
       }
     } catch (error) {
