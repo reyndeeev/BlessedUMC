@@ -24,31 +24,22 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Add CORS headers for cookies
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Cookie');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    
-    if (req.method === 'OPTIONS') {
-      res.sendStatus(200);
-    } else {
-      next();
-    }
-  });
-
-  // Simple session configuration for Replit
+  // Configure PostgreSQL session store  
+  const PgSession = connectPgSimple(session);
+  
   app.use(session({
+    store: new PgSession({
+      pool: pool,
+      tableName: 'session'
+    }),
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
-    resave: true,
-    saveUninitialized: true,
-    name: 'sessionId',
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       secure: false,
-      httpOnly: false,
+      httpOnly: true,
       sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   }));
 
@@ -76,24 +67,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password: _, ...userWithoutPassword } = user;
       req.session.user = userWithoutPassword;
       
-      // Save session explicitly
-      req.session.save((err) => {
-        if (err) {
-          console.error("Session save error:", err);
-          return res.status(500).json({ 
-            success: false, 
-            message: "Failed to save session" 
-          });
-        }
-        
-        console.log("Login successful - Session ID:", req.sessionID);
-        console.log("Login successful - User stored:", req.session.user);
-        
-        res.json({ 
-          success: true, 
-          message: "Login successful",
-          user: userWithoutPassword
-        });
+      res.json({ 
+        success: true, 
+        message: "Login successful",
+        user: userWithoutPassword
       });
     } catch (error) {
       console.error("Login error:", error);
@@ -121,10 +98,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/me", (req, res) => {
-    console.log("Session check - Session ID:", req.sessionID);
-    console.log("Session check - User:", req.session.user);
-    console.log("Session check - Cookies:", req.headers.cookie);
-    
     if (req.session.user) {
       res.json({ 
         success: true, 
