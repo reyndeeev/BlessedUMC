@@ -36,41 +36,7 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    console.log("LOGIN FORM: Form submitted with:", { username: data.username, password: data.password.length > 0 ? "***" : "empty" });
     setError("");
-    
-    // Test direct API call
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: data.username, password: data.password }),
-      });
-      const result = await response.json();
-      console.log("LOGIN FORM: Direct API test:", { status: response.status, result });
-      
-      if (response.ok && result.success) {
-        toast({
-          title: "Direct API Test Success",
-          description: "API working, now trying useAuth hook",
-        });
-      } else {
-        toast({
-          title: "Direct API Test Failed",
-          description: result.message || "API test failed",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("LOGIN FORM: Direct API test error:", error);
-      toast({
-        title: "Direct API Test Error",
-        description: "Network or fetch error",
-        variant: "destructive",
-      });
-    }
-    
-    // Now try the useAuth hook
     login(data.username, data.password);
   };
 

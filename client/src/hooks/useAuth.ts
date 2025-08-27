@@ -38,13 +38,10 @@ export function useAuth() {
     queryKey: ["/api/auth/me"],
     queryFn: async () => {
       const token = getToken();
-      console.log("Frontend: Checking auth status with token:", token ? "exists" : "none");
       const response = await fetch("/api/auth/me", {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
-      const data = await response.json();
-      console.log("Frontend: Auth check response:", { status: response.status, data });
-      return data;
+      return response.json();
     },
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -53,20 +50,15 @@ export function useAuth() {
   // Login mutation
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }: { username: string; password: string }) => {
-      console.log("Frontend: Attempting login with username:", username);
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      console.log("Frontend: Response status:", response.status);
       const data = await response.json();
-      console.log("Frontend: Response data:", data);
       if (!response.ok || !data.success) {
-        console.error("Frontend: Login failed with message:", data.message);
         throw new Error(data.message || "Login failed");
       }
-      console.log("Frontend: Login successful, setting token");
       setToken(data.token);
       return data;
     },

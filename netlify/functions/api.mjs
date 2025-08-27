@@ -1,3 +1,12 @@
+import serverless from "serverless-http";
+import express from "express";
+import bcrypt from "bcrypt";
+import { supabase } from "./supabaseClient.mjs";
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // TEMPORARY DEBUG ENDPOINT: List all users in the database (safe version)
 app.get('/api/debug/users', async (req, res) => {
   try {
@@ -12,14 +21,6 @@ app.get('/api/debug/users', async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
-
-import serverless from "serverless-http";
-import express from "express";
-import { supabase } from "./supabaseClient.mjs";
-
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 // Add request logging for debugging
 app.use((req, res, next) => {
@@ -121,8 +122,18 @@ async function handleLogin(req, res) {
       .eq('username', username)
       .single();
     console.log('SUPABASE QUERY RESULT:', { user, findError });
-    if (!user || user.password !== password) {
-      console.log('LOGIN FAILED: user not found or password mismatch', { user, passwordInput: password, userPassword: user ? user.password : undefined });
+    if (!user) {
+      console.log('LOGIN FAILED: user not found');
+      return res.status(401).json({
+        success: false,
+        message: "Invalid username or password"
+      });
+    }
+
+    // Check password using bcrypt
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      console.log('LOGIN FAILED: password mismatch');
       return res.status(401).json({
         success: false,
         message: "Invalid username or password"
