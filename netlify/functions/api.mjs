@@ -1,3 +1,17 @@
+// TEMPORARY DEBUG ENDPOINT: List all users in the database
+app.get('/api/debug/users', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('users').select('*');
+    if (error) {
+      console.error('DEBUG USERS ERROR:', error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+    res.json({ success: true, users: data });
+  } catch (err) {
+    console.error('DEBUG USERS EXCEPTION:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 import serverless from "serverless-http";
 import express from "express";
