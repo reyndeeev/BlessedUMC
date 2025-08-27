@@ -25,17 +25,25 @@ export function ImageUpload() {
     
     setIsUploading(true);
     try {
-      // Here you would upload to Object Storage
-      // For now, we'll just show the preview
       console.log('Uploading:', selectedFile.name);
       
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('image', selectedFile);
       
-      // Add to uploaded files list
-      setUploadedFiles(prev => [...prev, selectedFile.name]);
+      // Try to upload to our server endpoint (you'll need to add this route)
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
       
-      alert('Image uploaded successfully!');
+      if (response.ok) {
+        const result = await response.json();
+        setUploadedFiles(prev => [...prev, selectedFile.name]);
+        alert(`Image uploaded successfully! URL: ${result.url}`);
+      } else {
+        throw new Error('Upload failed');
+      }
     } catch (error) {
       console.error('Upload failed:', error);
       alert('Upload failed. Please try again.');
