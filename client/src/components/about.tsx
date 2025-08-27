@@ -83,7 +83,7 @@ export default function About() {
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-6">
               <img
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/480823083_122203830032219109_7273106123492049540_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeE5ke5wGYGnKRGjmNaFURjUYLo6q3-dY51gujqrf51jnd7C9oQIcGHdExMjGnEOBBcLgrtc5Nc2P75K2961dq6h&_nc_ohc=uTOq47RxpBEQ7kNvwGdgfZJ&_nc_oc=AdnRTTXswsFLzq7XgJNR3bD7ZXpodye66mfEz3N0qY5OrOCCTjq1XZj17ZPxszZbgJM&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=H0fW5bv0zx3NWNRLS1wO_w&oh=00_AfX7gzy4n0BHNa3m4SCZlE0FhC2AScCYm-KIko_3aPr0hg&oe=68ABA735"
+                src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 alt="Diverse congregation in worship"
                 className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                 data-testid="image-congregation"
