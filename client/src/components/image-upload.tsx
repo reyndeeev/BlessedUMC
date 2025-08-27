@@ -8,6 +8,7 @@ export function ImageUpload() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -30,6 +31,9 @@ export function ImageUpload() {
       
       // Simulate upload delay
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Add to uploaded files list
+      setUploadedFiles(prev => [...prev, selectedFile.name]);
       
       alert('Image uploaded successfully!');
     } catch (error) {
@@ -70,6 +74,20 @@ export function ImageUpload() {
         >
           {isUploading ? 'Uploading...' : 'Upload Image'}
         </Button>
+
+        {/* Uploaded Files List */}
+        {uploadedFiles.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</h4>
+            <ul className="space-y-1">
+              {uploadedFiles.map((fileName, index) => (
+                <li key={index} className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                  ✓ {fileName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
