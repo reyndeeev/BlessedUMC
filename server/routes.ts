@@ -1,10 +1,106 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactMessageSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+import session from "express-session";
+import type { User } from "@shared/schema";
+
+// Extend session type to include user
+declare module 'express-session' {
+  interface SessionData {
+    user?: Omit<User, 'password'>;
+  }
+}
+
+// Authentication middleware
+const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: "Authentication required" });
+  }
+  next();
+};
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Configure session middleware
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true in production with HTTPS
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+  }));
+
+  // Authentication endpoints
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      if (!username || !password) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Username and password are required" 
+        });
+      }
+
+      const user = await storage.authenticateUser(username, password);
+      if (!user) {
+        return res.status(401).json({ 
+          success: false, 
+          message: "Invalid username or password" 
+        });
+      }
+
+      // Store user in session (without password)
+      const { password: _, ...userWithoutPassword } = user;
+      req.session.user = userWithoutPassword;
+      
+      res.json({ 
+        success: true, 
+        message: "Login successful",
+        user: userWithoutPassword
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Internal server error" 
+      });
+    }
+  });
+
+  app.post("/api/auth/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ 
+          success: false, 
+          message: "Failed to logout" 
+        });
+      }
+      res.json({ 
+        success: true, 
+        message: "Logout successful" 
+      });
+    });
+  });
+
+  app.get("/api/auth/me", (req, res) => {
+    if (req.session.user) {
+      res.json({ 
+        success: true, 
+        user: req.session.user 
+      });
+    } else {
+      res.status(401).json({ 
+        success: false, 
+        message: "Not authenticated" 
+      });
+    }
+  });
 
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
@@ -33,8 +129,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get contact messages (for admin purposes)
-  app.get("/api/contact-messages", async (req, res) => {
+  // Get contact messages (for admin purposes, protected)
+  app.get("/api/contact-messages", requireAuth, async (req, res) => {
     try {
       const messages = await storage.getContactMessages();
       res.json(messages);
@@ -47,8 +143,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // User management endpoints
-  app.get("/api/users", async (req, res) => {
+  // User management endpoints (protected)
+  app.get("/api/users", requireAuth, async (req, res) => {
     try {
       const users = await storage.getAllUsers();
       // Don't send passwords
@@ -63,7 +159,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/users", async (req, res) => {
+  app.post("/api/users", requireAuth, async (req, res) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
       const user = await storage.createUser(validatedData);
@@ -87,7 +183,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/users/:id", async (req, res) => {
+  app.delete("/api/users/:id", requireAuth, async (req, res) => {
     try {
       const { id } = req.params;
       const deleted = await storage.deleteUser(id);
@@ -105,8 +201,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Analytics endpoint
-  app.get("/api/analytics", async (req, res) => {
+  // Analytics endpoint (protected)
+  app.get("/api/analytics", requireAuth, async (req, res) => {
     try {
       const analytics = await storage.getAnalytics();
       res.json(analytics);

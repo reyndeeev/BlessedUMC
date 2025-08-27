@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Settings, MessageSquare, ArrowLeft, Users, BarChart3 } from "lucide-react";
-import { Link } from "wouter";
+import { Settings, MessageSquare, ArrowLeft, Users, BarChart3, LogOut, User as UserIcon } from "lucide-react";
+import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import type { ContactMessage, User } from "@shared/schema";
 
 interface AnalyticsData {
@@ -16,6 +17,9 @@ interface AnalyticsData {
 }
 
 export default function Admin() {
+  const [, setLocation] = useLocation();
+  const { user, logout, isLoggingOut } = useAuth();
+  
   const { data: messages } = useQuery<ContactMessage[]>({
     queryKey: ["/api", "contact-messages"],
   });
@@ -30,6 +34,11 @@ export default function Admin() {
 
   const unreadCount = messages?.length || 0;
   const userCount = users?.length || 0;
+  
+  const handleLogout = () => {
+    logout();
+    setLocation("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,8 +58,21 @@ export default function Admin() {
                 <p className="text-gray-600">Blessed United Methodist Church</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Settings className="h-6 w-6 text-blue-500" />
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <UserIcon className="h-4 w-4" />
+                <span>Welcome, {user?.username}</span>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                data-testid="button-logout"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                {isLoggingOut ? "Logging out..." : "Logout"}
+              </Button>
             </div>
           </div>
         </div>

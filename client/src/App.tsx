@@ -12,7 +12,9 @@ import Admin from "@/pages/admin";
 import Messages from "@/pages/messages";
 import Users from "@/pages/users";
 import Analytics from "@/pages/analytics";
+import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 function Router() {
   return (
@@ -22,10 +24,27 @@ function Router() {
       <Route path="/myaf" component={MYAF} />
       <Route path="/about" component={AboutPage} />
       <Route path="/ministries" component={MinistriesPage} />
-      <Route path="/bumcdashboard" component={Admin} />
-      <Route path="/bumcdashboard/messages" component={Messages} />
-      <Route path="/bumcdashboard/users" component={Users} />
-      <Route path="/bumcdashboard/analytics" component={Analytics} />
+      <Route path="/login" component={Login} />
+      <Route path="/bumcdashboard">
+        <ProtectedRoute>
+          <Admin />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/messages">
+        <ProtectedRoute>
+          <Messages />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/users">
+        <ProtectedRoute>
+          <Users />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/analytics">
+        <ProtectedRoute>
+          <Analytics />
+        </ProtectedRoute>
+      </Route>
       <Route component={NotFound} />
     </Switch>
   );

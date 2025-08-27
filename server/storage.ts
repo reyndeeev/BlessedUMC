@@ -1,4 +1,7 @@
 import { type User, type InsertUser, type ContactMessage, type InsertContactMessage } from "@shared/schema";
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 12;
 
 export interface AnalyticsData {
   totalUsers: number;
@@ -16,6 +19,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   getAllUsers(): Promise<User[]>;
   deleteUser(id: string): Promise<boolean>;
+  authenticateUser(username: string, password: string): Promise<User | null>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
   getAnalytics(): Promise<AnalyticsData>;
@@ -28,6 +32,20 @@ export class MemStorage implements IStorage {
   constructor() {
     this.users = new Map();
     this.contactMessages = new Map();
+    this.createDefaultAdmin();
+  }
+
+  private async createDefaultAdmin() {
+    // Create a default admin user for testing
+    try {
+      const defaultAdmin = await this.createUser({
+        username: "admin",
+        password: "admin123"
+      });
+      console.log("Default admin user created:", { username: defaultAdmin.username, id: defaultAdmin.id });
+    } catch (error) {
+      console.error("Failed to create default admin:", error);
+    }
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -42,8 +60,23 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const hashedPassword = await bcrypt.hash(insertUser.password, SALT_ROUNDS);
+    const user: User = { ...insertUser, id, password: hashedPassword };
     this.users.set(id, user);
+    return user;
+  }
+
+  async authenticateUser(username: string, password: string): Promise<User | null> {
+    const user = await this.getUserByUsername(username);
+    if (!user) {
+      return null;
+    }
+    
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return null;
+    }
+    
     return user;
   }
 
