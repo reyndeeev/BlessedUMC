@@ -5,7 +5,7 @@ import { insertContactMessageSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
-import { pool } from "./db";
+
 import type { User } from "@shared/schema";
 
 // Extend session type to include user
