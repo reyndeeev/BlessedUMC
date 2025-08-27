@@ -36,9 +36,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
     resave: false,
     saveUninitialized: false,
+    name: 'sessionId',
     cookie: {
       secure: false, // Set to true in production with HTTPS
       httpOnly: true,
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   }));
@@ -67,10 +69,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password: _, ...userWithoutPassword } = user;
       req.session.user = userWithoutPassword;
       
-      res.json({ 
-        success: true, 
-        message: "Login successful",
-        user: userWithoutPassword
+      // Save session explicitly
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).json({ 
+            success: false, 
+            message: "Failed to save session" 
+          });
+        }
+        
+        console.log("Login successful - Session ID:", req.sessionID);
+        console.log("Login successful - User stored:", req.session.user);
+        
+        res.json({ 
+          success: true, 
+          message: "Login successful",
+          user: userWithoutPassword
+        });
       });
     } catch (error) {
       console.error("Login error:", error);
@@ -98,6 +114,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/me", (req, res) => {
+    console.log("Session check - Session ID:", req.sessionID);
+    console.log("Session check - User:", req.session.user);
+    console.log("Session check - Cookies:", req.headers.cookie);
+    
     if (req.session.user) {
       res.json({ 
         success: true, 
