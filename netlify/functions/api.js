@@ -2,6 +2,11 @@ import serverless from 'serverless-http';
 import express from 'express';
 import { registerRoutes } from '../../server/routes.js';
 
+// Set up database URL from Netlify environment variable
+if (process.env.NETLIFY_DATABASE_URL && !process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = process.env.NETLIFY_DATABASE_URL;
+}
+
 // Create Express app
 const app = express();
 
