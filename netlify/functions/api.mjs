@@ -40,6 +40,40 @@ let users = [
 let contactMessages = [];
 let activeTokens = new Map();
 
+// Helper functions for analytics
+function getMessagesByDay() {
+  const last7Days = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toISOString().split('T')[0];
+    
+    const messagesForDay = contactMessages.filter(msg => {
+      const msgDate = new Date(msg.timestamp).toISOString().split('T')[0];
+      return msgDate === dateStr;
+    });
+    
+    last7Days.push({ 
+      date: dateStr, 
+      count: messagesForDay.length 
+    });
+  }
+  return last7Days;
+}
+
+function getTopSubjects() {
+  const subjectCounts = {};
+  contactMessages.forEach(msg => {
+    const subject = msg.subject || 'No Subject';
+    subjectCounts[subject] = (subjectCounts[subject] || 0) + 1;
+  });
+  
+  return Object.entries(subjectCounts)
+    .map(([subject, count]) => ({ subject, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+}
+
 // Authentication middleware
 const requireAuth = (req, res, next) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -124,22 +158,136 @@ function handleAuthMe(req, res) {
   });
 }
 
-// Admin endpoints
+// Admin endpoints - handle both paths
 app.get("/users", requireAuth, (req, res) => {
   const publicUsers = users.map(u => ({ id: u.id, username: u.username }));
   res.json(publicUsers);
+});
+
+app.get("/api/users", requireAuth, (req, res) => {
+  const publicUsers = users.map(u => ({ id: u.id, username: u.username }));
+  res.json(publicUsers);
+});
+
+// Create new user
+app.post("/api/users", requireAuth, (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Username and password are required" 
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = users.find(u => u.username === username);
+    if (existingUser) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Username already exists" 
+      });
+    }
+
+    // Create new user
+    const newUser = {
+      id: `user_${Date.now()}`,
+      username: username.trim(),
+      password: password // In production, this should be hashed
+    };
+    
+    users.push(newUser);
+    
+    // Return user without password
+    const { password: _, ...userWithoutPassword } = newUser;
+    res.json({ 
+      success: true, 
+      user: userWithoutPassword 
+    });
+  } catch (error) {
+    console.error("Create user error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error" 
+    });
+  }
+});
+
+// Delete user
+app.delete("/api/users/:id", requireAuth, (req, res) => {
+  try {
+    const { id } = req.params;
+    const userIndex = users.findIndex(u => u.id === id);
+    
+    if (userIndex === -1) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "User not found" 
+      });
+    }
+
+    // Don't allow deleting the admin user
+    if (users[userIndex].username === 'admin') {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Cannot delete admin user" 
+      });
+    }
+
+    users.splice(userIndex, 1);
+    
+    res.json({ 
+      success: true, 
+      message: "User deleted successfully" 
+    });
+  } catch (error) {
+    console.error("Delete user error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error" 
+    });
+  }
 });
 
 app.get("/contact-messages", requireAuth, (req, res) => {
   res.json(contactMessages);
 });
 
+app.get("/api/contact-messages", requireAuth, (req, res) => {
+  res.json(contactMessages);
+});
+
 app.get("/analytics", requireAuth, (req, res) => {
-  res.json({
-    totalUsers: users.length.toString(),
-    totalMessages: contactMessages.length.toString(),
-    recentMessages: contactMessages.slice(-5)
-  });
+  const analyticsData = {
+    totalUsers: users.length,
+    totalMessages: contactMessages.length,
+    recentMessages: contactMessages.filter(msg => {
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+      return new Date(msg.timestamp) > oneDayAgo;
+    }).length,
+    activeUsersToday: Math.floor(users.length * 0.3), // Mock data
+    messagesByDay: getMessagesByDay(),
+    topSubjects: getTopSubjects()
+  };
+  res.json(analyticsData);
+});
+
+app.get("/api/analytics", requireAuth, (req, res) => {
+  const analyticsData = {
+    totalUsers: users.length,
+    totalMessages: contactMessages.length,
+    recentMessages: contactMessages.filter(msg => {
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+      return new Date(msg.timestamp) > oneDayAgo;
+    }).length,
+    activeUsersToday: Math.floor(users.length * 0.3), // Mock data
+    messagesByDay: getMessagesByDay(),
+    topSubjects: getTopSubjects()
+  };
+  res.json(analyticsData);
 });
 
 // Contact form endpoint
