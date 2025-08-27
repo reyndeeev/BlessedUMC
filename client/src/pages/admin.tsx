@@ -1,11 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Settings, MessageSquare, ArrowLeft, Users, BarChart3, ImageIcon } from "lucide-react";
+import { Settings, MessageSquare, ArrowLeft, Users, BarChart3 } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import type { ContactMessage } from "@shared/schema";
-import { ImageUpload } from "@/components/image-upload";
 
 export default function Admin() {
   const { data: messages } = useQuery<ContactMessage[]>({
@@ -111,21 +110,6 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          {/* Image Management Card */}
-          <Card className="hover:shadow-md transition-shadow" data-testid="card-image-management">
-            <CardHeader>
-              <div className="flex items-center space-x-2">
-                <ImageIcon className="h-6 w-6 text-orange-500" />
-                <CardTitle className="text-lg">Image Management</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Upload and manage images for your website.
-              </p>
-              <ImageUpload />
-            </CardContent>
-          </Card>
 
         </div>
 
