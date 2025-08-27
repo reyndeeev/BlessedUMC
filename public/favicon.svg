@@ -1,0 +1,13 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with Methodist blue -->
+  <circle cx="16" cy="16" r="16" fill="#003087"/>
+  
+  <!-- Stylized "B" for Blessed in white -->
+  <path d="M9 8v16h6.5c1.933 0 3.5-1.567 3.5-3.5 0-1.036-.45-1.964-1.164-2.607C18.45 17.464 19 16.536 19 15.5c0-1.933-1.567-3.5-3.5-3.5H9z" fill="white"/>
+  <path d="M11.5 10.5h3c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5h-3v-3z" fill="#003087"/>
+  <path d="M11.5 15.5h3.5c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5h-3.5v-3z" fill="#003087"/>
+  
+  <!-- Small cross flame element -->
+  <circle cx="23" cy="9" r="3" fill="#DC2626"/>
+  <path d="M22 7v4M20 9h4" stroke="white" stroke-width="1" stroke-linecap="round"/>
+</svg>
