@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Contact from "@/components/contact";
 import { Button } from "@/components/ui/button";
 import { Baby, Users, BookOpen, Handshake, Music, Home, ArrowUp, Clock, MapPin, Mail, Phone } from "lucide-react";
 import { Link } from "wouter";
 
 export default function MinistriesPage() {
   const [showBackButton, setShowBackButton] = useState(false);
+  const [selectedMinistry, setSelectedMinistry] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -16,6 +18,13 @@ export default function MinistriesPage() {
   }, []);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const ministries = [
     {
@@ -159,7 +168,12 @@ export default function MinistriesPage() {
                   </div>
 
                   <Button 
+                    onClick={() => {
+                      setSelectedMinistry(ministry.title);
+                      scrollToSection("contact");
+                    }}
                     className="w-full bg-methodist-blue text-white py-3 rounded-full font-bold hover:bg-methodist-blue/90 transition-all transform hover:scale-105 shadow-lg"
+                    data-testid={`button-get-involved-${ministry.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                   >
                     Get Involved
                   </Button>
@@ -204,11 +218,13 @@ export default function MinistriesPage() {
               <p className="text-gray-600 leading-relaxed mb-6">
                 Reach out to our ministry leaders to learn more about specific programs and how to get involved.
               </p>
-              <Link href="/">
-                <Button className="bg-warm-gold text-white px-6 py-3 rounded-full font-bold hover:bg-warm-gold/90 transition-all">
-                  Send Message
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => scrollToSection("contact")}
+                className="bg-warm-gold text-white px-6 py-3 rounded-full font-bold hover:bg-warm-gold/90 transition-all"
+                data-testid="button-contact-us"
+              >
+                Send Message
+              </Button>
             </div>
 
             <div className="bg-white rounded-3xl p-8 text-center shadow-xl border border-gray-100">
@@ -282,6 +298,12 @@ export default function MinistriesPage() {
           </div>
         </div>
       </section>
+
+      {/* Contact Form Section */}
+      <Contact 
+        defaultSubject={selectedMinistry ? "ministry" : ""}
+        defaultMessage={selectedMinistry ? `I'm interested in learning more about ${selectedMinistry} and how I can get involved. Please contact me with more information.` : ""}
+      />
 
       <Footer />
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,16 +16,32 @@ import { apiRequest } from "@/lib/queryClient";
 import { MapPin, Phone, Mail, Clock, Map, Send } from "lucide-react";
 import type { InsertContactMessage } from "@shared/schema";
 
-export default function Contact() {
+interface ContactProps {
+  defaultSubject?: string;
+  defaultMessage?: string;
+}
+
+export default function Contact({ defaultSubject = "", defaultMessage = "" }: ContactProps) {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    subject: "",
-    message: "",
+    subject: defaultSubject,
+    message: defaultMessage,
   });
+
+  // Update form data when props change
+  useEffect(() => {
+    if (defaultSubject || defaultMessage) {
+      setFormData(prev => ({
+        ...prev,
+        subject: defaultSubject || prev.subject,
+        message: defaultMessage || prev.message,
+      }));
+    }
+  }, [defaultSubject, defaultMessage]);
 
   const contactMutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
