@@ -27,23 +27,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Trust proxy for Replit environment
   app.set('trust proxy', 1);
   
-  // Configure PostgreSQL session store
-  const PgSession = connectPgSimple(session);
-  
-  // Configure session middleware
+  // Temporary: Use memory store for debugging
   app.use(session({
-    store: new PgSession({
-      pool: pool,
-      tableName: 'session'
-    }),
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
     resave: false,
-    saveUninitialized: false,
-    name: 'connect.sid', // Use default session name
+    saveUninitialized: true, // Allow session creation
+    rolling: true, // Reset expiry on each request
     cookie: {
-      secure: false, // Set to true in production with HTTPS
+      secure: false,
       httpOnly: false, // Temporarily disable for debugging
-      sameSite: 'lax',
+      sameSite: 'none', // Try none for cross-origin issues
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   }));
