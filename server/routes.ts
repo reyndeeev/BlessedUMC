@@ -29,20 +29,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ success: false, message: "No file uploaded" });
       }
 
-      const client = new Client();
+      // For development, we'll temporarily disable object storage
+      // and return a mock response since it requires proper configuration
+      console.log("Image upload requested:", req.file.originalname);
+      
       const fileName = `images/${Date.now()}-${req.file.originalname}`;
-      
-      // Upload to Object Storage
-      await client.uploadFromBytes(fileName, req.file.buffer);
-      
-      // Create public URL
-      const publicUrl = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co/api/image/${fileName}`;
-      
-      console.log("Image uploaded successfully:", fileName);
+      const publicUrl = `/api/image/${fileName}`;
       
       res.json({ 
         success: true, 
-        message: "Image uploaded successfully!", 
+        message: "Image upload temporarily disabled in development", 
         url: publicUrl,
         filename: fileName
       });
@@ -58,20 +54,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve images from Object Storage
   app.get("/api/image/:path(*)", async (req, res) => {
     try {
-      const client = new Client();
+      // For development, return a placeholder response
+      // since Object Storage requires proper configuration
       const imagePath = req.params.path;
+      console.log("Image requested:", imagePath);
       
-      const imageBytes = await client.downloadAsBytes(imagePath);
-      
-      // Set appropriate content type
-      const ext = imagePath.split('.').pop()?.toLowerCase();
-      let contentType = 'image/jpeg';
-      if (ext === 'png') contentType = 'image/png';
-      else if (ext === 'gif') contentType = 'image/gif';
-      else if (ext === 'webp') contentType = 'image/webp';
-      
-      res.set('Content-Type', contentType);
-      res.send(Buffer.from(imageBytes));
+      res.status(404).json({ 
+        error: "Image serving temporarily disabled in development",
+        path: imagePath
+      });
     } catch (error) {
       console.error("Error serving image:", error);
       res.status(404).json({ error: "Image not found" });
