@@ -5,6 +5,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Add request logging for debugging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`, {
+    path: req.path,
+    originalUrl: req.originalUrl,
+    headers: req.headers
+  });
+  next();
+});
+
 // Add CORS headers for better compatibility
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -40,8 +50,16 @@ const requireAuth = (req, res, next) => {
   return res.status(401).json({ success: false, message: "Authentication required" });
 };
 
-// Authentication endpoints
+// Authentication endpoints - handle both paths for compatibility
 app.post("/auth/login", async (req, res) => {
+  await handleLogin(req, res);
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  await handleLogin(req, res);
+});
+
+async function handleLogin(req, res) {
   try {
     const { username, password } = req.body;
     
@@ -79,9 +97,18 @@ app.post("/auth/login", async (req, res) => {
       message: "Server error" 
     });
   }
+}
+
+// Handle both paths for /auth/me
+app.get("/auth/me", (req, res) => {
+  handleAuthMe(req, res);
 });
 
-app.get("/auth/me", (req, res) => {
+app.get("/api/auth/me", (req, res) => {
+  handleAuthMe(req, res);
+});
+
+function handleAuthMe(req, res) {
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (token && activeTokens.has(token)) {
     const user = activeTokens.get(token);
@@ -95,7 +122,7 @@ app.get("/auth/me", (req, res) => {
     success: false, 
     message: "Not authenticated" 
   });
-});
+}
 
 // Admin endpoints
 app.get("/users", requireAuth, (req, res) => {
@@ -204,15 +231,44 @@ app.get("/test", (req, res) => {
     message: "API is working!", 
     timestamp: new Date().toISOString(),
     path: req.path,
-    method: req.method
+    method: req.method,
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    url: req.url
   });
 });
 
-// Handle all other routes
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "API test endpoint working!", 
+    timestamp: new Date().toISOString(),
+    path: req.path,
+    method: req.method,
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    url: req.url
+  });
+});
+
+// Handle all other routes with debugging info
 app.use("*", (req, res) => {
+  console.log("404 - Path not found:", {
+    path: req.path,
+    method: req.method,
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    url: req.url,
+    headers: req.headers
+  });
   res.status(404).json({
     success: false,
-    message: "Endpoint not found"
+    message: "Endpoint not found",
+    debug: {
+      path: req.path,
+      method: req.method,
+      originalUrl: req.originalUrl,
+      url: req.url
+    }
   });
 });
 
