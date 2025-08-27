@@ -10,6 +10,8 @@ import AboutPage from "@/pages/about";
 import MinistriesPage from "@/pages/ministries";
 import Admin from "@/pages/admin";
 import Messages from "@/pages/messages";
+import Users from "@/pages/users";
+import Analytics from "@/pages/analytics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +24,8 @@ function Router() {
       <Route path="/ministries" component={MinistriesPage} />
       <Route path="/bumcdashboard" component={Admin} />
       <Route path="/bumcdashboard/messages" component={Messages} />
+      <Route path="/bumcdashboard/users" component={Users} />
+      <Route path="/bumcdashboard/analytics" component={Analytics} />
       <Route component={NotFound} />
     </Switch>
   );

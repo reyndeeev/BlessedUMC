@@ -4,14 +4,32 @@ import { Badge } from "@/components/ui/badge";
 import { Settings, MessageSquare, ArrowLeft, Users, BarChart3 } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import type { ContactMessage } from "@shared/schema";
+import type { ContactMessage, User } from "@shared/schema";
+
+interface AnalyticsData {
+  totalUsers: number;
+  totalMessages: number;
+  recentMessages: number;
+  activeUsersToday: number;
+  messagesByDay: { date: string; count: number }[];
+  topSubjects: { subject: string; count: number }[];
+}
 
 export default function Admin() {
   const { data: messages } = useQuery<ContactMessage[]>({
     queryKey: ["/api", "contact-messages"],
   });
 
+  const { data: users } = useQuery<Omit<User, 'password'>[]>({
+    queryKey: ["/api", "users"],
+  });
+
+  const { data: analytics } = useQuery<AnalyticsData>({
+    queryKey: ["/api", "analytics"],
+  });
+
   const unreadCount = messages?.length || 0;
+  const userCount = users?.length || 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -86,9 +104,16 @@ export default function Admin() {
               <p className="text-sm text-gray-600 mb-4">
                 Manage user accounts and permissions for the website.
               </p>
-              <Button variant="outline" className="w-full" disabled data-testid="button-manage-users">
-                Coming Soon
-              </Button>
+              <Link href="/bumcdashboard/users">
+                <Button className="w-full" data-testid="button-manage-users">
+                  Manage Users
+                  {userCount > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {userCount}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -104,9 +129,11 @@ export default function Admin() {
               <p className="text-sm text-gray-600 mb-4">
                 View website traffic and engagement statistics.
               </p>
-              <Button variant="outline" className="w-full" disabled data-testid="button-view-analytics">
-                Coming Soon
-              </Button>
+              <Link href="/bumcdashboard/analytics">
+                <Button className="w-full" data-testid="button-view-analytics">
+                  View Analytics
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -137,7 +164,7 @@ export default function Admin() {
                   <div>
                     <p className="text-sm text-gray-600">Registered Users</p>
                     <p className="text-2xl font-bold text-gray-900" data-testid="text-total-users">
-                      -
+                      {userCount}
                     </p>
                   </div>
                   <Users className="h-8 w-8 text-green-500" />
@@ -149,9 +176,9 @@ export default function Admin() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Recent Activity</p>
+                    <p className="text-sm text-gray-600">Recent Messages (24h)</p>
                     <p className="text-2xl font-bold text-gray-900" data-testid="text-recent-activity">
-                      {unreadCount > 0 ? 'Active' : 'Quiet'}
+                      {analytics?.recentMessages || 0}
                     </p>
                   </div>
                   <BarChart3 className="h-8 w-8 text-purple-500" />

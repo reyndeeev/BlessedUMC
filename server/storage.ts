@@ -1,12 +1,24 @@
 import { type User, type InsertUser, type ContactMessage, type InsertContactMessage } from "@shared/schema";
+
+export interface AnalyticsData {
+  totalUsers: number;
+  totalMessages: number;
+  recentMessages: number;
+  activeUsersToday: number;
+  messagesByDay: { date: string; count: number }[];
+  topSubjects: { subject: string; count: number }[];
+}
 import { randomUUID } from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getAllUsers(): Promise<User[]>;
+  deleteUser(id: string): Promise<boolean>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
+  getAnalytics(): Promise<AnalyticsData>;
 }
 
 export class MemStorage implements IStorage {
@@ -51,6 +63,62 @@ export class MemStorage implements IStorage {
     return Array.from(this.contactMessages.values()).sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
     );
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values()).sort(
+      (a, b) => a.username.localeCompare(b.username)
+    );
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    return this.users.delete(id);
+  }
+
+  async getAnalytics(): Promise<AnalyticsData> {
+    const totalUsers = this.users.size;
+    const totalMessages = this.contactMessages.size;
+    const recentMessages = Array.from(this.contactMessages.values())
+      .filter(msg => {
+        const dayAgo = new Date();
+        dayAgo.setDate(dayAgo.getDate() - 1);
+        return msg.createdAt > dayAgo;
+      }).length;
+    
+    return {
+      totalUsers,
+      totalMessages,
+      recentMessages,
+      activeUsersToday: Math.floor(totalUsers * 0.3), // Mock data
+      messagesByDay: this.getMessagesByDay(),
+      topSubjects: this.getTopSubjects()
+    };
+  }
+
+  private getMessagesByDay(): { date: string; count: number }[] {
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      const count = Array.from(this.contactMessages.values())
+        .filter(msg => msg.createdAt.toISOString().split('T')[0] === dateStr).length;
+      last7Days.push({ date: dateStr, count });
+    }
+    return last7Days;
+  }
+
+  private getTopSubjects(): { subject: string; count: number }[] {
+    const subjectCounts = new Map<string, number>();
+    this.contactMessages.forEach(msg => {
+      const count = subjectCounts.get(msg.subject) || 0;
+      subjectCounts.set(msg.subject, count + 1);
+    });
+    
+    return Array.from(subjectCounts.entries())
+      .map(([subject, count]) => ({ subject, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
   }
 }
 
