@@ -8,6 +8,7 @@ import UMYF from "@/pages/umyf";
 import MYAF from "@/pages/myaf";
 import AboutPage from "@/pages/about";
 import MinistriesPage from "@/pages/ministries";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/myaf" component={MYAF} />
       <Route path="/about" component={AboutPage} />
       <Route path="/ministries" component={MinistriesPage} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
