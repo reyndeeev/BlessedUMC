@@ -1,3 +1,4 @@
+// Temporary comment for deployment trigger: Copilot debug push
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
