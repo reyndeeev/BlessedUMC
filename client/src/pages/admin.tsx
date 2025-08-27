@@ -61,7 +61,7 @@ export default function Admin() {
               <p className="text-sm text-gray-600 mb-4">
                 View and manage contact form submissions from website visitors.
               </p>
-              <Link href="/admin/messages">
+              <Link href="/bumcdashboard/messages">
                 <Button className="w-full" data-testid="button-view-messages">
                   View Messages
                   {unreadCount > 0 && (

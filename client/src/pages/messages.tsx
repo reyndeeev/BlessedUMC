@@ -15,7 +15,7 @@ import type { ContactMessage } from "@shared/schema";
 
 const subjectLabels = {
   general: "General Question",
-  visit: "Planning a Visit", 
+  visit: "Planning a Visit",
   ministry: "Ministry Information",
   pastoral: "Pastoral Care",
   event: "Event Information",
@@ -25,7 +25,7 @@ const subjectLabels = {
 const subjectColors = {
   general: "bg-blue-100 text-blue-800",
   visit: "bg-green-100 text-green-800",
-  ministry: "bg-purple-100 text-purple-800", 
+  ministry: "bg-purple-100 text-purple-800",
   pastoral: "bg-orange-100 text-orange-800",
   event: "bg-pink-100 text-pink-800",
   other: "bg-gray-100 text-gray-800"
@@ -66,7 +66,7 @@ export default function Admin() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link href="/">
+              <Link href="/bumcdashboard">
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Website
@@ -81,9 +81,9 @@ export default function Admin() {
               <Badge variant="secondary">
                 {messages?.length || 0} messages
               </Badge>
-              <Button 
+              <Button
                 onClick={() => window.location.reload()}
-                variant="outline" 
+                variant="outline"
                 size="sm"
               >
                 Refresh
@@ -129,7 +129,7 @@ export default function Admin() {
                         </span>
                       </CardDescription>
                     </div>
-                    <Badge 
+                    <Badge
                       className={`ml-4 ${subjectColors[message.subject as keyof typeof subjectColors] || subjectColors.other}`}
                     >
                       {subjectLabels[message.subject as keyof typeof subjectLabels] || message.subject}
@@ -144,7 +144,7 @@ export default function Admin() {
                 </CardContent>
                 <CardFooter className="bg-gray-50 rounded-b-lg">
                   <div className="flex space-x-2">
-                    <Button 
+                    <Button
                       onClick={() => window.open(`mailto:${message.email}?subject=Re: ${subjectLabels[message.subject as keyof typeof subjectLabels] || message.subject}`)}
                       size="sm"
                     >
@@ -152,7 +152,7 @@ export default function Admin() {
                       Reply via Email
                     </Button>
                     {message.phone && (
-                      <Button 
+                      <Button
                         onClick={() => window.open(`tel:${message.phone}`)}
                         variant="outline"
                         size="sm"

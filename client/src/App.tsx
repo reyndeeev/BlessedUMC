@@ -20,8 +20,8 @@ function Router() {
       <Route path="/myaf" component={MYAF} />
       <Route path="/about" component={AboutPage} />
       <Route path="/ministries" component={MinistriesPage} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/admin/messages" component={Messages} />
+      <Route path="/bumcdashboard" component={Admin} />
+      <Route path="/bumcdashboard/messages" component={Messages} />
       <Route component={NotFound} />
     </Switch>
   );
