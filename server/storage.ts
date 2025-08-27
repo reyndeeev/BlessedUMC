@@ -1,5 +1,7 @@
-import { type User, type InsertUser, type ContactMessage, type InsertContactMessage } from "@shared/schema";
+import { type User, type InsertUser, type ContactMessage, type InsertContactMessage, users, contactMessages } from "@shared/schema";
 import bcrypt from "bcrypt";
+import { db } from "./db";
+import { eq, desc, gte, sql } from "drizzle-orm";
 
 const SALT_ROUNDS = 12;
 
@@ -11,7 +13,6 @@ export interface AnalyticsData {
   messagesByDay: { date: string; count: number }[];
   topSubjects: { subject: string; count: number }[];
 }
-import { randomUUID } from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -25,44 +26,43 @@ export interface IStorage {
   getAnalytics(): Promise<AnalyticsData>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-  private contactMessages: Map<string, ContactMessage>;
-
+export class DatabaseStorage implements IStorage {
   constructor() {
-    this.users = new Map();
-    this.contactMessages = new Map();
     this.createDefaultAdmin();
   }
 
   private async createDefaultAdmin() {
     // Create a default admin user for testing
     try {
-      const defaultAdmin = await this.createUser({
-        username: "admin",
-        password: "admin123"
-      });
-      console.log("Default admin user created:", { username: defaultAdmin.username, id: defaultAdmin.id });
+      const existingAdmin = await this.getUserByUsername("admin");
+      if (!existingAdmin) {
+        const defaultAdmin = await this.createUser({
+          username: "admin",
+          password: "admin123"
+        });
+        console.log("Default admin user created:", { username: defaultAdmin.username, id: defaultAdmin.id });
+      }
     } catch (error) {
       console.error("Failed to create default admin:", error);
     }
   }
 
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
     const hashedPassword = await bcrypt.hash(insertUser.password, SALT_ROUNDS);
-    const user: User = { ...insertUser, id, password: hashedPassword };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values({ ...insertUser, password: hashedPassword })
+      .returning();
     return user;
   }
 
@@ -81,78 +81,90 @@ export class MemStorage implements IStorage {
   }
 
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const id = randomUUID();
-    const message: ContactMessage = { 
-      ...insertMessage, 
-      phone: insertMessage.phone || null,
-      id, 
-      createdAt: new Date()
-    };
-    this.contactMessages.set(id, message);
+    const [message] = await db
+      .insert(contactMessages)
+      .values(insertMessage)
+      .returning();
     return message;
   }
 
   async getContactMessages(): Promise<ContactMessage[]> {
-    return Array.from(this.contactMessages.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
   }
 
   async getAllUsers(): Promise<User[]> {
-    return Array.from(this.users.values()).sort(
-      (a, b) => a.username.localeCompare(b.username)
-    );
+    return await db.select().from(users).orderBy(users.username);
   }
 
   async deleteUser(id: string): Promise<boolean> {
-    return this.users.delete(id);
+    const result = await db.delete(users).where(eq(users.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   async getAnalytics(): Promise<AnalyticsData> {
-    const totalUsers = this.users.size;
-    const totalMessages = this.contactMessages.size;
-    const recentMessages = Array.from(this.contactMessages.values())
-      .filter(msg => {
-        const dayAgo = new Date();
-        dayAgo.setDate(dayAgo.getDate() - 1);
-        return msg.createdAt > dayAgo;
-      }).length;
+    const [totalUsersResult] = await db.select({ count: sql<number>`count(*)` }).from(users);
+    const [totalMessagesResult] = await db.select({ count: sql<number>`count(*)` }).from(contactMessages);
+    
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    
+    const [recentMessagesResult] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(contactMessages)
+      .where(gte(contactMessages.createdAt, oneDayAgo));
+    
+    const totalUsers = totalUsersResult.count;
+    const totalMessages = totalMessagesResult.count;
+    const recentMessages = recentMessagesResult.count;
     
     return {
       totalUsers,
       totalMessages,
       recentMessages,
       activeUsersToday: Math.floor(totalUsers * 0.3), // Mock data
-      messagesByDay: this.getMessagesByDay(),
-      topSubjects: this.getTopSubjects()
+      messagesByDay: await this.getMessagesByDay(),
+      topSubjects: await this.getTopSubjects()
     };
   }
 
-  private getMessagesByDay(): { date: string; count: number }[] {
+  private async getMessagesByDay(): Promise<{ date: string; count: number }[]> {
     const last7Days = [];
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split('T')[0];
-      const count = Array.from(this.contactMessages.values())
-        .filter(msg => msg.createdAt.toISOString().split('T')[0] === dateStr).length;
-      last7Days.push({ date: dateStr, count });
+      const startOfDay = new Date(date);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+      
+      const [result] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(contactMessages)
+        .where(
+          sql`${contactMessages.createdAt} >= ${startOfDay} AND ${contactMessages.createdAt} <= ${endOfDay}`
+        );
+      
+      last7Days.push({ 
+        date: date.toISOString().split('T')[0], 
+        count: result.count 
+      });
     }
     return last7Days;
   }
 
-  private getTopSubjects(): { subject: string; count: number }[] {
-    const subjectCounts = new Map<string, number>();
-    this.contactMessages.forEach(msg => {
-      const count = subjectCounts.get(msg.subject) || 0;
-      subjectCounts.set(msg.subject, count + 1);
-    });
+  private async getTopSubjects(): Promise<{ subject: string; count: number }[]> {
+    const results = await db
+      .select({ 
+        subject: contactMessages.subject, 
+        count: sql<number>`count(*)` 
+      })
+      .from(contactMessages)
+      .groupBy(contactMessages.subject)
+      .orderBy(desc(sql`count(*)`))
+      .limit(5);
     
-    return Array.from(subjectCounts.entries())
-      .map(([subject, count]) => ({ subject, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+    return results;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
