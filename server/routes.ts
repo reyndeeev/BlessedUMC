@@ -35,9 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       try {
         const client = new Client();
-        await client.uploadFromBytes(fileName, req.file.buffer, {
-          contentType: req.file.mimetype,
-        });
+        await client.uploadFromBytes(fileName, req.file.buffer);
         
         const publicUrl = `/api/image/${fileName}`;
         
