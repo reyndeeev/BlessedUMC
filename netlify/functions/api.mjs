@@ -1,8 +1,7 @@
 
 import serverless from "serverless-http";
 import express from "express";
-import fs from "fs";
-import path from "path";
+import { supabase } from "./supabaseClient.mjs";
 
 const app = express();
 app.use(express.json());
@@ -32,34 +31,7 @@ app.use((req, res, next) => {
 });
 
 
-// File-based user persistence for local development
-const USERS_FILE = path.resolve(__dirname, "users.json");
-function loadUsers() {
-  try {
-    if (fs.existsSync(USERS_FILE)) {
-      const data = fs.readFileSync(USERS_FILE, "utf-8");
-      return JSON.parse(data);
-    }
-  } catch (e) {
-    console.error("Failed to load users.json:", e);
-  }
-  // Default admin user
-  return [
-    {
-      id: "admin-001",
-      username: "admin",
-      password: "admin123"
-    }
-  ];
-}
-function saveUsers(users) {
-  try {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
-  } catch (e) {
-    console.error("Failed to save users.json:", e);
-  }
-}
-let users = loadUsers();
+
 
 let contactMessages = [];
 let activeTokens = new Map();
@@ -128,22 +100,23 @@ async function handleLogin(req, res) {
       });
     }
 
-    const user = users.find(u => u.username === username);
-    
+    // Supabase user lookup
+    const { data: user, error: findError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
     if (!user || user.password !== password) {
-      return res.status(401).json({ 
-        success: false, 
-        message: "Invalid username or password" 
+      return res.status(401).json({
+        success: false,
+        message: "Invalid username or password"
       });
     }
-
-    // Generate token and store user info
     const userWithoutPassword = { id: user.id, username: user.username };
     const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString('base64');
     activeTokens.set(token, userWithoutPassword);
-    
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "Login successful",
       user: userWithoutPassword,
       token: token
@@ -183,18 +156,20 @@ function handleAuthMe(req, res) {
 }
 
 // Admin endpoints - handle both paths
-app.get("/users", requireAuth, (req, res) => {
-  const publicUsers = users.map(u => ({ id: u.id, username: u.username }));
-  res.json(publicUsers);
+app.get("/users", requireAuth, async (req, res) => {
+  const { data, error } = await supabase.from('users').select('id, username');
+  if (error) return res.status(500).json({ success: false, message: error.message });
+  res.json(data);
 });
 
-app.get("/api/users", requireAuth, (req, res) => {
-  const publicUsers = users.map(u => ({ id: u.id, username: u.username }));
-  res.json(publicUsers);
+app.get("/api/users", requireAuth, async (req, res) => {
+  const { data, error } = await supabase.from('users').select('id, username');
+  if (error) return res.status(500).json({ success: false, message: error.message });
+  res.json(data);
 });
 
 // Public registration endpoint
-app.post("/api/auth/register", (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -204,7 +179,11 @@ app.post("/api/auth/register", (req, res) => {
       });
     }
     // Check if user already exists
-    const existingUser = users.find(u => u.username === username);
+    const { data: existingUser, error: findError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -212,16 +191,15 @@ app.post("/api/auth/register", (req, res) => {
       });
     }
     // Create new user
-    const newUser = {
-      id: `user_${Date.now()}`,
-      username: username.trim(),
-      password: password // In production, this should be hashed
-    };
-  users.push(newUser);
-  saveUsers(users);
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = newUser;
-    // Optionally, auto-login after registration:
+    const { data: newUser, error: insertError } = await supabase
+      .from('users')
+      .insert([{ username: username.trim(), password }])
+      .select()
+      .single();
+    if (insertError) {
+      throw insertError;
+    }
+    const userWithoutPassword = { id: newUser.id, username: newUser.username };
     const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString('base64');
     activeTokens.set(token, userWithoutPassword);
     res.json({
@@ -240,7 +218,7 @@ app.post("/api/auth/register", (req, res) => {
 });
 
 // Create new user (admin only)
-app.post("/api/users", requireAuth, (req, res) => {
+app.post("/api/users", requireAuth, async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -250,7 +228,11 @@ app.post("/api/users", requireAuth, (req, res) => {
       });
     }
     // Check if user already exists
-    const existingUser = users.find(u => u.username === username);
+    const { data: existingUser, error: findError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .single();
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -258,13 +240,14 @@ app.post("/api/users", requireAuth, (req, res) => {
       });
     }
     // Create new user
-    const newUser = {
-      id: `user_${Date.now()}`,
-      username: username.trim(),
-      password: password // In production, this should be hashed
-    };
-    users.push(newUser);
-    // Return user without password
+    const { data: newUser, error: insertError } = await supabase
+      .from('users')
+      .insert([{ username: username.trim(), password }])
+      .select()
+      .single();
+    if (insertError) {
+      throw insertError;
+    }
     const { password: _, ...userWithoutPassword } = newUser;
     res.json({
       success: true,
@@ -280,38 +263,43 @@ app.post("/api/users", requireAuth, (req, res) => {
 });
 
 // Delete user
-app.delete("/api/users/:id", requireAuth, (req, res) => {
+app.delete("/api/users/:id", requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const userIndex = users.findIndex(u => u.id === id);
-    
-    if (userIndex === -1) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "User not found" 
-      });
-    }
-
     // Don't allow deleting the admin user
-    if (users[userIndex].username === 'admin') {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Cannot delete admin user" 
+    const { data: user, error: findError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id)
+      .single();
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
       });
     }
-
-  users.splice(userIndex, 1);
-  saveUsers(users);
-    
-    res.json({ 
-      success: true, 
-      message: "User deleted successfully" 
+    if (user.username === 'admin') {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot delete admin user"
+      });
+    }
+    const { error: deleteError } = await supabase
+      .from('users')
+      .delete()
+      .eq('id', id);
+    if (deleteError) {
+      throw deleteError;
+    }
+    res.json({
+      success: true,
+      message: "User deleted successfully"
     });
   } catch (error) {
     console.error("Delete user error:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Server error" 
+    res.status(500).json({
+      success: false,
+      message: "Server error"
     });
   }
 });
