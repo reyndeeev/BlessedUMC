@@ -14,6 +14,7 @@ import { insertUserSchema } from "@shared/schema";
 import type { User, InsertUser } from "@shared/schema";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Users() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -26,12 +27,7 @@ export default function Users() {
 
   const createUserMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
-      if (!response.ok) throw new Error('Failed to create user');
+      const response = await apiRequest('POST', '/api/users', userData);
       return response.json();
     },
     onSuccess: () => {
@@ -53,10 +49,7 @@ export default function Users() {
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
-      const response = await fetch(`/api/users/${userId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Failed to delete user');
+      const response = await apiRequest('DELETE', `/api/users/${userId}`);
       return response.json();
     },
     onSuccess: () => {
