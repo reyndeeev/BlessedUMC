@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { insertContactMessageSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
 import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
+import { pool } from "./db";
 import type { User } from "@shared/schema";
 
 // Extend session type to include user
@@ -22,8 +24,15 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Configure PostgreSQL session store
+  const PgSession = connectPgSimple(session);
+  
   // Configure session middleware
   app.use(session({
+    store: new PgSession({
+      pool: pool,
+      tableName: 'session'
+    }),
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
     resave: false,
     saveUninitialized: false,
