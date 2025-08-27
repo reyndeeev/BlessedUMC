@@ -124,15 +124,6 @@ export default function Footer() {
         <div className="border-t border-gray-600 pt-8 text-center text-gray-300">
           <p>&copy; 2025 Blessed United Methodist Church. All rights reserved.</p>
           <p className="mt-2 text-sm">Built with love for our church community</p>
-          <div className="mt-4">
-            <a 
-              href="/admin" 
-              className="text-xs text-gray-500 hover:text-gray-400 transition-colors"
-              title="Church Administration"
-            >
-              Admin
-            </a>
-          </div>
         </div>
       </div>
     </footer>
