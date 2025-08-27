@@ -49,6 +49,11 @@ export default function Login() {
       const result = await response.json();
 
       if (result.success) {
+        // Store token in localStorage as backup
+        if (result.token) {
+          localStorage.setItem('auth_token', result.token);
+        }
+        
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard",

@@ -15,12 +15,34 @@ declare module 'express-session' {
   }
 }
 
+// Extend Request type for auth
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: Omit<User, 'password'>;
+  }
+}
+
+// Global token storage type
+declare global {
+  var activeTokens: Map<string, Omit<User, 'password'>> | undefined;
+}
+
 // Authentication middleware
 const requireAuth = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session.user) {
-    return res.status(401).json({ success: false, message: "Authentication required" });
+  // Check session first
+  if (req.session.user) {
+    return next();
   }
-  next();
+  
+  // Fallback to token authentication
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (token && globalThis.activeTokens?.has(token)) {
+    // Set user for downstream middleware
+    req.user = globalThis.activeTokens.get(token);
+    return next();
+  }
+  
+  return res.status(401).json({ success: false, message: "Authentication required" });
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -59,28 +81,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Store user in session (without password)
+      // Store user in session AND send token
       const { password: _, ...userWithoutPassword } = user;
       req.session.user = userWithoutPassword;
       
-      // Force session save
-      req.session.save((err) => {
-        if (err) {
-          console.error("Session save error:", err);
-          return res.status(500).json({ 
-            success: false, 
-            message: "Failed to save session" 
-          });
-        }
-        
-        console.log("Login: Session saved with ID:", req.sessionID);
-        console.log("Login: Cookie headers:", res.getHeaders()['set-cookie']);
-        
-        res.json({ 
-          success: true, 
-          message: "Login successful",
-          user: userWithoutPassword
-        });
+      // Generate simple token as backup
+      const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString('base64');
+      
+      // Store token in memory for backup (temporary solution)
+      if (!globalThis.activeTokens) globalThis.activeTokens = new Map();
+      globalThis.activeTokens.set(token, userWithoutPassword);
+      
+      res.json({ 
+        success: true, 
+        message: "Login successful",
+        user: userWithoutPassword,
+        token: token // Send token as backup
       });
     } catch (error) {
       console.error("Login error:", error);
@@ -108,21 +124,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/me", (req, res) => {
-    console.log("Auth check - Session ID:", req.sessionID);
-    console.log("Auth check - Session user:", req.session.user);
-    console.log("Auth check - Cookies received:", req.headers.cookie);
-    
+    // Check session first
     if (req.session.user) {
-      res.json({ 
+      return res.json({ 
         success: true, 
         user: req.session.user 
       });
-    } else {
-      res.status(401).json({ 
-        success: false, 
-        message: "Not authenticated" 
+    }
+    
+    // Fallback to token authentication
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (token && globalThis.activeTokens?.has(token)) {
+      const user = globalThis.activeTokens.get(token);
+      return res.json({ 
+        success: true, 
+        user: user 
       });
     }
+    
+    res.status(401).json({ 
+      success: false, 
+      message: "Not authenticated" 
+    });
   });
 
   // Contact form submission
