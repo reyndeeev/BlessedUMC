@@ -50,19 +50,15 @@ export function useAuth() {
   // Login mutation
   const loginMutation = useMutation({
     mutationFn: async ({ username, password }: { username: string; password: string }) => {
-      console.log("Attempting login with:", { username, password: password.length > 0 ? "***" : "empty" });
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
-      console.log("Login response:", { status: response.status, data });
       if (!response.ok || !data.success) {
-        console.error("Login failed:", data.message);
         throw new Error(data.message || "Login failed");
       }
-      console.log("Setting token:", data.token);
       setToken(data.token);
       return data;
     },
