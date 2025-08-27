@@ -24,6 +24,9 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Trust proxy for Replit environment
+  app.set('trust proxy', 1);
+  
   // Configure PostgreSQL session store
   const PgSession = connectPgSimple(session);
   
@@ -36,10 +39,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
     resave: false,
     saveUninitialized: false,
-    name: 'sessionId',
+    name: 'connect.sid', // Use default session name
     cookie: {
       secure: false, // Set to true in production with HTTPS
-      httpOnly: true,
+      httpOnly: false, // Temporarily disable for debugging
       sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
