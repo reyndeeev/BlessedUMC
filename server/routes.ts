@@ -29,19 +29,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ success: false, message: "No file uploaded" });
       }
 
-      // For development, we'll temporarily disable object storage
-      // and return a mock response since it requires proper configuration
       console.log("Image upload requested:", req.file.originalname);
       
       const fileName = `images/${Date.now()}-${req.file.originalname}`;
-      const publicUrl = `/api/image/${fileName}`;
       
-      res.json({ 
-        success: true, 
-        message: "Image upload temporarily disabled in development", 
-        url: publicUrl,
-        filename: fileName
-      });
+      try {
+        const client = new Client();
+        await client.uploadFromBytes(fileName, req.file.buffer, {
+          contentType: req.file.mimetype,
+        });
+        
+        const publicUrl = `/api/image/${fileName}`;
+        
+        res.json({ 
+          success: true, 
+          message: "Image uploaded successfully", 
+          url: publicUrl,
+          filename: fileName
+        });
+      } catch (storageError) {
+        console.error("Object Storage error:", storageError);
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to upload to Object Storage. Make sure Object Storage is configured." 
+        });
+      }
     } catch (error) {
       console.error("Image upload error:", error);
       res.status(500).json({ 
@@ -54,15 +66,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve images from Object Storage
   app.get("/api/image/:path(*)", async (req, res) => {
     try {
-      // For development, return a placeholder response
-      // since Object Storage requires proper configuration
       const imagePath = req.params.path;
       console.log("Image requested:", imagePath);
       
-      res.status(404).json({ 
-        error: "Image serving temporarily disabled in development",
-        path: imagePath
-      });
+      try {
+        const client = new Client();
+        const file = await client.downloadAsBytes(imagePath);
+        
+        // Set appropriate content type based on file extension
+        const ext = imagePath.split('.').pop()?.toLowerCase();
+        const contentType = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 
+                           ext === 'png' ? 'image/png' : 
+                           ext === 'gif' ? 'image/gif' : 'image/jpeg';
+        
+        res.set('Content-Type', contentType);
+        res.set('Cache-Control', 'public, max-age=31536000'); // 1 year
+        res.send(file);
+      } catch (storageError) {
+        console.error("Object Storage error:", storageError);
+        res.status(404).json({ 
+          error: "Image not found in Object Storage",
+          path: imagePath
+        });
+      }
     } catch (error) {
       console.error("Error serving image:", error);
       res.status(404).json({ error: "Image not found" });
