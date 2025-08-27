@@ -24,14 +24,8 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Configure PostgreSQL session store  
-  const PgSession = connectPgSimple(session);
-  
+  // Temporarily use memory sessions to debug cookie issue
   app.use(session({
-    store: new PgSession({
-      pool: pool,
-      tableName: 'session'
-    }),
     secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
     resave: false,
     saveUninitialized: false,
