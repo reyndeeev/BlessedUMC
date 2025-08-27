@@ -37,6 +37,9 @@ export default function Login() {
     setError("");
 
     try {
+      console.log("Login attempt with data:", data);
+      console.log("Sending request to:", window.location.origin + '/api/auth/login');
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -46,11 +49,17 @@ export default function Login() {
         body: JSON.stringify(data),
       });
 
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.log("Error response:", errorText);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
       }
 
       const result = await response.json();
+      console.log("Login result:", result);
 
       if (result.success) {
         // Store token in localStorage as backup

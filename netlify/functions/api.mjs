@@ -198,6 +198,16 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Test endpoint for debugging
+app.get("/test", (req, res) => {
+  res.json({ 
+    message: "API is working!", 
+    timestamp: new Date().toISOString(),
+    path: req.path,
+    method: req.method
+  });
+});
+
 // Handle all other routes
 app.use("*", (req, res) => {
   res.status(404).json({
