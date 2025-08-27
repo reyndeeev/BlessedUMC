@@ -92,7 +92,7 @@ app.post("/api/auth/login", async (req, res) => {
 async function handleLogin(req, res) {
   try {
     const { username, password } = req.body;
-    
+    console.log('LOGIN ATTEMPT:', { username, password });
     if (!username || !password) {
       return res.status(400).json({ 
         success: false, 
@@ -106,7 +106,9 @@ async function handleLogin(req, res) {
       .select('*')
       .eq('username', username)
       .single();
+    console.log('SUPABASE QUERY RESULT:', { user, findError });
     if (!user || user.password !== password) {
+      console.log('LOGIN FAILED: user not found or password mismatch', { user, passwordInput: password, userPassword: user ? user.password : undefined });
       return res.status(401).json({
         success: false,
         message: "Invalid username or password"
