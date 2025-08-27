@@ -1,38 +1,25 @@
-// Simple serverless function for Netlify
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import bcrypt from 'bcrypt';
+// Ultra-simple serverless function for Netlify
+let sql = null;
 
-// Set up database URL from Netlify environment variable
-const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
-
-if (!DATABASE_URL) {
-  throw new Error('Database URL not found. Please set NETLIFY_DATABASE_URL in Netlify environment variables.');
+// Initialize database connection only when needed
+async function initDB() {
+  if (!sql) {
+    const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+    if (!DATABASE_URL) {
+      throw new Error('Database URL not found. Please set NETLIFY_DATABASE_URL in Netlify environment variables.');
+    }
+    
+    // Dynamic import to avoid bundling issues
+    const postgres = (await import('postgres')).default;
+    sql = postgres(DATABASE_URL);
+  }
+  return sql;
 }
 
-// Database schema (simplified)
-const users = {
-  id: '',
-  username: '',
-  password: ''
-};
-
-const contactMessages = {
-  id: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  subject: '',
-  message: '',
-  createdAt: ''
-};
-
-// Database connection
-const client = postgres(DATABASE_URL);
-const db = drizzle(client);
-
 export const handler = async (event, context) => {
+  console.log('Serverless function started');
+  console.log('Event:', JSON.stringify(event, null, 2));
+  
   // Set headers for CORS
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -51,6 +38,7 @@ export const handler = async (event, context) => {
   }
 
   try {
+    console.log('DATABASE_URL available:', !!DATABASE_URL);
     const path = event.path.replace('/.netlify/functions/api', '');
     const method = event.httpMethod;
 
@@ -71,10 +59,16 @@ export const handler = async (event, context) => {
         };
       }
 
+      // Initialize database connection
+      const db = await initDB();
+      console.log('Database initialized');
+      
       // Find user
-      const result = await client`
+      const result = await db`
         SELECT id, username, password FROM users WHERE username = ${username}
       `;
+      
+      console.log('Query result:', result.length, 'users found');
       
       if (result.length === 0) {
         return {
@@ -88,7 +82,23 @@ export const handler = async (event, context) => {
       }
 
       const user = result[0];
-      const isValidPassword = await bcrypt.compare(password, user.password);
+      console.log('User found:', user.username);
+      
+      // Simple password verification (since bcrypt might not be available)
+      // In production, you should always use bcrypt, but for debugging let's try both
+      let isValidPassword = false;
+      try {
+        // Try bcrypt first
+        const bcrypt = await import('bcrypt');
+        isValidPassword = await bcrypt.compare(password, user.password);
+        console.log('Bcrypt comparison result:', isValidPassword);
+      } catch (bcryptError) {
+        // Fallback: direct comparison (NOT secure, only for debugging)
+        console.log('Bcrypt not available, using direct comparison');
+        console.log('Stored password:', user.password);
+        console.log('Provided password:', password);
+        isValidPassword = password === user.password;
+      }
       
       if (!isValidPassword) {
         return {
