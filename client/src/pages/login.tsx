@@ -6,8 +6,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, User, Church } from "lucide-react";
 
@@ -18,10 +21,9 @@ const loginSchema = z.object({
 
 type LoginForm = z.infer<typeof loginSchema>;
 
-export default function Login() {
   const [, setLocation] = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
+  const { login, isAuthenticated, isLoggingIn } = useAuth();
   const { toast } = useToast();
 
   const form = useForm<LoginForm>({
@@ -33,55 +35,16 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    setIsLoading(true);
     setError("");
-
-    try {
-      console.log("Login attempt with data:", data);
-      console.log("Sending request to:", window.location.origin + '/api/auth/login');
-      
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-
-      console.log("Response status:", response.status);
-      console.log("Response ok:", response.ok);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.log("Error response:", errorText);
-        throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
-      }
-
-      const result = await response.json();
-      console.log("Login result:", result);
-
-      if (result.success) {
-        // Store token in localStorage as backup
-        if (result.token) {
-          localStorage.setItem('auth_token', result.token);
-        }
-        
-        toast({
-          title: "Login Successful",
-          description: "Welcome to the admin dashboard",
-        });
-        setLocation("/bumcdashboard");
-      } else {
-        setError(result.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    login(data.username, data.password);
   };
+
+  // Redirect to dashboard if authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation("/bumcdashboard");
+    }
+  }, [isAuthenticated, setLocation]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-methodist-red/10 to-methodist-blue/10 flex items-center justify-center p-4">
@@ -126,7 +89,7 @@ export default function Login() {
                             className="pl-10"
                             placeholder="Enter your username"
                             data-testid="input-login-username"
-                            disabled={isLoading}
+                            disabled={isLoggingIn}
                           />
                         </div>
                       </FormControl>
@@ -150,7 +113,7 @@ export default function Login() {
                             className="pl-10"
                             placeholder="Enter your password"
                             data-testid="input-login-password"
-                            disabled={isLoading}
+                            disabled={isLoggingIn}
                           />
                         </div>
                       </FormControl>
@@ -162,10 +125,10 @@ export default function Login() {
                 <Button 
                   type="submit" 
                   className="w-full bg-methodist-blue hover:bg-methodist-blue/90"
-                  disabled={isLoading}
+                  disabled={isLoggingIn}
                   data-testid="button-login-submit"
                 >
-                  {isLoading ? "Signing In..." : "Sign In"}
+                  {isLoggingIn ? "Signing In..." : "Sign In"}
                 </Button>
               </form>
             </Form>
