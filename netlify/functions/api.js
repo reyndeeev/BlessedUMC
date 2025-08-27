@@ -21,7 +21,6 @@ async function setupApp() {
     return app;
   } catch (error) {
     console.error('Failed to register routes:', error);
-    // Return basic app with error handling
     app.use('*', (req, res) => {
       res.status(500).json({ 
         error: 'Server configuration error',
