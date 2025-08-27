@@ -37,6 +37,8 @@ export default function Login() {
     setError("");
 
     try {
+      console.log("Attempting login with:", data);
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -46,24 +48,36 @@ export default function Login() {
         body: JSON.stringify(data),
       });
 
+      console.log("Response status:", response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const result = await response.json();
+      console.log("Login result:", result);
 
       if (result.success) {
         // Store token in localStorage as backup
         if (result.token) {
+          console.log("Storing token in localStorage");
           localStorage.setItem('auth_token', result.token);
         }
         
+        console.log("Showing success toast");
         toast({
           title: "Login Successful",
           description: "Welcome to the admin dashboard",
         });
+        
+        console.log("Navigating to dashboard");
         setLocation("/bumcdashboard");
       } else {
+        console.log("Login failed with message:", result.message);
         setError(result.message || "Login failed");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error details:", error);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
