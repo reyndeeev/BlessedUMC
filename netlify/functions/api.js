@@ -366,6 +366,66 @@ export const handler = async (event, context) => {
       };
     }
 
+    // Handle delete contact message endpoint
+    if (path.match(/\/(api\/)?contact-messages\/[^/]+$/) && method === 'DELETE') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      const messageId = path.split('/').pop();
+      console.log('Message deletion requested for ID:', messageId);
+      
+      // Mock message deletion (in production, delete from database)
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'Contact message deleted successfully'
+        })
+      };
+    }
+
+    // Handle mark message as replied endpoint
+    if (path.match(/\/(api\/)?contact-messages\/[^/]+\/reply$/) && method === 'PATCH') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      const messageId = path.split('/').slice(-2, -1)[0];
+      console.log('Message marked as replied for ID:', messageId);
+      
+      // Mock message reply marking (in production, update database)
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'Message marked as replied'
+        })
+      };
+    }
+
     // Handle users endpoint
     if ((path === '/users' || path === '/api/users') && method === 'GET') {
       const authHeader = event.headers.authorization || event.headers.Authorization;
@@ -461,15 +521,15 @@ export const handler = async (event, context) => {
           };
         }
         
-        // Check for duplicate username (mock check)
+        // Check for duplicate username (mock check) - only prevent exact duplicate 'admin'
         if (username.toLowerCase() === 'admin') {
           return {
             statusCode: 409,
             headers,
             body: JSON.stringify({
               success: false,
-              message: 'Username already exists',
-              errors: [{ field: 'username', message: 'This username is already taken' }]
+              message: 'Username "admin" already exists. Please choose a different username.',
+              errors: [{ field: 'username', message: 'This username is already taken. Try admin2, manager, or another name.' }]
             })
           };
         }

@@ -1,5 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import {
   Card,
   CardHeader,
@@ -32,9 +34,54 @@ const subjectColors = {
 };
 
 export default function Admin() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
   const { data: messages, isLoading, error } = useQuery<ContactMessage[]>({
     queryKey: ["/api", "contact-messages"],
     refetchInterval: 30000, // Auto-refresh every 30 seconds
+  });
+
+  const deleteMessageMutation = useMutation({
+    mutationFn: async (messageId: string) => {
+      const response = await apiRequest('DELETE', `/api/contact-messages/${messageId}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+      toast({
+        title: "Success",
+        description: "Message deleted successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete message",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const markRepliedMutation = useMutation({
+    mutationFn: async (messageId: string) => {
+      const response = await apiRequest('PATCH', `/api/contact-messages/${messageId}/reply`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+      toast({
+        title: "Success",
+        description: "Message marked as replied",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to mark message as replied",
+        variant: "destructive",
+      });
+    },
   });
 
   if (isLoading) {
@@ -162,32 +209,28 @@ export default function Admin() {
                       </Button>
                     )}
                     <Button
-                      onClick={() => {
-                        // TODO: Implement mark as replied functionality
-                        console.log('Mark as replied:', message.id);
-                        alert('Message marked as replied!');
-                      }}
+                      onClick={() => markRepliedMutation.mutate(message.id)}
                       variant="outline"
                       size="sm"
                       className="text-green-600 border-green-600 hover:bg-green-50"
+                      disabled={markRepliedMutation.isPending}
                     >
                       <MessageSquare className="w-4 h-4 mr-2" />
-                      Mark Replied
+                      {markRepliedMutation.isPending ? 'Marking...' : 'Mark Replied'}
                     </Button>
                     <Button
                       onClick={() => {
                         if (confirm(`Are you sure you want to delete this message from ${message.firstName} ${message.lastName}?`)) {
-                          // TODO: Implement delete functionality
-                          console.log('Delete message:', message.id);
-                          alert('Message deleted!');
+                          deleteMessageMutation.mutate(message.id);
                         }
                       }}
                       variant="outline"
                       size="sm"
                       className="text-red-600 border-red-600 hover:bg-red-50"
+                      disabled={deleteMessageMutation.isPending}
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
+                      {deleteMessageMutation.isPending ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 </CardFooter>
