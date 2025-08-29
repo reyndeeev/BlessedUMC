@@ -1,5 +1,5 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 import * as schema from "@shared/schema";
 
 // Use Replit's database URL or fall back to a development database
@@ -14,8 +14,9 @@ if (!databaseUrl) {
 let db: any;
 
 if (databaseUrl) {
-  const client = postgres(databaseUrl);
-  db = drizzle(client, { schema });
+  // Use Neon HTTP driver which is more compatible with serverless
+  const sql = neon(databaseUrl);
+  db = drizzle(sql, { schema });
 } else {
   // Mock database for development
   db = {
