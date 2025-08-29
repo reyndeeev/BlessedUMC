@@ -4,7 +4,7 @@ let sql = null;
 // Initialize database connection only when needed
 async function initDB() {
   if (!sql) {
-    const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+    const DATABASE_URL = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
     if (!DATABASE_URL) {
       throw new Error('Database URL not found. Please set NETLIFY_DATABASE_URL in Netlify environment variables.');
     }
@@ -38,7 +38,8 @@ export const handler = async (event, context) => {
   }
 
   try {
-    console.log('DATABASE_URL available:', !!DATABASE_URL);
+    const sql = await initDB();
+    console.log('Database connection initialized');
     const path = event.path.replace('/.netlify/functions/api', '');
     const method = event.httpMethod;
 
