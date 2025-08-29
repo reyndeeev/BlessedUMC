@@ -241,8 +241,10 @@ async function connectToDatabase() {
           
           if (queryText.includes('SELECT NOW()')) {
             result = await sql`SELECT NOW() as current_time`;
-          } else if (queryText.includes('SELECT EXISTS')) {
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('contact_messages')) {
             result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'contact_messages')`;
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('users')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'users')`;
           } else if (queryText.includes('CREATE TABLE IF NOT EXISTS contact_messages')) {
             result = await sql`
               CREATE TABLE IF NOT EXISTS contact_messages (
@@ -276,6 +278,33 @@ async function connectToDatabase() {
             result = await sql`SELECT id FROM contact_messages WHERE id = ${params[0]}`;
           } else if (queryText.includes('DELETE FROM contact_messages WHERE id =') && params.length === 1) {
             result = await sql`DELETE FROM contact_messages WHERE id = ${params[0]} RETURNING id`;
+          } else if (queryText.includes('SELECT * FROM users WHERE username =') && params.length === 1) {
+            result = await sql`SELECT * FROM users WHERE username = ${params[0]}`;
+          } else if (queryText.includes('SELECT * FROM users WHERE id =') && params.length === 1) {
+            result = await sql`SELECT * FROM users WHERE id = ${params[0]}`;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS users')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS users (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                username TEXT UNIQUE NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password_hash TEXT NOT NULL,
+                role TEXT DEFAULT 'admin',
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
+          } else if (queryText.includes('INSERT INTO users') && params.length === 4 && queryText.includes('RETURNING id, username')) {
+            result = await sql`
+              INSERT INTO users (username, email, password_hash, role)
+              VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]})
+              RETURNING id, username, email, role
+            `;
+          } else if (queryText.includes('INSERT INTO users') && params.length === 4 && queryText.includes('RETURNING id')) {
+            result = await sql`
+              INSERT INTO users (username, email, password_hash, role)
+              VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]})
+              RETURNING id
+            `;
           } else {
             throw new Error('Unsupported query pattern: ' + queryText.substring(0, 50));
           }
@@ -327,6 +356,49 @@ async function verifyTableExists() {
     if (!tableExists) {
       console.log('⚠️ contact_messages table does not exist, attempting to create...');
       await createContactMessagesTable();
+    }
+
+    // Check and create users table
+    console.log('🔍 Verifying users table exists...');
+    const usersCheck = await dbConnection.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'users'
+      );
+    `);
+    
+    const usersTableExists = usersCheck[0]?.exists;
+    console.log('📊 Users table existence check:', { exists: usersTableExists });
+    
+    if (!usersTableExists) {
+      console.log('⚠️ users table does not exist, creating...');
+      await dbConnection.query(`
+        CREATE TABLE IF NOT EXISTS users (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          username TEXT UNIQUE NOT NULL,
+          email TEXT UNIQUE NOT NULL,
+          password_hash TEXT NOT NULL,
+          role TEXT DEFAULT 'admin',
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        )
+      `);
+      console.log('✅ users table created successfully');
+      
+      // Create default admin user
+      console.log('👤 Creating default admin user...');
+      try {
+        const bcrypt = await import('bcrypt');
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        
+        // Use the query handler for the INSERT
+        const insertResult = await dbConnection.query(`INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id`, 
+          ['admin', 'admin@blessed-umc.org', hashedPassword, 'admin']);
+        
+        console.log('✅ Default admin user created');
+      } catch (userCreateError) {
+        console.error('❌ Failed to create admin user:', userCreateError);
+      }
     }
     
     return tableExists;
