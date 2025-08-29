@@ -1,3 +1,4 @@
+
 // Ultra-simple serverless function for Netlify
 let sql = null;
 
@@ -85,25 +86,10 @@ export const handler = async (event, context) => {
       const user = result[0];
       console.log('User found:', user.username);
       
-      // Password verification - try bcrypt first, fallback to direct comparison
-      let isValidPassword = false;
-      try {
-        // Try bcrypt with proper import handling
-        const bcryptModule = await import('bcrypt');
-        const bcrypt = bcryptModule.default || bcryptModule;
-        if (bcrypt && typeof bcrypt.compare === 'function') {
-          isValidPassword = await bcrypt.compare(password, user.password);
-          console.log('Bcrypt comparison result:', isValidPassword);
-        } else {
-          throw new Error('Bcrypt not properly loaded');
-        }
-      } catch (bcryptError) {
-        // Fallback: direct comparison (NOT secure, only for debugging)
-        console.log('Bcrypt error:', bcryptError.message);
-        console.log('Using direct password comparison');
-        isValidPassword = password === user.password;
-        console.log('Direct comparison result:', isValidPassword);
-      }
+      // Simple password verification (direct comparison)
+      // Note: In production with hashed passwords, you would use bcrypt here
+      const isValidPassword = password === user.password;
+      console.log('Password comparison result:', isValidPassword);
       
       if (!isValidPassword) {
         return {
