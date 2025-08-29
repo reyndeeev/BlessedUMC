@@ -7,7 +7,7 @@ async function initDB() {
   if (!sql) {
     const DATABASE_URL = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
     if (!DATABASE_URL) {
-      throw new Error('Database URL not found. Please set NETLIFY_DATABASE_URL in Netlify environment variables.');
+      throw new Error('Database URL not found. Please set DATABASE_URL in Netlify environment variables.');
     }
     
     // Dynamic import to avoid bundling issues
@@ -19,7 +19,6 @@ async function initDB() {
 
 export const handler = async (event, context) => {
   console.log('Serverless function started');
-  console.log('Event:', JSON.stringify(event, null, 2));
   
   // Set headers for CORS
   const headers = {
@@ -39,8 +38,7 @@ export const handler = async (event, context) => {
   }
 
   try {
-    const sql = await initDB();
-    console.log('Database connection initialized');
+    const db = await initDB();
     const path = event.path.replace('/.netlify/functions/api', '');
     const method = event.httpMethod;
 
@@ -61,10 +59,6 @@ export const handler = async (event, context) => {
         };
       }
 
-      // Initialize database connection
-      const db = await initDB();
-      console.log('Database initialized');
-      
       // Find user
       const result = await db`
         SELECT id, username, password FROM users WHERE username = ${username}
@@ -86,8 +80,7 @@ export const handler = async (event, context) => {
       const user = result[0];
       console.log('User found:', user.username);
       
-      // Simple password verification (direct comparison)
-      // Note: In production with hashed passwords, you would use bcrypt here
+      // Simple password verification - direct comparison
       const isValidPassword = password === user.password;
       console.log('Password comparison result:', isValidPassword);
       
@@ -102,7 +95,7 @@ export const handler = async (event, context) => {
         };
       }
 
-      // Create simple token (base64 encoded user info)
+      // Create simple token
       const token = Buffer.from(JSON.stringify({ id: user.id, username: user.username })).toString('base64');
 
       return {
@@ -115,6 +108,45 @@ export const handler = async (event, context) => {
           token: token
         })
       };
+    }
+
+    // Auth check endpoint
+    if (method === 'GET' && path === '/auth/me') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({ 
+            success: false, 
+            message: 'Not authenticated' 
+          })
+        };
+      }
+
+      try {
+        const token = authHeader.split(' ')[1];
+        const decoded = JSON.parse(Buffer.from(token, 'base64').toString());
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            user: decoded
+          })
+        };
+      } catch (error) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({ 
+            success: false, 
+            message: 'Invalid token' 
+          })
+        };
+      }
     }
 
     // Default response for unmatched routes
