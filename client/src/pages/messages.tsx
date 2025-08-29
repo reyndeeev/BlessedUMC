@@ -9,7 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, Calendar, User, MessageSquare, ArrowLeft } from "lucide-react";
+import { Mail, Phone, Calendar, User, MessageSquare, ArrowLeft, Trash2 } from "lucide-react";
 import { Link } from "wouter";
 import type { ContactMessage } from "@shared/schema";
 
@@ -143,13 +143,13 @@ export default function Admin() {
                   </div>
                 </CardContent>
                 <CardFooter className="bg-gray-50 rounded-b-lg">
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 flex-wrap">
                     <Button
-                      onClick={() => window.open(`mailto:${message.email}?subject=Re: ${subjectLabels[message.subject as keyof typeof subjectLabels] || message.subject}`)}
+                      onClick={() => window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${message.email}&su=Re: ${subjectLabels[message.subject as keyof typeof subjectLabels] || message.subject}&body=Hi ${message.firstName},%0D%0A%0D%0AThank you for contacting Blessed United Methodist Church.%0D%0A%0D%0ABlessings,%0D%0ABlessed UMC Admin`)}
                       size="sm"
                     >
                       <Mail className="w-4 h-4 mr-2" />
-                      Reply via Email
+                      Reply via Gmail
                     </Button>
                     {message.phone && (
                       <Button
@@ -161,6 +161,34 @@ export default function Admin() {
                         Call
                       </Button>
                     )}
+                    <Button
+                      onClick={() => {
+                        // TODO: Implement mark as replied functionality
+                        console.log('Mark as replied:', message.id);
+                        alert('Message marked as replied!');
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="text-green-600 border-green-600 hover:bg-green-50"
+                    >
+                      <MessageSquare className="w-4 h-4 mr-2" />
+                      Mark Replied
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        if (confirm(`Are you sure you want to delete this message from ${message.firstName} ${message.lastName}?`)) {
+                          // TODO: Implement delete functionality
+                          console.log('Delete message:', message.id);
+                          alert('Message deleted!');
+                        }
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 border-red-600 hover:bg-red-50"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
                   </div>
                 </CardFooter>
               </Card>

@@ -413,37 +413,96 @@ export const handler = async (event, context) => {
         };
       }
       
-      const body = JSON.parse(event.body || '{}');
-      const { username, password } = body;
-      
-      // Basic validation
-      if (!username || !password) {
+      try {
+        const body = JSON.parse(event.body || '{}');
+        const { username, password } = body;
+        
+        console.log('User creation request:', { username, passwordLength: password?.length });
+        
+        // Enhanced validation
+        if (!username || !password || username.trim() === '' || password.trim() === '') {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Username and password are required and cannot be empty',
+              errors: [
+                { field: 'username', message: !username ? 'Username is required' : null },
+                { field: 'password', message: !password ? 'Password is required' : null }
+              ].filter(e => e.message)
+            })
+          };
+        }
+        
+        // Username validation
+        if (username.length < 3) {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Username must be at least 3 characters long',
+              errors: [{ field: 'username', message: 'Username must be at least 3 characters long' }]
+            })
+          };
+        }
+        
+        // Password validation
+        if (password.length < 6) {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Password must be at least 6 characters long',
+              errors: [{ field: 'password', message: 'Password must be at least 6 characters long' }]
+            })
+          };
+        }
+        
+        // Check for duplicate username (mock check)
+        if (username.toLowerCase() === 'admin') {
+          return {
+            statusCode: 409,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Username already exists',
+              errors: [{ field: 'username', message: 'This username is already taken' }]
+            })
+          };
+        }
+        
+        // Mock user creation (in production, save to database)
+        const newUser = {
+          id: Math.random().toString(36).substr(2, 9),
+          username: username.trim()
+        };
+        
+        console.log('User created successfully:', newUser);
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'User created successfully',
+            user: newUser
+          })
+        };
+        
+      } catch (parseError) {
+        console.error('User creation parse error:', parseError);
         return {
           statusCode: 400,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Username and password are required'
+            message: 'Invalid request format'
           })
         };
       }
-      
-      // Mock user creation (in production, save to database)
-      const newUser = {
-        id: Math.random().toString(36).substr(2, 9),
-        username: username
-      };
-      
-      console.log('User created:', newUser);
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          user: newUser
-        })
-      };
     }
 
     // Handle delete user endpoint
