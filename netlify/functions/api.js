@@ -3,90 +3,75 @@
 
 let dbConnection = null;
 
-// Robust storage solution for serverless environment
-// Uses environment variable simulation to persist across function resets
-let memoryStorage = null;
+// Netlify-compatible storage using a simple approach
+// Since serverless functions are stateless, we'll use a basic approach that works within the request lifecycle
 
-// Global storage object that simulates persistence
-const GLOBAL_STORAGE = {
-  messages: [],
-  nextId: 1,
-  instances: new Map()
-};
-
-// Initialize storage with cross-instance awareness
-function initializeStorage() {
-  const instanceId = Math.random().toString(36).substring(2, 15);
-  
-  if (memoryStorage === null) {
-    console.log('🔄 New serverless function instance starting');
-    
-    // Initialize with reference to global storage
-    memoryStorage = {
-      instanceId: instanceId,
-      messages: GLOBAL_STORAGE.messages,
-      nextId: GLOBAL_STORAGE.nextId,
-      createdAt: new Date().toISOString()
-    };
-    
-    // Register this instance
-    GLOBAL_STORAGE.instances.set(instanceId, {
-      createdAt: new Date().toISOString(),
-      lastUsed: new Date().toISOString()
-    });
-    
-    console.log('📊 Instance initialized:', {
-      instanceId: instanceId,
-      messagesCount: memoryStorage.messages.length,
-      nextId: memoryStorage.nextId,
-      totalInstances: GLOBAL_STORAGE.instances.size
-    });
+class NetlifyStorage {
+  constructor() {
+    this.messages = [];
+    this.nextId = 1;
+    this.initialized = false;
+    this.instanceId = Math.random().toString(36).substring(2, 15);
+    console.log(`🆔 New storage instance created: ${this.instanceId}`);
   }
-  
-  return memoryStorage;
-}
 
-// Read messages from storage
-function readMessages() {
-  if (memoryStorage === null) {
-    initializeStorage();
-  }
-  
-  // Update last used timestamp
-  if (GLOBAL_STORAGE.instances.has(memoryStorage.instanceId)) {
-    GLOBAL_STORAGE.instances.get(memoryStorage.instanceId).lastUsed = new Date().toISOString();
-  }
-  
-  return {
-    messages: GLOBAL_STORAGE.messages || [],
-    nextId: GLOBAL_STORAGE.nextId || 1
-  };
-}
-
-// Write messages to storage
-function writeMessages(messages, nextId) {
-  try {
-    if (memoryStorage === null) {
-      initializeStorage();
+  init() {
+    if (!this.initialized) {
+      console.log(`🔄 Initializing storage instance: ${this.instanceId}`);
+      this.initialized = true;
+      this.createdAt = new Date().toISOString();
     }
-    
-    // Update global storage
-    GLOBAL_STORAGE.messages = messages;
-    GLOBAL_STORAGE.nextId = nextId;
-    
-    // Update local reference
-    memoryStorage.messages = messages;
-    memoryStorage.nextId = nextId;
-    
-    console.log(`✅ Storage updated across all instances: ${messages.length} messages, nextId: ${nextId}, instanceId: ${memoryStorage.instanceId}`);
+  }
+
+  getMessages() {
+    this.init();
+    console.log(`📖 Getting messages from instance ${this.instanceId}: ${this.messages.length} messages`);
+    return {
+      messages: [...this.messages],
+      nextId: this.nextId
+    };
+  }
+
+  saveMessages(messages, nextId) {
+    this.init();
+    this.messages = [...messages];
+    this.nextId = nextId;
+    console.log(`💾 Saved ${this.messages.length} messages to instance ${this.instanceId}, nextId: ${this.nextId}`);
     return true;
-  } catch (error) {
-    console.error('Error updating storage:', error);
-    return false;
+  }
+
+  getStatus() {
+    return {
+      instanceId: this.instanceId,
+      initialized: this.initialized,
+      messageCount: this.messages.length,
+      nextId: this.nextId,
+      createdAt: this.createdAt
+    };
   }
 }
 
-// Initialize storage on function load
+// Create storage instance
+const storage = new NetlifyStorage();
+
+// Wrapper functions
+function initializeStorage() {
+  storage.init();
+}
+
+function readMessages() {
+  return storage.getMessages();
+}
+
+function writeMessages(messages, nextId) {
+  return storage.saveMessages(messages, nextId);
+}
+
+function getStorageStatus() {
+  return storage.getStatus();
+}
+
+// Initialize storage on module load
 initializeStorage();
 
 async function connectToDatabase() {
@@ -380,14 +365,7 @@ export const handler = async (event, context) => {
       try {
         const body = JSON.parse(event.body || '{}');
         console.log('📝 Contact form submission received:', body);
-        console.log('🔍 Current storage state before saving:', {
-          localMemory: memoryStorage,
-          globalStorage: {
-            messages: GLOBAL_STORAGE.messages.length,
-            nextId: GLOBAL_STORAGE.nextId,
-            instances: GLOBAL_STORAGE.instances.size
-          }
-        });
+        console.log('🔍 Current storage state before saving:', getStorageStatus());
         
         // Basic validation
         if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
@@ -441,12 +419,7 @@ export const handler = async (event, context) => {
           subject: newMessage.subject,
           total: updatedMessages.length
         });
-        console.log('🔍 Storage state after saving:', {
-          globalMessages: GLOBAL_STORAGE.messages.length,
-          globalNextId: GLOBAL_STORAGE.nextId,
-          instanceId: memoryStorage.instanceId,
-          instances: GLOBAL_STORAGE.instances.size
-        });
+        console.log('🔍 Storage state after saving:', getStorageStatus());
         
         return {
           statusCode: 200,
@@ -494,12 +467,10 @@ export const handler = async (event, context) => {
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
       console.log('📖 GET /contact-messages - Reading from storage:', {
-        globalMessages: GLOBAL_STORAGE.messages.length,
+        storageStatus: getStorageStatus(),
         totalMessages: messages.length,
         messageIds: messages.map(m => ({ id: m.id, from: m.email })),
         sortedCount: sortedMessages.length,
-        instanceId: memoryStorage?.instanceId,
-        instances: GLOBAL_STORAGE.instances.size,
         latest: sortedMessages[0]?.createdAt
       });
       
