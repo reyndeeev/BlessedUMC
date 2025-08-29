@@ -44,6 +44,14 @@ async function connectToDatabase() {
 }
 
 async function authenticateUser(username, password) {
+  console.log('AUTH: Attempting login for:', username);
+  
+  // STRICT validation - reject immediately if no username or password
+  if (!username || !password || username.trim() === '' || password.trim() === '') {
+    console.log('AUTH: Missing username or password');
+    return null;
+  }
+  
   const db = await connectToDatabase();
   
   if (db) {
@@ -52,7 +60,7 @@ async function authenticateUser(username, password) {
       const users = await db.query('SELECT * FROM users WHERE username = $1', [username]);
       
       if (users.length === 0) {
-        console.log('User not found in database');
+        console.log('AUTH: User not found in database');
         return null;
       }
       
@@ -60,24 +68,26 @@ async function authenticateUser(username, password) {
       const isValid = await bcrypt.default.compare(password, user.password);
       
       if (isValid) {
-        console.log('Database authentication successful');
+        console.log('AUTH: Database authentication successful for user:', username);
         return { id: user.id, username: user.username };
       } else {
-        console.log('Password mismatch');
+        console.log('AUTH: Password mismatch for user:', username);
         return null;
       }
     } catch (error) {
-      console.error('Database authentication error:', error);
+      console.error('AUTH: Database authentication error:', error);
       return null;
     }
   }
   
-  // Fallback authentication
+  // STRICT fallback authentication - ONLY accept exact credentials
   if (username === 'admin' && password === 'admin123') {
-    console.log('Fallback authentication successful');
+    console.log('AUTH: Fallback authentication successful');
     return { id: '1', username: 'admin' };
   }
   
+  // EXPLICITLY reject everything else
+  console.log('AUTH: REJECTED - Invalid credentials:', { username, passwordLength: password.length });
   return null;
 }
 
@@ -113,9 +123,11 @@ export const handler = async (event, context) => {
       const body = JSON.parse(event.body || '{}');
       const { username, password } = body;
       
-      console.log('Login attempt:', { username, passwordProvided: !!password });
+      console.log('LOGIN ENDPOINT: Received login attempt for username:', username);
       
-      if (!username || !password) {
+      // STRICT validation at endpoint level
+      if (!username || !password || username.trim() === '' || password.trim() === '') {
+        console.log('LOGIN ENDPOINT: REJECTED - Missing credentials');
         return {
           statusCode: 400,
           headers,
@@ -129,7 +141,9 @@ export const handler = async (event, context) => {
       try {
         const user = await authenticateUser(username, password);
         
+        // STRICT rejection - null means authentication failed
         if (!user) {
+          console.log('LOGIN ENDPOINT: REJECTED - Authentication failed for:', username);
           return {
             statusCode: 401,
             headers,
@@ -140,10 +154,16 @@ export const handler = async (event, context) => {
           };
         }
         
-        // Create token
-        const tokenData = { id: user.id, username: user.username, loginTime: Date.now() };
+        // Only create token if authentication was successful
+        const tokenData = { 
+          id: user.id, 
+          username: user.username, 
+          loginTime: Date.now(),
+          isValid: true 
+        };
         const token = Buffer.from(JSON.stringify(tokenData)).toString('base64');
         
+        console.log('LOGIN ENDPOINT: SUCCESS - Token created for user:', user.username);
         return {
           statusCode: 200,
           headers,
@@ -156,7 +176,7 @@ export const handler = async (event, context) => {
         };
         
       } catch (error) {
-        console.error('Authentication error:', error);
+        console.error('LOGIN ENDPOINT: ERROR -', error);
         return {
           statusCode: 500,
           headers,
@@ -178,8 +198,17 @@ export const handler = async (event, context) => {
           // Decode and validate token
           const userData = JSON.parse(Buffer.from(token, 'base64').toString());
           
-          if (!userData.id || !userData.username) {
+          if (!userData.id || !userData.username || !userData.isValid) {
+            console.log('TOKEN VALIDATION: Invalid token format or missing fields');
             throw new Error('Invalid token format');
+          }
+          
+          // Additional validation - token must have been created recently (within 24 hours)
+          const tokenAge = Date.now() - (userData.loginTime || 0);
+          const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+          if (tokenAge > maxAge) {
+            console.log('TOKEN VALIDATION: Token expired');
+            throw new Error('Token expired');
           }
           
           const db = await connectToDatabase();
