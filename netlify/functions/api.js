@@ -10,9 +10,9 @@ async function initDB() {
       throw new Error('Database URL not found. Please set DATABASE_URL in Netlify environment variables.');
     }
     
-    // Dynamic import to avoid bundling issues
-    const postgres = (await import('postgres')).default;
-    sql = postgres(DATABASE_URL);
+    // Use Neon serverless driver to avoid import_bytes issues
+    const { neon } = await import('@neondatabase/serverless');
+    sql = neon(DATABASE_URL);
   }
   return sql;
 }
@@ -95,8 +95,8 @@ export const handler = async (event, context) => {
         };
       }
 
-      // Create simple token
-      const token = Buffer.from(JSON.stringify({ id: user.id, username: user.username })).toString('base64');
+      // Create simple token using btoa (browser-compatible base64)
+      const token = btoa(JSON.stringify({ id: user.id, username: user.username }));
 
       return {
         statusCode: 200,
@@ -127,7 +127,7 @@ export const handler = async (event, context) => {
 
       try {
         const token = authHeader.split(' ')[1];
-        const decoded = JSON.parse(Buffer.from(token, 'base64').toString());
+        const decoded = JSON.parse(atob(token));
         
         return {
           statusCode: 200,
