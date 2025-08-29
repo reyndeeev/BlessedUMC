@@ -319,6 +319,207 @@ export const handler = async (event, context) => {
       };
     }
 
+    // Handle contact messages endpoint (for admin dashboard)
+    if ((path === '/contact-messages' || path === '/api/contact-messages') && method === 'GET') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      // Mock contact messages data (in production, fetch from database)
+      const mockMessages = [
+        {
+          id: '1',
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@example.com',
+          phone: '(555) 123-4567',
+          subject: 'general',
+          message: 'I would like to learn more about your church services.',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '2',
+          firstName: 'Jane',
+          lastName: 'Smith',
+          email: 'jane.smith@example.com',
+          phone: null,
+          subject: 'visit',
+          message: 'Planning to visit this Sunday. What time is the service?',
+          createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+        }
+      ];
+      
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify(mockMessages)
+      };
+    }
+
+    // Handle users endpoint
+    if ((path === '/users' || path === '/api/users') && method === 'GET') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      // Mock users data (in production, fetch from database)
+      const mockUsers = [
+        {
+          id: '1',
+          username: 'admin'
+        }
+      ];
+      
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify(mockUsers)
+      };
+    }
+
+    // Handle create user endpoint
+    if ((path === '/users' || path === '/api/users') && method === 'POST') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      const body = JSON.parse(event.body || '{}');
+      const { username, password } = body;
+      
+      // Basic validation
+      if (!username || !password) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Username and password are required'
+          })
+        };
+      }
+      
+      // Mock user creation (in production, save to database)
+      const newUser = {
+        id: Math.random().toString(36).substr(2, 9),
+        username: username
+      };
+      
+      console.log('User created:', newUser);
+      
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          user: newUser
+        })
+      };
+    }
+
+    // Handle delete user endpoint
+    if (path.match(/\/(api\/)?users\/[^/]+$/) && method === 'DELETE') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      const userId = path.split('/').pop();
+      console.log('User deletion requested for ID:', userId);
+      
+      // Mock user deletion (in production, delete from database)
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'User deleted successfully'
+        })
+      };
+    }
+
+    // Handle analytics endpoint
+    if ((path === '/analytics' || path === '/api/analytics') && method === 'GET') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
+      
+      // Mock analytics data (in production, calculate from database)
+      const mockAnalytics = {
+        totalUsers: 1,
+        totalMessages: 2,
+        recentMessages: 1,
+        activeUsersToday: 1,
+        messagesByDay: [
+          { date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
+          { date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
+          { date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
+          { date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
+          { date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
+          { date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 1 },
+          { date: new Date().toISOString().split('T')[0], count: 1 }
+        ],
+        topSubjects: [
+          { subject: 'General Question', count: 1 },
+          { subject: 'Planning a Visit', count: 1 }
+        ]
+      };
+      
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify(mockAnalytics)
+      };
+    }
+
     // Default response for unhandled paths
     return {
       statusCode: 404,
