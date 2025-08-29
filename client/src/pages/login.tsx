@@ -7,10 +7,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, User, Church } from "lucide-react";
 
@@ -40,11 +39,9 @@ export default function Login() {
     setError("");
     try {
       await login(data.username, data.password);
-      // After successful login, redirect to dashboard with a small delay
+      // After successful login, redirect immediately to dashboard
       console.log("Login completed, redirecting to dashboard");
-      setTimeout(() => {
-        setLocation("/bumcdashboard");
-      }, 100); // Small delay to ensure state updates
+      window.location.href = "/bumcdashboard";
     } catch (error: any) {
       console.error("Login form error:", error);
       setError(error.message || "Login failed");
