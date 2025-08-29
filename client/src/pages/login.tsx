@@ -40,9 +40,11 @@ export default function Login() {
     setError("");
     try {
       await login(data.username, data.password);
-      // After successful login, redirect to dashboard
+      // After successful login, redirect to dashboard with a small delay
       console.log("Login completed, redirecting to dashboard");
-      setLocation("/bumcdashboard");
+      setTimeout(() => {
+        setLocation("/bumcdashboard");
+      }, 100); // Small delay to ensure state updates
     } catch (error: any) {
       console.error("Login form error:", error);
       setError(error.message || "Login failed");
