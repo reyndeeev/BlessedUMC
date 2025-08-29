@@ -73,17 +73,17 @@ export class DatabaseStorage implements IStorage {
       console.log("AUTH: User not found");
       return null;
     }
-    
+
     console.log("AUTH: User found, checking password. Hash:", user.password);
     console.log("AUTH: Plain password length:", password.length);
     const isValidPassword = await bcrypt.compare(password, user.password);
     console.log("AUTH: Password comparison result:", isValidPassword);
-    
+
     if (!isValidPassword) {
       console.log("AUTH: Password mismatch");
       return null;
     }
-    
+
     console.log("AUTH: Authentication successful");
     return user;
   }
@@ -112,19 +112,19 @@ export class DatabaseStorage implements IStorage {
   async getAnalytics(): Promise<AnalyticsData> {
     const [totalUsersResult] = await db.select({ count: sql<number>`count(*)` }).from(users);
     const [totalMessagesResult] = await db.select({ count: sql<number>`count(*)` }).from(contactMessages);
-    
+
     const oneDayAgo = new Date();
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-    
+
     const [recentMessagesResult] = await db
       .select({ count: sql<number>`count(*)` })
       .from(contactMessages)
       .where(gte(contactMessages.createdAt, oneDayAgo));
-    
+
     const totalUsers = totalUsersResult.count;
     const totalMessages = totalMessagesResult.count;
     const recentMessages = recentMessagesResult.count;
-    
+
     return {
       totalUsers,
       totalMessages,
@@ -136,28 +136,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async getMessagesByDay(): Promise<{ date: string; count: number }[]> {
-    const last7Days = [];
-    for (let i = 6; i >= 0; i--) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-      
-      const [result] = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(contactMessages)
-        .where(
-          sql`${contactMessages.createdAt} >= ${startOfDay} AND ${contactMessages.createdAt} <= ${endOfDay}`
-        );
-      
-      last7Days.push({ 
-        date: date.toISOString().split('T')[0], 
-        count: result.count 
-      });
-    }
-    return last7Days;
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const messages = await db
+      .select({
+        date: sql<string>`DATE(${contactMessages.createdAt})`,
+        count: sql<number>`count(*)`
+      })
+      .from(contactMessages)
+      .where(gte(contactMessages.createdAt, sevenDaysAgo.toISOString()))
+      .groupBy(sql`DATE(${contactMessages.createdAt})`)
+      .orderBy(sql`DATE(${contactMessages.createdAt})`);
+
+    return messages;
   }
 
   private async getTopSubjects(): Promise<{ subject: string; count: number }[]> {
@@ -170,7 +162,7 @@ export class DatabaseStorage implements IStorage {
       .groupBy(contactMessages.subject)
       .orderBy(desc(sql`count(*)`))
       .limit(5);
-    
+
     return results;
   }
 }
