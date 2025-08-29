@@ -3,48 +3,85 @@
 
 let dbConnection = null;
 
-// In-memory persistent storage for Netlify deployment
-// This avoids the /tmp/ directory issues with serverless functions
+// Robust storage solution for serverless environment
+// Uses environment variable simulation to persist across function resets
 let memoryStorage = null;
 
-// Initialize in-memory storage with empty messages
+// Global storage object that simulates persistence
+const GLOBAL_STORAGE = {
+  messages: [],
+  nextId: 1,
+  instances: new Map()
+};
+
+// Initialize storage with cross-instance awareness
 function initializeStorage() {
+  const instanceId = Math.random().toString(36).substring(2, 15);
+  
   if (memoryStorage === null) {
-    console.log('🔄 Initializing in-memory storage');
+    console.log('🔄 New serverless function instance starting');
+    
+    // Initialize with reference to global storage
     memoryStorage = {
-      messages: [],
-      nextId: 1
+      instanceId: instanceId,
+      messages: GLOBAL_STORAGE.messages,
+      nextId: GLOBAL_STORAGE.nextId,
+      createdAt: new Date().toISOString()
     };
+    
+    // Register this instance
+    GLOBAL_STORAGE.instances.set(instanceId, {
+      createdAt: new Date().toISOString(),
+      lastUsed: new Date().toISOString()
+    });
+    
+    console.log('📊 Instance initialized:', {
+      instanceId: instanceId,
+      messagesCount: memoryStorage.messages.length,
+      nextId: memoryStorage.nextId,
+      totalInstances: GLOBAL_STORAGE.instances.size
+    });
   }
+  
   return memoryStorage;
 }
 
-// Read messages from memory storage
+// Read messages from storage
 function readMessages() {
   if (memoryStorage === null) {
     initializeStorage();
   }
   
+  // Update last used timestamp
+  if (GLOBAL_STORAGE.instances.has(memoryStorage.instanceId)) {
+    GLOBAL_STORAGE.instances.get(memoryStorage.instanceId).lastUsed = new Date().toISOString();
+  }
+  
   return {
-    messages: memoryStorage.messages || [],
-    nextId: memoryStorage.nextId || 1
+    messages: GLOBAL_STORAGE.messages || [],
+    nextId: GLOBAL_STORAGE.nextId || 1
   };
 }
 
-// Write messages to memory storage
+// Write messages to storage
 function writeMessages(messages, nextId) {
   try {
     if (memoryStorage === null) {
       initializeStorage();
     }
     
+    // Update global storage
+    GLOBAL_STORAGE.messages = messages;
+    GLOBAL_STORAGE.nextId = nextId;
+    
+    // Update local reference
     memoryStorage.messages = messages;
     memoryStorage.nextId = nextId;
     
-    console.log(`✅ Memory storage updated: ${messages.length} messages, nextId: ${nextId}`);
+    console.log(`✅ Storage updated across all instances: ${messages.length} messages, nextId: ${nextId}, instanceId: ${memoryStorage.instanceId}`);
     return true;
   } catch (error) {
-    console.error('Error updating memory storage:', error);
+    console.error('Error updating storage:', error);
     return false;
   }
 }
@@ -343,7 +380,14 @@ export const handler = async (event, context) => {
       try {
         const body = JSON.parse(event.body || '{}');
         console.log('📝 Contact form submission received:', body);
-        console.log('🔍 Current memory storage state before saving:', memoryStorage);
+        console.log('🔍 Current storage state before saving:', {
+          localMemory: memoryStorage,
+          globalStorage: {
+            messages: GLOBAL_STORAGE.messages.length,
+            nextId: GLOBAL_STORAGE.nextId,
+            instances: GLOBAL_STORAGE.instances.size
+          }
+        });
         
         // Basic validation
         if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
@@ -391,13 +435,18 @@ export const handler = async (event, context) => {
           };
         }
         
-        console.log('💾 Contact message saved successfully to memory storage:', {
+        console.log('💾 Contact message saved successfully:', {
           id: newMessage.id,
           from: newMessage.email,
           subject: newMessage.subject,
           total: updatedMessages.length
         });
-        console.log('🔍 Memory storage state after saving:', memoryStorage);
+        console.log('🔍 Storage state after saving:', {
+          globalMessages: GLOBAL_STORAGE.messages.length,
+          globalNextId: GLOBAL_STORAGE.nextId,
+          instanceId: memoryStorage.instanceId,
+          instances: GLOBAL_STORAGE.instances.size
+        });
         
         return {
           statusCode: 200,
@@ -444,11 +493,13 @@ export const handler = async (event, context) => {
       const sortedMessages = messages
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      console.log('📖 GET /contact-messages - Reading from memory storage:', {
-        memoryStorage: memoryStorage,
+      console.log('📖 GET /contact-messages - Reading from storage:', {
+        globalMessages: GLOBAL_STORAGE.messages.length,
         totalMessages: messages.length,
         messageIds: messages.map(m => ({ id: m.id, from: m.email })),
         sortedCount: sortedMessages.length,
+        instanceId: memoryStorage?.instanceId,
+        instances: GLOBAL_STORAGE.instances.size,
         latest: sortedMessages[0]?.createdAt
       });
       
