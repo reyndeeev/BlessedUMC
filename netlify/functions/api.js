@@ -342,10 +342,12 @@ export const handler = async (event, context) => {
     if ((path === '/contact' || path === '/api/contact') && method === 'POST') {
       try {
         const body = JSON.parse(event.body || '{}');
-        console.log('Contact form submission:', body);
+        console.log('📝 Contact form submission received:', body);
+        console.log('🔍 Current memory storage state before saving:', memoryStorage);
         
         // Basic validation
         if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
+          console.log('❌ Validation failed - missing required fields');
           return {
             statusCode: 400,
             headers,
@@ -358,6 +360,7 @@ export const handler = async (event, context) => {
         
         // Read current storage state
         const { messages: currentMessages, nextId } = readMessages();
+        console.log('📖 Current messages in storage:', { count: currentMessages.length, nextId });
         
         // Create new message object
         const newMessage = {
@@ -388,12 +391,13 @@ export const handler = async (event, context) => {
           };
         }
         
-        console.log('💾 Contact message saved persistently:', {
+        console.log('💾 Contact message saved successfully to memory storage:', {
           id: newMessage.id,
           from: newMessage.email,
           subject: newMessage.subject,
           total: updatedMessages.length
         });
+        console.log('🔍 Memory storage state after saving:', memoryStorage);
         
         return {
           statusCode: 200,
@@ -433,14 +437,15 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Read messages from persistent storage
+      // Read messages from memory storage
       const { messages } = readMessages();
       
       // Sort by newest first (just in case)
       const sortedMessages = messages
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      console.log('📖 GET /contact-messages - Reading from persistent storage:', {
+      console.log('📖 GET /contact-messages - Reading from memory storage:', {
+        memoryStorage: memoryStorage,
         totalMessages: messages.length,
         messageIds: messages.map(m => ({ id: m.id, from: m.email })),
         sortedCount: sortedMessages.length,
