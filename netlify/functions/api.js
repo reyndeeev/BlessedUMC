@@ -118,8 +118,8 @@ export const handler = async (event, context) => {
     
     console.log(`Processing: ${method} ${path}`);
 
-    // Handle authentication endpoints
-    if (path === '/auth/login' && method === 'POST') {
+    // Handle authentication endpoints - check for both /api/auth/login and /auth/login
+    if ((path === '/auth/login' || path === '/api/auth/login') && method === 'POST') {
       const body = JSON.parse(event.body || '{}');
       const { username, password } = body;
       
@@ -188,8 +188,8 @@ export const handler = async (event, context) => {
       }
     }
 
-    // Handle auth/me endpoint
-    if (path === '/auth/me' && method === 'GET') {
+    // Handle auth/me endpoint - check for both /api/auth/me and /auth/me
+    if ((path === '/auth/me' || path === '/api/auth/me') && method === 'GET') {
       const authHeader = event.headers.authorization || event.headers.Authorization;
       if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.replace('Bearer ', '');
@@ -289,15 +289,32 @@ export const handler = async (event, context) => {
       }
     }
 
-    // Handle other API endpoints with basic responses
-    if (path.startsWith('/')) {
+    // Handle contact form endpoint
+    if ((path === '/contact' || path === '/api/contact') && method === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+      console.log('Contact form submission:', body);
+      
+      // Basic validation
+      if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'All required fields must be filled'
+          })
+        };
+      }
+      
+      // For now, just log the contact form (in production, you'd save to database or send email)
+      console.log('Contact form received from:', body.email, 'Subject:', body.subject);
+      
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({
           success: true,
-          message: 'API endpoint placeholder',
-          data: []
+          message: 'Message sent successfully!'
         })
       };
     }
