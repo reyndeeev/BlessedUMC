@@ -3,15 +3,15 @@
 
 let dbConnection = null;
 
-// IMPORTANT: In-memory storage for contact messages 
-// WARNING: This resets on each function cold start in serverless environments!
-// In production, you'd use a proper database or external storage service
-// For now, we'll work with this limitation and add detailed logging
+// File-based persistent storage for Netlify deployment
+const fs = require('fs');
+const path = require('path');
 
-// Global variable to track if this is a fresh function start
-let isFunctionInitialized = false;
+// Storage file path (in /tmp for serverless environment)
+const STORAGE_FILE = '/tmp/contact_messages.json';
 
-let contactMessages = [
+// Default messages for first-time initialization
+const DEFAULT_MESSAGES = [
   {
     id: '1',
     firstName: 'John',
@@ -34,17 +34,59 @@ let contactMessages = [
   }
 ];
 
-let messageIdCounter = 3;
-
-// Initialize function tracking
-if (!isFunctionInitialized) {
-  console.log('🚀 SERVERLESS FUNCTION INITIALIZATION - Fresh start');
-  console.log('Initial message storage:', {
-    count: contactMessages.length,
-    messages: contactMessages.map(m => ({ id: m.id, from: m.email }))
-  });
-  isFunctionInitialized = true;
+// Initialize storage
+function initializeStorage() {
+  try {
+    if (!fs.existsSync(STORAGE_FILE)) {
+      console.log('🔄 Initializing storage with default messages');
+      const storageData = {
+        messages: DEFAULT_MESSAGES,
+        nextId: 3
+      };
+      fs.writeFileSync(STORAGE_FILE, JSON.stringify(storageData, null, 2));
+    }
+  } catch (error) {
+    console.error('Storage initialization error:', error);
+  }
 }
+
+// Read messages from storage
+function readMessages() {
+  try {
+    if (fs.existsSync(STORAGE_FILE)) {
+      const data = fs.readFileSync(STORAGE_FILE, 'utf8');
+      const parsed = JSON.parse(data);
+      return {
+        messages: parsed.messages || [],
+        nextId: parsed.nextId || 1
+      };
+    }
+  } catch (error) {
+    console.error('Error reading messages:', error);
+  }
+  
+  // Fallback to defaults
+  return {
+    messages: DEFAULT_MESSAGES,
+    nextId: 3
+  };
+}
+
+// Write messages to storage
+function writeMessages(messages, nextId) {
+  try {
+    const storageData = { messages, nextId };
+    fs.writeFileSync(STORAGE_FILE, JSON.stringify(storageData, null, 2));
+    console.log(`✅ Storage updated: ${messages.length} messages, nextId: ${nextId}`);
+    return true;
+  } catch (error) {
+    console.error('Error writing messages:', error);
+    return false;
+  }
+}
+
+// Initialize storage on function load
+initializeStorage();
 
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
@@ -350,9 +392,12 @@ export const handler = async (event, context) => {
           };
         }
         
+        // Read current storage state
+        const { messages: currentMessages, nextId } = readMessages();
+        
         // Create new message object
         const newMessage = {
-          id: messageIdCounter.toString(),
+          id: nextId.toString(),
           firstName: body.firstName.trim(),
           lastName: body.lastName.trim(), 
           email: body.email.trim(),
@@ -362,15 +407,28 @@ export const handler = async (event, context) => {
           createdAt: new Date().toISOString()
         };
         
-        // Add to in-memory storage
-        contactMessages.unshift(newMessage); // Add to beginning for newest first
-        messageIdCounter++;
+        // Add to messages array (newest first)
+        const updatedMessages = [newMessage, ...currentMessages];
         
-        console.log('Contact message saved:', {
+        // Save to persistent storage
+        const saveSuccess = writeMessages(updatedMessages, nextId + 1);
+        
+        if (!saveSuccess) {
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Failed to save message. Please try again.'
+            })
+          };
+        }
+        
+        console.log('💾 Contact message saved persistently:', {
           id: newMessage.id,
           from: newMessage.email,
           subject: newMessage.subject,
-          total: contactMessages.length
+          total: updatedMessages.length
         });
         
         return {
@@ -411,13 +469,16 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Return stored contact messages (sorted by newest first)
-      const sortedMessages = contactMessages
+      // Read messages from persistent storage
+      const { messages } = readMessages();
+      
+      // Sort by newest first (just in case)
+      const sortedMessages = messages
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      console.log('GET /contact-messages - Current storage state:', {
-        totalMessages: contactMessages.length,
-        messageIds: contactMessages.map(m => ({ id: m.id, from: m.email })),
+      console.log('📖 GET /contact-messages - Reading from persistent storage:', {
+        totalMessages: messages.length,
+        messageIds: messages.map(m => ({ id: m.id, from: m.email })),
         sortedCount: sortedMessages.length,
         latest: sortedMessages[0]?.createdAt
       });
@@ -448,35 +509,53 @@ export const handler = async (event, context) => {
       const messageId = path.split('/').pop();
       console.log('Message deletion requested for ID:', messageId);
       
-      console.log('DELETE request - Current storage before deletion:', {
-        totalMessages: contactMessages.length,
-        messageIds: contactMessages.map(m => ({ id: m.id, from: m.email })),
+      // Read current storage state
+      const { messages: currentMessages, nextId } = readMessages();
+      
+      console.log('🗑️ DELETE request - Current storage before deletion:', {
+        totalMessages: currentMessages.length,
+        messageIds: currentMessages.map(m => ({ id: m.id, from: m.email })),
         targetId: messageId
       });
       
-      // Find and remove message from storage
-      const messageIndex = contactMessages.findIndex(msg => msg.id === messageId);
+      // Find message to delete
+      const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
       
       if (messageIndex === -1) {
-        console.log('DELETE - Message not found:', { messageId, available: contactMessages.map(m => m.id) });
+        console.log('DELETE - Message not found:', { messageId, available: currentMessages.map(m => m.id) });
         return {
           statusCode: 404,
           headers,
           body: JSON.stringify({
             success: false,
-            message: `Message with ID ${messageId} not found. Available IDs: ${contactMessages.map(m => m.id).join(', ')}`
+            message: `Message with ID ${messageId} not found. Available IDs: ${currentMessages.map(m => m.id).join(', ')}`
           })
         };
       }
       
       // Remove the message
-      const deletedMessage = contactMessages.splice(messageIndex, 1)[0];
+      const deletedMessage = currentMessages[messageIndex];
+      const updatedMessages = currentMessages.filter(msg => msg.id !== messageId);
       
-      console.log('DELETE - Message deleted successfully:', {
+      // Save to persistent storage
+      const saveSuccess = writeMessages(updatedMessages, nextId);
+      
+      if (!saveSuccess) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to delete message. Please try again.'
+          })
+        };
+      }
+      
+      console.log('🗑️ DELETE - Message deleted successfully from persistent storage:', {
         deletedId: deletedMessage.id,
         deletedFrom: deletedMessage.email,
-        remainingCount: contactMessages.length,
-        remainingIds: contactMessages.map(m => ({ id: m.id, from: m.email }))
+        remainingCount: updatedMessages.length,
+        remainingIds: updatedMessages.map(m => ({ id: m.id, from: m.email }))
       });
       
       return {
@@ -486,7 +565,7 @@ export const handler = async (event, context) => {
           success: true,
           message: 'Contact message deleted successfully',
           deletedId: messageId,
-          remainingCount: contactMessages.length
+          remainingCount: updatedMessages.length
         })
       };
     }
@@ -510,10 +589,13 @@ export const handler = async (event, context) => {
       const messageId = path.split('/').slice(-2, -1)[0];
       console.log('Message marked as replied for ID:', messageId);
       
-      // Find message and mark as replied
-      const message = contactMessages.find(msg => msg.id === messageId);
+      // Read current storage state
+      const { messages: currentMessages, nextId } = readMessages();
       
-      if (!message) {
+      // Find message to mark as replied
+      const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
+      
+      if (messageIndex === -1) {
         return {
           statusCode: 404,
           headers,
@@ -524,14 +606,32 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Add replied flag and timestamp
-      message.replied = true;
-      message.repliedAt = new Date().toISOString();
+      // Update message with replied status
+      const updatedMessages = [...currentMessages];
+      updatedMessages[messageIndex] = {
+        ...updatedMessages[messageIndex],
+        replied: true,
+        repliedAt: new Date().toISOString()
+      };
       
-      console.log('Message marked as replied:', {
-        id: message.id,
-        from: message.email,
-        repliedAt: message.repliedAt
+      // Save to persistent storage
+      const saveSuccess = writeMessages(updatedMessages, nextId);
+      
+      if (!saveSuccess) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to mark message as replied. Please try again.'
+          })
+        };
+      }
+      
+      console.log('✉️ Message marked as replied in persistent storage:', {
+        id: messageId,
+        from: updatedMessages[messageIndex].email,
+        repliedAt: updatedMessages[messageIndex].repliedAt
       });
       
       return {
@@ -729,15 +829,18 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Calculate analytics from actual data
+      // Read messages from persistent storage for analytics
+      const { messages } = readMessages();
+      
+      // Calculate analytics from actual persistent data
       const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      const recentMessages = contactMessages.filter(msg => 
+      const recentMessages = messages.filter(msg => 
         new Date(msg.createdAt) >= oneDayAgo
       ).length;
       
       const mockAnalytics = {
         totalUsers: 1,
-        totalMessages: contactMessages.length,
+        totalMessages: messages.length,
         recentMessages: recentMessages,
         activeUsersToday: 1,
         messagesByDay: [
