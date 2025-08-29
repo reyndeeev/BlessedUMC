@@ -54,7 +54,87 @@ class NetlifyStorage {
 // Create storage instance
 const storage = new NetlifyStorage();
 
-// Wrapper functions
+// Database operations for contact messages
+async function saveContactMessageToDatabase(messageData) {
+  const db = await connectToDatabase();
+  if (!db) {
+    console.log('No database connection, using fallback storage');
+    return null;
+  }
+
+  try {
+    console.log('💾 Saving contact message to Neon database:', messageData);
+    const result = await db.query(`
+      INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message, created_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id, first_name, last_name, email, phone, subject, message, created_at
+    `, [
+      messageData.firstName,
+      messageData.lastName,
+      messageData.email,
+      messageData.phone || null,
+      messageData.subject,
+      messageData.message,
+      new Date().toISOString()
+    ]);
+    
+    console.log('✅ Contact message saved to database successfully:', result[0]);
+    return result[0];
+  } catch (error) {
+    console.error('❌ Database save error:', error);
+    return null;
+  }
+}
+
+async function getContactMessagesFromDatabase() {
+  const db = await connectToDatabase();
+  if (!db) {
+    console.log('No database connection, using fallback storage');
+    return storage.getMessages().messages;
+  }
+
+  try {
+    console.log('📖 Fetching contact messages from Neon database');
+    const messages = await db.query(`
+      SELECT id, first_name as "firstName", last_name as "lastName", 
+             email, phone, subject, message, created_at as "createdAt"
+      FROM contact_messages
+      ORDER BY created_at DESC
+    `);
+    
+    console.log(`✅ Retrieved ${messages.length} messages from database`);
+    return messages;
+  } catch (error) {
+    console.error('❌ Database read error:', error);
+    return [];
+  }
+}
+
+async function deleteContactMessageFromDatabase(messageId) {
+  const db = await connectToDatabase();
+  if (!db) {
+    console.log('No database connection, using fallback storage');
+    return false;
+  }
+
+  try {
+    console.log('🗑️ Deleting contact message from database:', messageId);
+    const result = await db.query('DELETE FROM contact_messages WHERE id = $1 RETURNING id', [messageId]);
+    
+    if (result.length > 0) {
+      console.log('✅ Contact message deleted from database successfully:', messageId);
+      return true;
+    } else {
+      console.log('❌ Contact message not found in database:', messageId);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Database delete error:', error);
+    return false;
+  }
+}
+
+// Wrapper functions for backward compatibility
 function initializeStorage() {
   storage.init();
 }
@@ -380,44 +460,48 @@ export const handler = async (event, context) => {
           };
         }
         
-        // Read current storage state
-        const { messages: currentMessages, nextId } = readMessages();
-        console.log('📖 Current messages in storage:', { count: currentMessages.length, nextId });
-        
         // Create new message object
         const newMessage = {
-          id: nextId.toString(),
           firstName: body.firstName.trim(),
           lastName: body.lastName.trim(), 
           email: body.email.trim(),
           phone: body.phone ? body.phone.trim() : null,
           subject: body.subject,
-          message: body.message.trim(),
-          createdAt: new Date().toISOString()
+          message: body.message.trim()
         };
         
-        // Add to messages array (newest first)
-        const updatedMessages = [newMessage, ...currentMessages];
+        // Try to save to database first
+        const savedMessage = await saveContactMessageToDatabase(newMessage);
         
-        // Save to persistent storage
-        const saveSuccess = writeMessages(updatedMessages, nextId + 1);
-        
-        if (!saveSuccess) {
-          return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Failed to save message. Please try again.'
-            })
+        if (!savedMessage) {
+          // Fallback to in-memory storage if database fails
+          console.log('⚠️ Database save failed, using fallback storage');
+          const { messages: currentMessages, nextId } = readMessages();
+          const fallbackMessage = {
+            ...newMessage,
+            id: nextId.toString(),
+            createdAt: new Date().toISOString()
           };
+          const updatedMessages = [fallbackMessage, ...currentMessages];
+          const saveSuccess = writeMessages(updatedMessages, nextId + 1);
+          
+          if (!saveSuccess) {
+            return {
+              statusCode: 500,
+              headers,
+              body: JSON.stringify({
+                success: false,
+                message: 'Failed to save message. Please try again.'
+              })
+            };
+          }
         }
         
         console.log('💾 Contact message saved successfully:', {
-          id: newMessage.id,
+          id: savedMessage?.id || 'fallback',
           from: newMessage.email,
           subject: newMessage.subject,
-          total: updatedMessages.length
+          savedToDatabase: !!savedMessage
         });
         console.log('🔍 Storage state after saving:', getStorageStatus());
         
@@ -459,19 +543,19 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Read messages from memory storage
-      const { messages } = readMessages();
+      // Read messages from database first, fallback to memory storage
+      const messages = await getContactMessagesFromDatabase();
       
-      // Sort by newest first (just in case)
+      // Sort by newest first (already sorted in query, but just in case)
       const sortedMessages = messages
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      console.log('📖 GET /contact-messages - Reading from storage:', {
-        storageStatus: getStorageStatus(),
+      console.log('📖 GET /contact-messages - Reading from database:', {
         totalMessages: messages.length,
         messageIds: messages.map(m => ({ id: m.id, from: m.email })),
         sortedCount: sortedMessages.length,
-        latest: sortedMessages[0]?.createdAt
+        latest: sortedMessages[0]?.createdAt,
+        source: 'database'
       });
       
       return {
@@ -498,56 +582,45 @@ export const handler = async (event, context) => {
       }
       
       const messageId = path.split('/').pop();
-      console.log('Message deletion requested for ID:', messageId);
+      console.log('🗑️ Message deletion requested for ID:', messageId);
       
-      // Read current storage state
-      const { messages: currentMessages, nextId } = readMessages();
+      // Try to delete from database first
+      const deleteSuccess = await deleteContactMessageFromDatabase(messageId);
       
-      console.log('🗑️ DELETE request - Current storage before deletion:', {
-        totalMessages: currentMessages.length,
-        messageIds: currentMessages.map(m => ({ id: m.id, from: m.email })),
-        targetId: messageId
-      });
-      
-      // Find message to delete
-      const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
-      
-      if (messageIndex === -1) {
-        console.log('DELETE - Message not found:', { messageId, available: currentMessages.map(m => m.id) });
-        return {
-          statusCode: 404,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: `Message with ID ${messageId} not found. Available IDs: ${currentMessages.map(m => m.id).join(', ')}`
-          })
-        };
+      if (!deleteSuccess) {
+        // Fallback to in-memory storage if database fails
+        console.log('⚠️ Database delete failed, trying fallback storage');
+        const { messages: currentMessages, nextId } = readMessages();
+        const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
+        
+        if (messageIndex === -1) {
+          return {
+            statusCode: 404,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: `Message with ID ${messageId} not found`
+            })
+          };
+        }
+        
+        const updatedMessages = currentMessages.filter(msg => msg.id !== messageId);
+        const saveSuccess = writeMessages(updatedMessages, nextId);
+        
+        if (!saveSuccess) {
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Failed to delete message. Please try again.'
+            })
+          };
+        }
       }
       
-      // Remove the message
-      const deletedMessage = currentMessages[messageIndex];
-      const updatedMessages = currentMessages.filter(msg => msg.id !== messageId);
-      
-      // Save to persistent storage
-      const saveSuccess = writeMessages(updatedMessages, nextId);
-      
-      if (!saveSuccess) {
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Failed to delete message. Please try again.'
-          })
-        };
-      }
-      
-      console.log('🗑️ DELETE - Message deleted successfully from persistent storage:', {
-        deletedId: deletedMessage.id,
-        deletedFrom: deletedMessage.email,
-        remainingCount: updatedMessages.length,
-        remainingIds: updatedMessages.map(m => ({ id: m.id, from: m.email }))
-      });
+      // Get updated count for response
+      const remainingMessages = await getContactMessagesFromDatabase();
       
       return {
         statusCode: 200,
@@ -556,7 +629,7 @@ export const handler = async (event, context) => {
           success: true,
           message: 'Contact message deleted successfully',
           deletedId: messageId,
-          remainingCount: updatedMessages.length
+          remainingCount: remainingMessages.length
         })
       };
     }
