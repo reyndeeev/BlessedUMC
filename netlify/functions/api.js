@@ -3,84 +3,48 @@
 
 let dbConnection = null;
 
-// File-based persistent storage for Netlify deployment
-const fs = require('fs');
-const path = require('path');
+// In-memory persistent storage for Netlify deployment
+// This avoids the /tmp/ directory issues with serverless functions
+let memoryStorage = null;
 
-// Storage file path (in /tmp for serverless environment)
-const STORAGE_FILE = '/tmp/contact_messages.json';
-
-// Default messages for first-time initialization
-const DEFAULT_MESSAGES = [
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe', 
-    email: 'john.doe@example.com',
-    phone: '(555) 123-4567',
-    subject: 'general',
-    message: 'I would like to learn more about your church services.',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: '2', 
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane.smith@example.com',
-    phone: null,
-    subject: 'visit',
-    message: 'Planning to visit this Sunday. What time is the service?',
-    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-  }
-];
-
-// Initialize storage
+// Initialize in-memory storage with empty messages
 function initializeStorage() {
-  try {
-    if (!fs.existsSync(STORAGE_FILE)) {
-      console.log('🔄 Initializing storage with default messages');
-      const storageData = {
-        messages: DEFAULT_MESSAGES,
-        nextId: 3
-      };
-      fs.writeFileSync(STORAGE_FILE, JSON.stringify(storageData, null, 2));
-    }
-  } catch (error) {
-    console.error('Storage initialization error:', error);
+  if (memoryStorage === null) {
+    console.log('🔄 Initializing in-memory storage');
+    memoryStorage = {
+      messages: [],
+      nextId: 1
+    };
   }
+  return memoryStorage;
 }
 
-// Read messages from storage
+// Read messages from memory storage
 function readMessages() {
-  try {
-    if (fs.existsSync(STORAGE_FILE)) {
-      const data = fs.readFileSync(STORAGE_FILE, 'utf8');
-      const parsed = JSON.parse(data);
-      return {
-        messages: parsed.messages || [],
-        nextId: parsed.nextId || 1
-      };
-    }
-  } catch (error) {
-    console.error('Error reading messages:', error);
+  if (memoryStorage === null) {
+    initializeStorage();
   }
   
-  // Fallback to defaults
   return {
-    messages: DEFAULT_MESSAGES,
-    nextId: 3
+    messages: memoryStorage.messages || [],
+    nextId: memoryStorage.nextId || 1
   };
 }
 
-// Write messages to storage
+// Write messages to memory storage
 function writeMessages(messages, nextId) {
   try {
-    const storageData = { messages, nextId };
-    fs.writeFileSync(STORAGE_FILE, JSON.stringify(storageData, null, 2));
-    console.log(`✅ Storage updated: ${messages.length} messages, nextId: ${nextId}`);
+    if (memoryStorage === null) {
+      initializeStorage();
+    }
+    
+    memoryStorage.messages = messages;
+    memoryStorage.nextId = nextId;
+    
+    console.log(`✅ Memory storage updated: ${messages.length} messages, nextId: ${nextId}`);
     return true;
   } catch (error) {
-    console.error('Error writing messages:', error);
+    console.error('Error updating memory storage:', error);
     return false;
   }
 }
