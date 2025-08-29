@@ -38,22 +38,49 @@ export default function Login() {
     console.log("Form submitted with:", { username: data.username, passwordLength: data.password.length });
     setError("");
     try {
-      await login(data.username, data.password);
-      // After successful login, redirect immediately to dashboard
-      console.log("Login completed, redirecting to dashboard");
-      window.location.href = "/bumcdashboard";
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: data.username, password: data.password }),
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Login failed");
+      }
+      
+      // Store token and redirect
+      localStorage.setItem("blessedumc_token", result.token);
+      console.log("Login successful, redirecting to dashboard");
+      
+      // Use replace to prevent back button issues
+      window.location.replace("/bumcdashboard");
+      
     } catch (error: any) {
-      console.error("Login form error:", error);
+      console.error("Login error:", error);
       setError(error.message || "Login failed");
     }
   };
 
-  // Redirect to dashboard if authenticated
+  // Check if already logged in
   useEffect(() => {
-    if (isAuthenticated) {
-      setLocation("/bumcdashboard");
+    const token = localStorage.getItem("blessedumc_token");
+    if (token) {
+      // Verify token is still valid
+      fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(res => {
+        if (res.ok) {
+          window.location.replace("/bumcdashboard");
+        } else {
+          localStorage.removeItem("blessedumc_token");
+        }
+      }).catch(() => {
+        localStorage.removeItem("blessedumc_token");
+      });
     }
-  }, [isAuthenticated, setLocation]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-methodist-red/10 to-methodist-blue/10 flex items-center justify-center p-4">

@@ -82,12 +82,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Store user in session AND send token
+      // Create simple token for client storage
       const { password: _, ...userWithoutPassword } = user;
-      req.session.user = userWithoutPassword;
-      
-      // Generate simple token by encoding user data directly (no server-side storage needed)
-      const token = JSON.stringify({ id: userWithoutPassword.id, username: userWithoutPassword.username });
+      const token = btoa(JSON.stringify({ id: userWithoutPassword.id, username: userWithoutPassword.username, loginTime: Date.now() }));
       
       res.json({ 
         success: true, 
@@ -121,40 +118,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/me", async (req, res) => {
-    // Check session first
-    if (req.session.user) {
-      return res.json({ 
-        success: true, 
-        user: req.session.user 
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: "No token provided" 
       });
     }
     
-    // Fallback to token authentication
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (token) {
-      try {
-        // Decode the token and validate the user exists in database
-        const userData = JSON.parse(token);
-        if (userData.id && userData.username) {
-          // Verify user still exists in database
-          const user = await storage.getUser(userData.id);
-          if (user && user.username === userData.username) {
-            const { password: _, ...userWithoutPassword } = user;
-            return res.json({ 
-              success: true, 
-              user: userWithoutPassword 
-            });
-          }
-        }
-      } catch (error) {
-        console.error("Token validation error:", error);
+    try {
+      // Decode the base64 token
+      const userData = JSON.parse(atob(token));
+      
+      if (!userData.id || !userData.username) {
+        throw new Error('Invalid token format');
       }
+      
+      // Verify user still exists in database
+      const user = await storage.getUser(userData.id);
+      if (!user || user.username !== userData.username) {
+        throw new Error('User not found or username mismatch');
+      }
+      
+      const { password: _, ...userWithoutPassword } = user;
+      return res.json({ 
+        success: true, 
+        user: userWithoutPassword 
+      });
+      
+    } catch (error) {
+      console.error("Authentication error:", error);
+      return res.status(401).json({ 
+        success: false, 
+        message: "Invalid or expired token" 
+      });
     }
-    
-    res.status(401).json({ 
-      success: false, 
-      message: "Not authenticated" 
-    });
   });
 
   // Contact form submission
