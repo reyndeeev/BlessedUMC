@@ -37,27 +37,39 @@ export default function Admin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  const { data: messages, isLoading, error } = useQuery<ContactMessage[]>({
+  const { data: messages, isLoading, error, refetch } = useQuery<ContactMessage[]>({
     queryKey: ["/api", "contact-messages"],
     refetchInterval: 30000, // Auto-refresh every 30 seconds
+    refetchOnWindowFocus: true, // Refetch when window gets focus
+    staleTime: 0, // Always consider data stale to force updates
   });
 
   const deleteMessageMutation = useMutation({
     mutationFn: async (messageId: string) => {
       const response = await apiRequest('DELETE', `/api/contact-messages/${messageId}`);
-      return response.json();
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || 'Delete failed');
+      }
+      return result;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+    onSuccess: async () => {
+      // Aggressive cache invalidation
+      await queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+      await queryClient.refetchQueries({ queryKey: ["/api", "contact-messages"] });
+      // Also invalidate admin dashboard queries
+      await queryClient.invalidateQueries({ queryKey: ["/api"] });
+      
       toast({
         title: "Success",
         description: "Message deleted successfully",
       });
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error('Delete error:', error);
       toast({
         title: "Error",
-        description: "Failed to delete message",
+        description: error.message || "Failed to delete message",
         variant: "destructive",
       });
     },
@@ -66,19 +78,27 @@ export default function Admin() {
   const markRepliedMutation = useMutation({
     mutationFn: async (messageId: string) => {
       const response = await apiRequest('PATCH', `/api/contact-messages/${messageId}/reply`);
-      return response.json();
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || 'Mark as replied failed');
+      }
+      return result;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+    onSuccess: async () => {
+      // Aggressive cache invalidation
+      await queryClient.invalidateQueries({ queryKey: ["/api", "contact-messages"] });
+      await queryClient.refetchQueries({ queryKey: ["/api", "contact-messages"] });
+      
       toast({
         title: "Success",
         description: "Message marked as replied",
       });
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.error('Mark replied error:', error);
       toast({
         title: "Error",
-        description: "Failed to mark message as replied",
+        description: error.message || "Failed to mark message as replied",
         variant: "destructive",
       });
     },

@@ -3,8 +3,14 @@
 
 let dbConnection = null;
 
-// In-memory storage for contact messages (Note: This resets on each function cold start)
+// IMPORTANT: In-memory storage for contact messages 
+// WARNING: This resets on each function cold start in serverless environments!
 // In production, you'd use a proper database or external storage service
+// For now, we'll work with this limitation and add detailed logging
+
+// Global variable to track if this is a fresh function start
+let isFunctionInitialized = false;
+
 let contactMessages = [
   {
     id: '1',
@@ -29,6 +35,16 @@ let contactMessages = [
 ];
 
 let messageIdCounter = 3;
+
+// Initialize function tracking
+if (!isFunctionInitialized) {
+  console.log('🚀 SERVERLESS FUNCTION INITIALIZATION - Fresh start');
+  console.log('Initial message storage:', {
+    count: contactMessages.length,
+    messages: contactMessages.map(m => ({ id: m.id, from: m.email }))
+  });
+  isFunctionInitialized = true;
+}
 
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
@@ -399,8 +415,10 @@ export const handler = async (event, context) => {
       const sortedMessages = contactMessages
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       
-      console.log('Returning contact messages:', {
-        count: sortedMessages.length,
+      console.log('GET /contact-messages - Current storage state:', {
+        totalMessages: contactMessages.length,
+        messageIds: contactMessages.map(m => ({ id: m.id, from: m.email })),
+        sortedCount: sortedMessages.length,
         latest: sortedMessages[0]?.createdAt
       });
       
@@ -430,16 +448,23 @@ export const handler = async (event, context) => {
       const messageId = path.split('/').pop();
       console.log('Message deletion requested for ID:', messageId);
       
+      console.log('DELETE request - Current storage before deletion:', {
+        totalMessages: contactMessages.length,
+        messageIds: contactMessages.map(m => ({ id: m.id, from: m.email })),
+        targetId: messageId
+      });
+      
       // Find and remove message from storage
       const messageIndex = contactMessages.findIndex(msg => msg.id === messageId);
       
       if (messageIndex === -1) {
+        console.log('DELETE - Message not found:', { messageId, available: contactMessages.map(m => m.id) });
         return {
           statusCode: 404,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Message not found'
+            message: `Message with ID ${messageId} not found. Available IDs: ${contactMessages.map(m => m.id).join(', ')}`
           })
         };
       }
@@ -447,10 +472,11 @@ export const handler = async (event, context) => {
       // Remove the message
       const deletedMessage = contactMessages.splice(messageIndex, 1)[0];
       
-      console.log('Message deleted successfully:', {
-        id: deletedMessage.id,
-        from: deletedMessage.email,
-        remaining: contactMessages.length
+      console.log('DELETE - Message deleted successfully:', {
+        deletedId: deletedMessage.id,
+        deletedFrom: deletedMessage.email,
+        remainingCount: contactMessages.length,
+        remainingIds: contactMessages.map(m => ({ id: m.id, from: m.email }))
       });
       
       return {
@@ -458,7 +484,9 @@ export const handler = async (event, context) => {
         headers,
         body: JSON.stringify({
           success: true,
-          message: 'Contact message deleted successfully'
+          message: 'Contact message deleted successfully',
+          deletedId: messageId,
+          remainingCount: contactMessages.length
         })
       };
     }
