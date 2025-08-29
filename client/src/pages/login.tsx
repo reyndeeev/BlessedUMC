@@ -38,6 +38,10 @@ export default function Login() {
     console.log("Form submitted with:", { username: data.username, passwordLength: data.password.length });
     setError("");
     setIsLoading(true);
+    
+    // Clear any existing token before attempting login
+    localStorage.removeItem("blessedumc_token");
+    
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -46,12 +50,13 @@ export default function Login() {
       });
       
       const result = await response.json();
+      console.log("Login response:", { status: response.status, result });
       
       if (!response.ok || !result.success) {
         throw new Error(result.message || "Login failed");
       }
       
-      // Store token and redirect
+      // Store token only after successful authentication
       localStorage.setItem("blessedumc_token", result.token);
       console.log("Login successful, redirecting to dashboard");
       
@@ -61,6 +66,8 @@ export default function Login() {
     } catch (error: any) {
       console.error("Login error:", error);
       setError(error.message || "Login failed");
+      // Make sure no token is stored on failure
+      localStorage.removeItem("blessedumc_token");
     } finally {
       setIsLoading(false);
     }

@@ -38,10 +38,23 @@ export function useAuth() {
     queryKey: ["/api/auth/me"],
     queryFn: async () => {
       const token = getToken();
+      if (!token) {
+        return { success: false, message: "No token" };
+      }
+      
       const response = await fetch("/api/auth/me", {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: { Authorization: `Bearer ${token}` },
       });
-      return response.json();
+      
+      const data = await response.json();
+      
+      // If authentication fails, clear the invalid token
+      if (!response.ok || !data.success) {
+        clearToken();
+        return { success: false, message: data.message || "Authentication failed" };
+      }
+      
+      return data;
     },
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
