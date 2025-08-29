@@ -58,30 +58,63 @@ const storage = new NetlifyStorage();
 async function saveContactMessageToDatabase(messageData) {
   const db = await connectToDatabase();
   if (!db) {
-    console.log('No database connection, using fallback storage');
+    console.log('❌ No database connection, using fallback storage');
     return null;
   }
 
   try {
-    console.log('💾 Saving contact message to Neon database:', messageData);
+    console.log('💾 Saving contact message to Neon database:', {
+      firstName: messageData.firstName,
+      lastName: messageData.lastName,
+      email: messageData.email,
+      subject: messageData.subject
+    });
+    
+    // Use simpler INSERT without explicit created_at (let database handle it)
     const result = await db.query(`
-      INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message, created_at)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING id, first_name, last_name, email, phone, subject, message, created_at
+      INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id, first_name as "firstName", last_name as "lastName", 
+               email, phone, subject, message, created_at as "createdAt"
     `, [
       messageData.firstName,
       messageData.lastName,
       messageData.email,
       messageData.phone || null,
       messageData.subject,
-      messageData.message,
-      new Date().toISOString()
+      messageData.message
     ]);
     
-    console.log('✅ Contact message saved to database successfully:', result[0]);
-    return result[0];
+    if (result.length === 0) {
+      console.error('❌ INSERT returned no rows');
+      return null;
+    }
+    
+    const savedMessage = result[0];
+    console.log('✅ Contact message saved to database successfully:', {
+      id: savedMessage.id,
+      from: savedMessage.email,
+      subject: savedMessage.subject,
+      createdAt: savedMessage.createdAt
+    });
+    
+    // Verify the message was actually saved by reading it back
+    const verifyResult = await db.query('SELECT id FROM contact_messages WHERE id = $1', [savedMessage.id]);
+    if (verifyResult.length === 0) {
+      console.error('❌ Message save verification failed - record not found after INSERT');
+      return null;
+    }
+    
+    console.log('✅ Message save verified successfully');
+    return savedMessage;
   } catch (error) {
-    console.error('❌ Database save error:', error);
+    console.error('❌ Database save error:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      constraint: error.constraint,
+      table: error.table
+    });
     return null;
   }
 }
@@ -159,38 +192,115 @@ async function connectToDatabase() {
   
   const DATABASE_URL = process.env.DATABASE_URL;
   if (!DATABASE_URL) {
-    console.log('No DATABASE_URL configured, using fallback auth');
+    console.log('❌ No DATABASE_URL configured, using fallback auth');
     return null;
   }
   
   try {
+    console.log('🔌 Attempting to connect to Neon database...');
     // Use dynamic imports for serverless compatibility
     const { Pool, neonConfig } = await import('@neondatabase/serverless');
-    const { drizzle } = await import('drizzle-orm/neon-serverless');
-    const { eq } = await import('drizzle-orm');
     
     neonConfig.webSocketConstructor = WebSocket;
     const pool = new Pool({ connectionString: DATABASE_URL });
     
-    // Create a simple query function
+    // Test the connection immediately
+    const testClient = await pool.connect();
+    try {
+      const testResult = await testClient.query('SELECT NOW() as current_time');
+      console.log('✅ Database connection test successful:', testResult.rows[0]);
+    } finally {
+      testClient.release();
+    }
+    
+    // Create a simple query function with better error handling
     dbConnection = {
       pool,
       query: async (sql, params = []) => {
+        console.log('🔍 Executing query:', { sql: sql.substring(0, 100) + '...', params });
         const client = await pool.connect();
         try {
           const result = await client.query(sql, params);
+          console.log('✅ Query successful, rows returned:', result.rows.length);
           return result.rows;
+        } catch (queryError) {
+          console.error('❌ Query failed:', { 
+            error: queryError.message, 
+            sql: sql.substring(0, 100) + '...',
+            params 
+          });
+          throw queryError;
         } finally {
           client.release();
         }
       }
     };
     
-    console.log('Database connection established');
+    // Verify the contact_messages table exists
+    await verifyTableExists();
+    
+    console.log('✅ Database connection established and verified');
     return dbConnection;
   } catch (error) {
-    console.error('Database connection failed:', error);
+    console.error('❌ Database connection failed:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail
+    });
     return null;
+  }
+}
+
+async function verifyTableExists() {
+  if (!dbConnection) return false;
+  
+  try {
+    console.log('🔍 Verifying contact_messages table exists...');
+    const tableCheck = await dbConnection.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'contact_messages'
+      );
+    `);
+    
+    const tableExists = tableCheck[0]?.exists;
+    console.log('📊 Table existence check:', { exists: tableExists });
+    
+    if (!tableExists) {
+      console.log('⚠️ contact_messages table does not exist, attempting to create...');
+      await createContactMessagesTable();
+    }
+    
+    return tableExists;
+  } catch (error) {
+    console.error('❌ Table verification failed:', error);
+    return false;
+  }
+}
+
+async function createContactMessagesTable() {
+  if (!dbConnection) return false;
+  
+  try {
+    console.log('🏗️ Creating contact_messages table...');
+    await dbConnection.query(`
+      CREATE TABLE IF NOT EXISTS contact_messages (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        first_name TEXT NOT NULL,
+        last_name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        subject TEXT NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+    console.log('✅ contact_messages table created successfully');
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to create contact_messages table:', error);
+    return false;
   }
 }
 
