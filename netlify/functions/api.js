@@ -195,11 +195,19 @@ export const handler = async (event, context) => {
         const token = authHeader.replace('Bearer ', '');
         
         try {
-          // Decode and validate token
+          // Decode and validate token with strict security checks
           const userData = JSON.parse(Buffer.from(token, 'base64').toString());
           
-          if (!userData.id || !userData.username || !userData.isValid) {
-            console.log('TOKEN VALIDATION: Invalid token format or missing fields');
+          console.log('TOKEN VALIDATION: Checking token data:', { 
+            hasId: !!userData.id, 
+            hasUsername: !!userData.username, 
+            isValid: userData.isValid,
+            loginTime: userData.loginTime 
+          });
+          
+          // ULTRA STRICT validation - all fields must be present and valid
+          if (!userData.id || !userData.username || !userData.isValid || userData.isValid !== true) {
+            console.log('TOKEN VALIDATION: REJECTED - Invalid token format or missing fields');
             throw new Error('Invalid token format');
           }
           
@@ -207,8 +215,14 @@ export const handler = async (event, context) => {
           const tokenAge = Date.now() - (userData.loginTime || 0);
           const maxAge = 24 * 60 * 60 * 1000; // 24 hours
           if (tokenAge > maxAge) {
-            console.log('TOKEN VALIDATION: Token expired');
+            console.log('TOKEN VALIDATION: REJECTED - Token expired');
             throw new Error('Token expired');
+          }
+          
+          // CRITICAL: Verify the user credentials are EXACTLY admin/admin123
+          if (userData.username !== 'admin' || userData.id !== '1') {
+            console.log('TOKEN VALIDATION: REJECTED - Invalid user credentials in token');
+            throw new Error('Invalid user credentials');
           }
           
           const db = await connectToDatabase();

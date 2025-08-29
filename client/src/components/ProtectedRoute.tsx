@@ -23,20 +23,35 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       }
 
       try {
+        console.log('PROTECTED ROUTE: Checking authentication with token');
         const response = await fetch("/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` }
         });
 
+        console.log('PROTECTED ROUTE: Auth response status:', response.status);
+        
         if (response.ok) {
           const result = await response.json();
-          setIsAuthenticated(result.success && result.user);
+          console.log('PROTECTED ROUTE: Auth result:', result);
+          
+          // STRICT validation - must have success=true AND user object with username
+          if (result.success === true && result.user && result.user.username) {
+            console.log('PROTECTED ROUTE: Authentication SUCCESS for user:', result.user.username);
+            setIsAuthenticated(true);
+          } else {
+            console.log('PROTECTED ROUTE: Authentication FAILED - Invalid result format');
+            localStorage.removeItem("blessedumc_token");
+            setIsAuthenticated(false);
+            setLocation("/login");
+          }
         } else {
+          console.log('PROTECTED ROUTE: Authentication FAILED - Response not OK');
           localStorage.removeItem("blessedumc_token");
           setIsAuthenticated(false);
           setLocation("/login");
         }
       } catch (error) {
-        console.error("Auth check failed:", error);
+        console.error('PROTECTED ROUTE: Auth check FAILED with error:', error);
         localStorage.removeItem("blessedumc_token");
         setIsAuthenticated(false);
         setLocation("/login");

@@ -35,36 +35,65 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    console.log("Form submitted with:", { username: data.username, passwordLength: data.password.length });
+    console.log("LOGIN PAGE: Form submitted with:", { username: data.username, passwordLength: data.password.length });
     setError("");
     setIsLoading(true);
     
     // Clear any existing token before attempting login
     localStorage.removeItem("blessedumc_token");
     
+    // STRICT validation - reject empty credentials immediately
+    if (!data.username || !data.password || data.username.trim() === '' || data.password.trim() === '') {
+      setError("Username and password are required");
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: data.username, password: data.password }),
+        body: JSON.stringify({ 
+          username: data.username.trim(), 
+          password: data.password.trim() 
+        }),
       });
       
       const result = await response.json();
-      console.log("Login response:", { status: response.status, result });
+      console.log("LOGIN PAGE: Response received:", { status: response.status, success: result.success });
       
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Login failed");
+      // STRICT validation - must be exactly correct
+      if (!response.ok || !result.success || !result.token || !result.user) {
+        console.log("LOGIN PAGE: Authentication REJECTED");
+        throw new Error(result.message || "Invalid username or password");
       }
       
-      // Store token only after successful authentication
+      // Double-check the token is valid before storing
+      console.log("LOGIN PAGE: Verifying token before storing");
+      const verifyResponse = await fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${result.token}` }
+      });
+      
+      if (!verifyResponse.ok) {
+        console.log("LOGIN PAGE: Token verification FAILED");
+        throw new Error("Authentication verification failed");
+      }
+      
+      const verifyResult = await verifyResponse.json();
+      if (!verifyResult.success || !verifyResult.user) {
+        console.log("LOGIN PAGE: Token verification REJECTED");
+        throw new Error("Authentication verification failed");
+      }
+      
+      // Store token only after successful authentication AND verification
       localStorage.setItem("blessedumc_token", result.token);
-      console.log("Login successful, redirecting to dashboard");
+      console.log("LOGIN PAGE: Authentication SUCCESS, redirecting to dashboard");
       
       // Use replace to prevent back button issues
       window.location.replace("/bumcdashboard");
       
     } catch (error: any) {
-      console.error("Login error:", error);
+      console.error("LOGIN PAGE: Authentication FAILED:", error);
       setError(error.message || "Login failed");
       // Make sure no token is stored on failure
       localStorage.removeItem("blessedumc_token");
