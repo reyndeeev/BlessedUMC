@@ -1,5 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
+import { createHash } from "crypto";
 import { storage } from "./storage";
 import { insertContactMessageSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
@@ -85,8 +86,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password: _, ...userWithoutPassword } = user;
       req.session.user = userWithoutPassword;
       
-      // Generate simple token as backup
-      const token = Buffer.from(JSON.stringify(userWithoutPassword)).toString('base64');
+      // Generate simple token as backup using crypto hash
+      const token = createHash('sha256').update(JSON.stringify(userWithoutPassword) + Date.now()).digest('hex');
       
       // Store token in memory for backup (temporary solution)
       if (!globalThis.activeTokens) globalThis.activeTokens = new Map();
