@@ -86,12 +86,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password: _, ...userWithoutPassword } = user;
       req.session.user = userWithoutPassword;
       
-      // Generate simple token as backup using crypto hash
-      const token = createHash('sha256').update(JSON.stringify(userWithoutPassword) + Date.now()).digest('hex');
-      
-      // Store token in memory for backup (temporary solution)
-      if (!globalThis.activeTokens) globalThis.activeTokens = new Map();
-      globalThis.activeTokens.set(token, userWithoutPassword);
+      // Generate simple token by encoding user data directly (no server-side storage needed)
+      const token = JSON.stringify({ id: userWithoutPassword.id, username: userWithoutPassword.username });
       
       res.json({ 
         success: true, 
@@ -124,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  app.get("/api/auth/me", (req, res) => {
+  app.get("/api/auth/me", async (req, res) => {
     // Check session first
     if (req.session.user) {
       return res.json({ 
@@ -135,12 +131,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     // Fallback to token authentication
     const token = req.headers.authorization?.replace('Bearer ', '');
-    if (token && globalThis.activeTokens?.has(token)) {
-      const user = globalThis.activeTokens.get(token);
-      return res.json({ 
-        success: true, 
-        user: user 
-      });
+    if (token) {
+      try {
+        // Decode the token and validate the user exists in database
+        const userData = JSON.parse(token);
+        if (userData.id && userData.username) {
+          // Verify user still exists in database
+          const user = await storage.getUser(userData.id);
+          if (user && user.username === userData.username) {
+            const { password: _, ...userWithoutPassword } = user;
+            return res.json({ 
+              success: true, 
+              user: userWithoutPassword 
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Token validation error:", error);
+      }
     }
     
     res.status(401).json({ 
