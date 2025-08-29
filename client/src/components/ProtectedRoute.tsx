@@ -1,6 +1,5 @@
-import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Lock, AlertCircle } from "lucide-react";
@@ -10,17 +9,45 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading, isError } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && !isError) {
-      setLocation("/login");
-    }
-  }, [isAuthenticated, isLoading, isError, setLocation]);
+    const checkAuth = async () => {
+      const token = localStorage.getItem("blessedumc_token");
+      
+      if (!token) {
+        setIsAuthenticated(false);
+        setLocation("/login");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          setIsAuthenticated(result.success && result.user);
+        } else {
+          localStorage.removeItem("blessedumc_token");
+          setIsAuthenticated(false);
+          setLocation("/login");
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        localStorage.removeItem("blessedumc_token");
+        setIsAuthenticated(false);
+        setLocation("/login");
+      }
+    };
+
+    checkAuth();
+  }, [setLocation]);
 
   // Show loading state
-  if (isLoading) {
+  if (isAuthenticated === null) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -31,29 +58,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // Show error state
-  if (isError) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="ml-2">
-              You need to login to access this page.
-            </AlertDescription>
-          </Alert>
-          <div className="mt-4 text-center">
-            <Button onClick={() => setLocation("/login")}>
-              Go to Login
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Show unauthorized state
-  if (!isAuthenticated) {
+  if (isAuthenticated === false) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full text-center">

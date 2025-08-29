@@ -9,7 +9,7 @@ import { z } from "zod";
 
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth"; // Removed to prevent conflicts
 import { useToast } from "@/hooks/use-toast";
 import { Lock, User, Church } from "lucide-react";
 
@@ -23,7 +23,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function Login() {
   const [, setLocation] = useLocation();
   const [error, setError] = useState<string>("");
-  const { login, isAuthenticated, isLoggingIn } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   const form = useForm<LoginForm>({
@@ -37,6 +37,7 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     console.log("Form submitted with:", { username: data.username, passwordLength: data.password.length });
     setError("");
+    setIsLoading(true);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -60,6 +61,8 @@ export default function Login() {
     } catch (error: any) {
       console.error("Login error:", error);
       setError(error.message || "Login failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -125,7 +128,7 @@ export default function Login() {
                             className="pl-10"
                             placeholder="Enter your username"
                             data-testid="input-login-username"
-                            disabled={isLoggingIn}
+                            disabled={isLoading}
                           />
                         </div>
                       </FormControl>
@@ -149,7 +152,7 @@ export default function Login() {
                             className="pl-10"
                             placeholder="Enter your password"
                             data-testid="input-login-password"
-                            disabled={isLoggingIn}
+                            disabled={isLoading}
                           />
                         </div>
                       </FormControl>
@@ -161,10 +164,10 @@ export default function Login() {
                 <Button 
                   type="submit" 
                   className="w-full bg-methodist-blue hover:bg-methodist-blue/90"
-                  disabled={isLoggingIn}
+                  disabled={isLoading}
                   data-testid="button-login-submit"
                 >
-                  {isLoggingIn ? "Signing In..." : "Sign In"}
+                  {isLoading ? "Signing In..." : "Sign In"}
                 </Button>
               </form>
             </Form>
