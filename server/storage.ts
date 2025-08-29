@@ -119,7 +119,7 @@ export class DatabaseStorage implements IStorage {
     const [recentMessagesResult] = await db
       .select({ count: sql<number>`count(*)` })
       .from(contactMessages)
-      .where(gte(contactMessages.createdAt, oneDayAgo));
+      .where(gte(contactMessages.createdAt, oneDayAgo.toISOString()));
 
     const totalUsers = totalUsersResult.count;
     const totalMessages = totalMessagesResult.count;
