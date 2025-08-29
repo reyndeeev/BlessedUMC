@@ -1,0 +1,2120 @@
+Aug 30, 04:35:04 AM: INFO   🆔 New storage instance created: d3pd37575lq
+Aug 30, 04:35:04 AM: INFO   🔄 Initializing storage instance: d3pd37575lq
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/contact',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 133,
+  timestamp: '2025-08-29T20:35:04.498Z'
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   Serverless function called: POST /api/contact
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   Processing: POST /api/contact
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   📝 Contact form submission received: {
+  firstName: 'sad',
+  lastName: 'asd',
+  email: 'danielreignelomedaaustria@gmail.com',
+  phone: 'dwa',
+  subject: 'other',
+  message: 'dasdwa'
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   🔍 Current storage state before saving: {
+  instanceId: 'd3pd37575lq',
+  initialized: true,
+  messageCount: 0,
+  nextId: 1,
+  createdAt: '2025-08-29T20:35:04.489Z'
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:04 AM: 0cf27fe9 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   ⚠️ Database save failed, using fallback storage
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   💾 Saved 1 messages to instance d3pd37575lq, nextId: 2
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   💾 Contact message saved successfully: {
+  id: 'fallback',
+  from: 'danielreignelomedaaustria@gmail.com',
+  subject: 'other',
+  savedToDatabase: false
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 INFO   🔍 Storage state after saving: {
+  instanceId: 'd3pd37575lq',
+  initialized: true,
+  messageCount: 1,
+  nextId: 2,
+  createdAt: '2025-08-29T20:35:04.489Z'
+}
+Aug 30, 04:35:04 AM: 0cf27fe9 Duration: 62.69 ms	Memory Usage: 79 MB
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:09.782Z'
+}
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:09 AM: 16aa80e6 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:09 AM: 16aa80e6 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:09 AM: 16aa80e6 Duration: 125.88 ms	Memory Usage: 89 MB
+Aug 30, 04:35:10 AM: 1579da57 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:10.720Z'
+}
+Aug 30, 04:35:10 AM: 1579da57 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:10 AM: 1579da57 INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:10 AM: 1579da57 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:10 AM: 1579da57 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:10 AM: 1579da57 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:10 AM: 1579da57 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:10 AM: 1579da57 Duration: 3.08 ms	Memory Usage: 89 MB
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:11.055Z'
+}
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:11 AM: 4ba05c6e INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:11 AM: 4ba05c6e ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:11 AM: 4ba05c6e Duration: 2.92 ms	Memory Usage: 89 MB
+Aug 30, 04:35:11 AM: 3677a3fa INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/analytics',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:11.065Z'
+}
+Aug 30, 04:35:11 AM: 3677a3fa INFO   Serverless function called: GET /api/analytics
+Aug 30, 04:35:11 AM: 3677a3fa INFO   Processing: GET /api/analytics
+Aug 30, 04:35:11 AM: 3677a3fa INFO   📖 Getting messages from instance d3pd37575lq: 1 messages
+Aug 30, 04:35:11 AM: 3677a3fa Duration: 2.1 ms	Memory Usage: 89 MB
+Aug 30, 04:35:11 AM: 44a96a08 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:11.074Z'
+}
+Aug 30, 04:35:11 AM: 44a96a08 INFO   Serverless function called: GET /api/users
+Aug 30, 04:35:11 AM: 44a96a08 INFO   Processing: GET /api/users
+Aug 30, 04:35:11 AM: 44a96a08 Duration: 2.01 ms	Memory Usage: 89 MB
+Aug 30, 04:35:11 AM: 41e105c2 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:11.086Z'
+}
+Aug 30, 04:35:11 AM: 41e105c2 INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:11 AM: 41e105c2 INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:11 AM: 41e105c2 INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:11 AM: 41e105c2 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:11 AM: 41e105c2 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:11 AM: 41e105c2 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:11 AM: 41e105c2 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:11 AM: 41e105c2 INFO   📖 Getting messages from instance d3pd37575lq: 1 messages
+Aug 30, 04:35:11 AM: 41e105c2 INFO   📊 Fallback storage data: {
+  count: 1,
+  messages: [ { id: '1', from: 'danielreignelomedaaustria@gmail.com' } ]
+}
+Aug 30, 04:35:11 AM: 41e105c2 INFO   📊 Messages retrieved: {
+  count: 1,
+  source: 'database',
+  firstMessage: {
+    id: '1',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'other'
+  }
+}
+Aug 30, 04:35:11 AM: 41e105c2 INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 1,
+  messageIds: [ { id: '1', from: 'danielreignelomedaaustria@gmail.com' } ],
+  sortedCount: 1,
+  latest: '2025-08-29T20:35:04.553Z',
+  source: 'database'
+}
+Aug 30, 04:35:11 AM: 41e105c2 Duration: 6.47 ms	Memory Usage: 92 MB
+Aug 30, 04:35:11 AM: INFO   🆔 New storage instance created: 32d0ew1k7od
+Aug 30, 04:35:11 AM: INFO   🔄 Initializing storage instance: 32d0ew1k7od
+Aug 30, 04:35:11 AM: INFO   🆔 New storage instance created: 3d88y11ch2t
+Aug 30, 04:35:11 AM: INFO   🆔 New storage instance created: 6snx5ypvpo2
+Aug 30, 04:35:11 AM: INFO   🔄 Initializing storage instance: 3d88y11ch2t
+Aug 30, 04:35:11 AM: INFO   🔄 Initializing storage instance: 6snx5ypvpo2
+Aug 30, 04:35:13 AM: 9f989c9c INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:13.831Z'
+}
+Aug 30, 04:35:13 AM: 9f989c9c INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:13 AM: 9f989c9c INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:13 AM: 9f989c9c INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:13 AM: 9f989c9c INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:13 AM: 9f989c9c INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:13 AM: 9f989c9c ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:13 AM: 9f989c9c INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:13 AM: 9f989c9c INFO   📖 Getting messages from instance d3pd37575lq: 1 messages
+Aug 30, 04:35:13 AM: 9f989c9c INFO   📊 Fallback storage data: {
+  count: 1,
+  messages: [ { id: '1', from: 'danielreignelomedaaustria@gmail.com' } ]
+}
+Aug 30, 04:35:13 AM: 9f989c9c INFO   📊 Messages retrieved: {
+  count: 1,
+  source: 'database',
+  firstMessage: {
+    id: '1',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'other'
+  }
+}
+Aug 30, 04:35:13 AM: 9f989c9c INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 1,
+  messageIds: [ { id: '1', from: 'danielreignelomedaaustria@gmail.com' } ],
+  sortedCount: 1,
+  latest: '2025-08-29T20:35:04.553Z',
+  source: 'database'
+}
+Aug 30, 04:35:13 AM: 9f989c9c Duration: 8.51 ms	Memory Usage: 93 MB
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🚀 Netlify function invoked: {
+  method: 'DELETE',
+  path: '/api/contact-messages/1',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:19.492Z'
+}
+Aug 30, 04:35:19 AM: 042d4c62 INFO   Serverless function called: DELETE /api/contact-messages/1
+Aug 30, 04:35:19 AM: 042d4c62 INFO   Processing: DELETE /api/contact-messages/1
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🗑️ Message deletion requested for ID: 1
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:19 AM: 042d4c62 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:19 AM: 042d4c62 INFO   No database connection, using fallback storage
+Aug 30, 04:35:19 AM: 042d4c62 INFO   ⚠️ Database delete failed, trying fallback storage
+Aug 30, 04:35:19 AM: 042d4c62 INFO   📖 Getting messages from instance d3pd37575lq: 1 messages
+Aug 30, 04:35:19 AM: 042d4c62 INFO   💾 Saved 0 messages to instance d3pd37575lq, nextId: 2
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:19 AM: 042d4c62 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:19 AM: 042d4c62 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:19 AM: 042d4c62 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:19 AM: 042d4c62 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:19 AM: 042d4c62 INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:35:19 AM: 042d4c62 Duration: 6.55 ms	Memory Usage: 93 MB
+Aug 30, 04:35:19 AM: eed44c9b INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:19.818Z'
+}
+Aug 30, 04:35:19 AM: eed44c9b INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:19 AM: eed44c9b INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:19 AM: eed44c9b INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:19 AM: eed44c9b INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:19 AM: eed44c9b INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:19 AM: eed44c9b ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:19 AM: eed44c9b INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:19 AM: eed44c9b INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:19 AM: eed44c9b INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:35:19 AM: eed44c9b INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:35:19 AM: eed44c9b INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:35:19 AM: eed44c9b Duration: 3.7 ms	Memory Usage: 93 MB
+Aug 30, 04:35:20 AM: 73e03f98 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:20.146Z'
+}
+Aug 30, 04:35:20 AM: 73e03f98 INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:20 AM: 73e03f98 INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:20 AM: 73e03f98 INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:20 AM: 73e03f98 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:20 AM: 73e03f98 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:20 AM: 73e03f98 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:20 AM: 73e03f98 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:20 AM: 73e03f98 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:20 AM: 73e03f98 INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:35:20 AM: 73e03f98 INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:35:20 AM: 73e03f98 INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:35:20 AM: 73e03f98 Duration: 2.43 ms	Memory Usage: 93 MB
+Aug 30, 04:35:20 AM: a6ed204a INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:20.471Z'
+}
+Aug 30, 04:35:20 AM: a6ed204a INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:20 AM: a6ed204a INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:20 AM: a6ed204a INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:20 AM: a6ed204a INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:20 AM: a6ed204a INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:20 AM: a6ed204a ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:20 AM: a6ed204a INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:20 AM: a6ed204a INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:20 AM: a6ed204a INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:35:20 AM: a6ed204a INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:35:20 AM: a6ed204a INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:35:20 AM: a6ed204a Duration: 2.27 ms	Memory Usage: 93 MB
+Aug 30, 04:35:21 AM: b4281110 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:21.619Z'
+}
+Aug 30, 04:35:21 AM: b4281110 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:21 AM: b4281110 INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:21 AM: b4281110 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:21 AM: b4281110 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:21 AM: b4281110 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:21 AM: b4281110 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:21 AM: b4281110 Duration: 3.6 ms	Memory Usage: 93 MB
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:21.947Z'
+}
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   Processing: GET /api/contact-messages
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   🔍 Starting message retrieval process...
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:21 AM: a47d8ba9 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:35:21 AM: a47d8ba9 INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:35:21 AM: a47d8ba9 Duration: 2.51 ms	Memory Usage: 93 MB
+Aug 30, 04:35:22 AM: f8ea9834 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/analytics',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:22.736Z'
+}
+Aug 30, 04:35:22 AM: f8ea9834 INFO   Serverless function called: GET /api/analytics
+Aug 30, 04:35:22 AM: f8ea9834 INFO   Processing: GET /api/analytics
+Aug 30, 04:35:22 AM: f8ea9834 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:35:22 AM: f8ea9834 Duration: 2.56 ms	Memory Usage: 93 MB
+Aug 30, 04:35:22 AM: 974ba8ee INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:22.740Z'
+}
+Aug 30, 04:35:22 AM: 974ba8ee INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:22 AM: 974ba8ee INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:22 AM: 974ba8ee INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:22 AM: 974ba8ee INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:22 AM: 974ba8ee INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:22 AM: 1146e412 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:22.748Z'
+}
+Aug 30, 04:35:22 AM: 1146e412 INFO   Serverless function called: GET /api/users
+Aug 30, 04:35:22 AM: 1146e412 INFO   Processing: GET /api/users
+Aug 30, 04:35:22 AM: 974ba8ee ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:22 AM: 974ba8ee Duration: 62.43 ms	Memory Usage: 79 MB
+Aug 30, 04:35:22 AM: 1146e412 Duration: 133.16 ms	Memory Usage: 86 MB
+Aug 30, 04:35:23 AM: b43b2e2a INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:35:23.507Z'
+}
+Aug 30, 04:35:23 AM: b43b2e2a INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:35:23 AM: b43b2e2a INFO   Processing: GET /api/auth/me
+Aug 30, 04:35:23 AM: b43b2e2a INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756494306637
+}
+Aug 30, 04:35:23 AM: b43b2e2a INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:23 AM: b43b2e2a INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:23 AM: b43b2e2a ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:23 AM: b43b2e2a Duration: 41.32 ms	Memory Usage: 89 MB
+Aug 30, 04:35:25 AM: 9d78361a INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/auth/login',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 35,
+  timestamp: '2025-08-29T20:35:25.595Z'
+}
+Aug 30, 04:35:25 AM: 9d78361a INFO   Serverless function called: POST /api/auth/login
+Aug 30, 04:35:25 AM: 9d78361a INFO   Processing: POST /api/auth/login
+Aug 30, 04:35:25 AM: 9d78361a INFO   LOGIN ENDPOINT: Received login attempt for username: asd
+Aug 30, 04:35:25 AM: 9d78361a INFO   AUTH: Attempting login for: asd
+Aug 30, 04:35:25 AM: 9d78361a INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:25 AM: 9d78361a INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:25 AM: 9d78361a ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:25 AM: 9d78361a INFO   AUTH: REJECTED - Invalid credentials: { username: 'asd', passwordLength: 3 }
+Aug 30, 04:35:25 AM: 9d78361a INFO   LOGIN ENDPOINT: REJECTED - Authentication failed for: asd
+Aug 30, 04:35:25 AM: 9d78361a Duration: 4.67 ms	Memory Usage: 89 MB
+Aug 30, 04:35:51 AM: 578cabc1 INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/contact',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 116,
+  timestamp: '2025-08-29T20:35:51.440Z'
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   Serverless function called: POST /api/contact
+Aug 30, 04:35:51 AM: 578cabc1 INFO   Processing: POST /api/contact
+Aug 30, 04:35:51 AM: 578cabc1 INFO   📝 Contact form submission received: {
+  firstName: 'asd',
+  lastName: 'asdwasd',
+  email: 'voodee2@netn.top',
+  phone: 'asd',
+  subject: 'visit',
+  message: 'dasd'
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   🔍 Current storage state before saving: {
+  instanceId: '3d88y11ch2t',
+  initialized: true,
+  messageCount: 0,
+  nextId: 1,
+  createdAt: '2025-08-29T20:35:11.417Z'
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:35:51 AM: 578cabc1 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:35:51 AM: 578cabc1 INFO   ⚠️ Database save failed, using fallback storage
+Aug 30, 04:35:51 AM: 578cabc1 INFO   📖 Getting messages from instance 3d88y11ch2t: 0 messages
+Aug 30, 04:35:51 AM: 578cabc1 INFO   💾 Saved 1 messages to instance 3d88y11ch2t, nextId: 2
+Aug 30, 04:35:51 AM: 578cabc1 INFO   💾 Contact message saved successfully: {
+  id: 'fallback',
+  from: 'voodee2@netn.top',
+  subject: 'visit',
+  savedToDatabase: false
+}
+Aug 30, 04:35:51 AM: 578cabc1 INFO   🔍 Storage state after saving: {
+  instanceId: '3d88y11ch2t',
+  initialized: true,
+  messageCount: 1,
+  nextId: 2,
+  createdAt: '2025-08-29T20:35:11.417Z'
+}
+Aug 30, 04:35:51 AM: 578cabc1 Duration: 7.4 ms	Memory Usage: 89 MB
+Aug 30, 04:37:35 AM: b155f309 INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/auth/login',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 42,
+  timestamp: '2025-08-29T20:37:35.243Z'
+}
+Aug 30, 04:37:35 AM: b155f309 INFO   Serverless function called: POST /api/auth/login
+Aug 30, 04:37:35 AM: b155f309 INFO   Processing: POST /api/auth/login
+Aug 30, 04:37:35 AM: b155f309 INFO   LOGIN ENDPOINT: Received login attempt for username: admin
+Aug 30, 04:37:35 AM: b155f309 INFO   AUTH: Attempting login for: admin
+Aug 30, 04:37:35 AM: b155f309 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:35 AM: b155f309 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:35 AM: b155f309 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:35 AM: b155f309 INFO   AUTH: Fallback authentication successful
+Aug 30, 04:37:35 AM: b155f309 INFO   LOGIN ENDPOINT: SUCCESS - Token created for user: admin
+Aug 30, 04:37:35 AM: b155f309 Duration: 23.16 ms	Memory Usage: 89 MB
+Aug 30, 04:37:35 AM: 7618b232 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:35.566Z'
+}
+Aug 30, 04:37:35 AM: 7618b232 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:37:35 AM: 7618b232 INFO   Processing: GET /api/auth/me
+Aug 30, 04:37:35 AM: 7618b232 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:37:35 AM: 7618b232 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:35 AM: 7618b232 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:35 AM: 7618b232 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:35 AM: 7618b232 Duration: 2.65 ms	Memory Usage: 89 MB
+Aug 30, 04:37:36 AM: 4da79681 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:36.192Z'
+}
+Aug 30, 04:37:36 AM: 4da79681 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:37:36 AM: 4da79681 INFO   Processing: GET /api/auth/me
+Aug 30, 04:37:36 AM: 4da79681 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:37:36 AM: 4da79681 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:36 AM: 4da79681 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:36 AM: 4da79681 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:36 AM: 4da79681 Duration: 5.59 ms	Memory Usage: 89 MB
+Aug 30, 04:37:36 AM: 02effe47 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:36.530Z'
+}
+Aug 30, 04:37:36 AM: 02effe47 INFO   Serverless function called: GET /api/users
+Aug 30, 04:37:36 AM: 02effe47 INFO   Processing: GET /api/users
+Aug 30, 04:37:36 AM: 08051edd INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:36.541Z'
+}
+Aug 30, 04:37:36 AM: 08051edd INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:37:36 AM: 08051edd INFO   Processing: GET /api/contact-messages
+Aug 30, 04:37:36 AM: 08051edd INFO   🔍 Starting message retrieval process...
+Aug 30, 04:37:36 AM: 08051edd INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:36 AM: 08051edd INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:36 AM: 08051edd ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:36 AM: 08051edd INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:37:36 AM: 08051edd INFO   📖 Getting messages from instance 32d0ew1k7od: 0 messages
+Aug 30, 04:37:36 AM: 08051edd INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:37:36 AM: 08051edd INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:37:36 AM: 08051edd INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:37:36 AM: dd7bc997 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:36.548Z'
+}
+Aug 30, 04:37:36 AM: 3accdcd1 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/analytics',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:37:36.552Z'
+}
+Aug 30, 04:37:36 AM: 3accdcd1 INFO   Serverless function called: GET /api/analytics
+Aug 30, 04:37:36 AM: 3accdcd1 INFO   Processing: GET /api/analytics
+Aug 30, 04:37:36 AM: 3accdcd1 INFO   📖 Getting messages from instance d3pd37575lq: 0 messages
+Aug 30, 04:37:36 AM: dd7bc997 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:37:36 AM: dd7bc997 INFO   Processing: GET /api/auth/me
+Aug 30, 04:37:36 AM: dd7bc997 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:37:36 AM: dd7bc997 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:36 AM: dd7bc997 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:36 AM: 02effe47 Duration: 71.65 ms	Memory Usage: 90 MB
+Aug 30, 04:37:36 AM: 3accdcd1 Duration: 59.08 ms	Memory Usage: 93 MB
+Aug 30, 04:37:36 AM: dd7bc997 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:36 AM: 08051edd Duration: 154.3 ms	Memory Usage: 88 MB
+Aug 30, 04:37:36 AM: dd7bc997 Duration: 190.11 ms	Memory Usage: 90 MB
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/contact',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 115,
+  timestamp: '2025-08-29T20:37:54.413Z'
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   Serverless function called: POST /api/contact
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   Processing: POST /api/contact
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   📝 Contact form submission received: {
+  firstName: 'asd',
+  lastName: 'asd',
+  email: 'dwawad@gmail.com',
+  phone: 'asd',
+  subject: 'ministry',
+  message: 'dasd'
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   🔍 Current storage state before saving: {
+  instanceId: '6snx5ypvpo2',
+  initialized: true,
+  messageCount: 0,
+  nextId: 1,
+  createdAt: '2025-08-29T20:35:11.418Z'
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:37:54 AM: 6ecefbd3 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   ⚠️ Database save failed, using fallback storage
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   📖 Getting messages from instance 6snx5ypvpo2: 0 messages
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   💾 Saved 1 messages to instance 6snx5ypvpo2, nextId: 2
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   💾 Contact message saved successfully: {
+  id: 'fallback',
+  from: 'dwawad@gmail.com',
+  subject: 'ministry',
+  savedToDatabase: false
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 INFO   🔍 Storage state after saving: {
+  instanceId: '6snx5ypvpo2',
+  initialized: true,
+  messageCount: 1,
+  nextId: 2,
+  createdAt: '2025-08-29T20:35:11.418Z'
+}
+Aug 30, 04:37:54 AM: 6ecefbd3 Duration: 18.62 ms	Memory Usage: 90 MB
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:03.258Z'
+}
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   Processing: GET /api/auth/me
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:38:03 AM: 76dee8c5 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:38:03 AM: 76dee8c5 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:38:03 AM: 76dee8c5 Duration: 21.69 ms	Memory Usage: 90 MB
+Aug 30, 04:38:03 AM: 6076e04b INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:03.681Z'
+}
+Aug 30, 04:38:03 AM: 6076e04b INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:38:03 AM: 6076e04b INFO   Processing: GET /api/auth/me
+Aug 30, 04:38:03 AM: 6076e04b INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:38:03 AM: 6076e04b INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:38:03 AM: 6076e04b INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:38:03 AM: 6076e04b ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:38:03 AM: 6076e04b Duration: 2.33 ms	Memory Usage: 90 MB
+Aug 30, 04:38:04 AM: f5c0b24a INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:04.008Z'
+}
+Aug 30, 04:38:04 AM: f5c0b24a INFO   Serverless function called: GET /api/auth/me
+Aug 30, 04:38:04 AM: f5c0b24a INFO   Processing: GET /api/auth/me
+Aug 30, 04:38:04 AM: f5c0b24a INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756499855244
+}
+Aug 30, 04:38:04 AM: f5c0b24a INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:38:04 AM: f5c0b24a INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:38:04 AM: f5c0b24a ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:38:04 AM: 19e6f75b INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/analytics',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:04.010Z'
+}
+Aug 30, 04:38:04 AM: 19e6f75b INFO   Serverless function called: GET /api/analytics
+Aug 30, 04:38:04 AM: 19e6f75b INFO   Processing: GET /api/analytics
+Aug 30, 04:38:04 AM: 19e6f75b INFO   📖 Getting messages from instance 3d88y11ch2t: 1 messages
+Aug 30, 04:38:04 AM: f5c0b24a Duration: 2.29 ms	Memory Usage: 90 MB
+Aug 30, 04:38:04 AM: 2149caec INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:04.011Z'
+}
+Aug 30, 04:38:04 AM: 2149caec INFO   Serverless function called: GET /api/users
+Aug 30, 04:38:04 AM: 2149caec INFO   Processing: GET /api/users
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-29T20:38:04.012Z'
+}
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   Serverless function called: GET /api/contact-messages
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   Processing: GET /api/contact-messages
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   🔍 Starting message retrieval process...
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   🔌 Attempting to connect to Neon database...
+Aug 30, 04:38:04 AM: e8fda0e7 ERROR  ❌ Database connection failed: {
+  message: 'WebSocket is not defined',
+  code: undefined,
+  detail: undefined
+}
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   ❌ No database connection, using fallback storage
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   📖 Getting messages from instance 32d0ew1k7od: 0 messages
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   📊 Fallback storage data: { count: 0, messages: [] }
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   📊 Messages retrieved: { count: 0, source: 'fallback', firstMessage: 'none' }
+Aug 30, 04:38:04 AM: e8fda0e7 INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 0,
+  messageIds: [],
+  sortedCount: 0,
+  latest: undefined,
+  source: 'database'
+}
+Aug 30, 04:38:04 AM: 19e6f75b Duration: 3.15 ms	Memory Usage: 90 MB
+Aug 30, 04:38:04 AM: 2149caec Duration: 2.6 ms	Memory Usage: 93 MB
+Aug 30, 04:38:04 AM: e8fda0e7 Duration: 9.69 ms	Memory Usage: 88 MB

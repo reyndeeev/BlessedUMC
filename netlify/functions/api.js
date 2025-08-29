@@ -220,41 +220,75 @@ async function connectToDatabase() {
   }
   
   try {
-    console.log('🔌 Attempting to connect to Neon database...');
-    // Use dynamic imports for serverless compatibility
-    const { Pool, neonConfig } = await import('@neondatabase/serverless');
+    console.log('🔌 Attempting to connect to Neon database via HTTP...');
     
-    neonConfig.webSocketConstructor = WebSocket;
-    const pool = new Pool({ connectionString: DATABASE_URL });
+    // Use HTTP-based connection for better Netlify compatibility  
+    const { neon } = await import('@neondatabase/serverless');
+    const sql = neon(DATABASE_URL);
     
     // Test the connection immediately
-    const testClient = await pool.connect();
-    try {
-      const testResult = await testClient.query('SELECT NOW() as current_time');
-      console.log('✅ Database connection test successful:', testResult.rows[0]);
-    } finally {
-      testClient.release();
-    }
+    console.log('🧪 Testing database connection...');
+    const testResult = await sql`SELECT NOW() as current_time`;
+    console.log('✅ Database connection test successful:', testResult[0]);
     
-    // Create a simple query function with better error handling
+    // Create a wrapper that converts our SQL queries to tagged template literals
     dbConnection = {
-      pool,
-      query: async (sql, params = []) => {
-        console.log('🔍 Executing query:', { sql: sql.substring(0, 100) + '...', params });
-        const client = await pool.connect();
+      sql,
+      query: async (queryText, params = []) => {
+        console.log('🔍 Executing query:', { sql: queryText.substring(0, 100) + '...', paramCount: params.length });
         try {
-          const result = await client.query(sql, params);
-          console.log('✅ Query successful, rows returned:', result.rows.length);
-          return result.rows;
+          let result;
+          
+          if (queryText.includes('SELECT NOW()')) {
+            result = await sql`SELECT NOW() as current_time`;
+          } else if (queryText.includes('SELECT EXISTS')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'contact_messages')`;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS contact_messages')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS contact_messages (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT,
+                subject TEXT NOT NULL,
+                message TEXT NOT NULL,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
+          } else if (queryText.includes('INSERT INTO contact_messages') && params.length === 6) {
+            result = await sql`
+              INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message)
+              VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]}, ${params[4]}, ${params[5]})
+              RETURNING id, first_name as "firstName", last_name as "lastName", 
+                       email, phone, subject, message, created_at as "createdAt"
+            `;
+          } else if (queryText.includes('SELECT COUNT(*)')) {
+            result = await sql`SELECT COUNT(*) as count FROM contact_messages`;
+          } else if (queryText.includes('SELECT id, first_name as')) {
+            result = await sql`
+              SELECT id, first_name as "firstName", last_name as "lastName", 
+                     email, phone, subject, message, created_at as "createdAt"
+              FROM contact_messages
+              ORDER BY created_at DESC
+            `;
+          } else if (queryText.includes('SELECT id FROM contact_messages WHERE id =') && params.length === 1) {
+            result = await sql`SELECT id FROM contact_messages WHERE id = ${params[0]}`;
+          } else if (queryText.includes('DELETE FROM contact_messages WHERE id =') && params.length === 1) {
+            result = await sql`DELETE FROM contact_messages WHERE id = ${params[0]} RETURNING id`;
+          } else {
+            throw new Error('Unsupported query pattern: ' + queryText.substring(0, 50));
+          }
+          
+          console.log('✅ Query successful, rows returned:', result.length);
+          return result;
         } catch (queryError) {
           console.error('❌ Query failed:', { 
             error: queryError.message, 
-            sql: sql.substring(0, 100) + '...',
-            params 
+            sql: queryText.substring(0, 100) + '...',
+            paramCount: params.length 
           });
           throw queryError;
-        } finally {
-          client.release();
         }
       }
     };
