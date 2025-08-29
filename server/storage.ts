@@ -1,6 +1,6 @@
 import { type User, type InsertUser, type ContactMessage, type InsertContactMessage, users, contactMessages } from "@shared/schema";
 import bcrypt from "bcrypt";
-import { db } from "./db";
+import { getDatabaseConnection } from "./db";
 import { eq, desc, gte, sql } from "drizzle-orm";
 
 const SALT_ROUNDS = 12;
@@ -27,7 +27,10 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  private db: ReturnType<typeof getDatabaseConnection>;
+  
   constructor() {
+    this.db = getDatabaseConnection();
     this.createDefaultAdmin();
   }
 
@@ -48,18 +51,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const [user] = await this.db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
+    const [user] = await this.db.select().from(users).where(eq(users.username, username));
     return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const hashedPassword = await bcrypt.hash(insertUser.password, SALT_ROUNDS);
-    const [user] = await db
+    const [user] = await this.db
       .insert(users)
       .values({ ...insertUser, password: hashedPassword })
       .returning();
@@ -89,7 +92,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const [message] = await db
+    const [message] = await this.db
       .insert(contactMessages)
       .values(insertMessage)
       .returning();
@@ -97,26 +100,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getContactMessages(): Promise<ContactMessage[]> {
-    return await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
+    return await this.db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
   }
 
   async getAllUsers(): Promise<User[]> {
-    return await db.select().from(users).orderBy(users.username);
+    return await this.db.select().from(users).orderBy(users.username);
   }
 
   async deleteUser(id: string): Promise<boolean> {
-    const result = await db.delete(users).where(eq(users.id, id));
+    const result = await this.db.delete(users).where(eq(users.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 
   async getAnalytics(): Promise<AnalyticsData> {
-    const [totalUsersResult] = await db.select({ count: sql<number>`count(*)` }).from(users);
-    const [totalMessagesResult] = await db.select({ count: sql<number>`count(*)` }).from(contactMessages);
+    const [totalUsersResult] = await this.db.select({ count: sql<number>`count(*)` }).from(users);
+    const [totalMessagesResult] = await this.db.select({ count: sql<number>`count(*)` }).from(contactMessages);
 
     const oneDayAgo = new Date();
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-    const [recentMessagesResult] = await db
+    const [recentMessagesResult] = await this.db
       .select({ count: sql<number>`count(*)` })
       .from(contactMessages)
       .where(sql`${contactMessages.createdAt} >= ${oneDayAgo.toISOString()}`);
@@ -139,7 +142,7 @@ export class DatabaseStorage implements IStorage {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const messages = await db
+    const messages = await this.db
       .select({
         date: sql<string>`DATE(${contactMessages.createdAt})`,
         count: sql<number>`count(*)`
@@ -153,7 +156,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async getTopSubjects(): Promise<{ subject: string; count: number }[]> {
-    const results = await db
+    const results = await this.db
       .select({ 
         subject: contactMessages.subject, 
         count: sql<number>`count(*)` 
