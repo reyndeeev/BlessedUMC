@@ -3,6 +3,33 @@
 
 let dbConnection = null;
 
+// In-memory storage for contact messages (Note: This resets on each function cold start)
+// In production, you'd use a proper database or external storage service
+let contactMessages = [
+  {
+    id: '1',
+    firstName: 'John',
+    lastName: 'Doe', 
+    email: 'john.doe@example.com',
+    phone: '(555) 123-4567',
+    subject: 'general',
+    message: 'I would like to learn more about your church services.',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: '2', 
+    firstName: 'Jane',
+    lastName: 'Smith',
+    email: 'jane.smith@example.com',
+    phone: null,
+    subject: 'visit',
+    message: 'Planning to visit this Sunday. What time is the service?',
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+let messageIdCounter = 3;
+
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
   
@@ -291,32 +318,65 @@ export const handler = async (event, context) => {
 
     // Handle contact form endpoint
     if ((path === '/contact' || path === '/api/contact') && method === 'POST') {
-      const body = JSON.parse(event.body || '{}');
-      console.log('Contact form submission:', body);
-      
-      // Basic validation
-      if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
+      try {
+        const body = JSON.parse(event.body || '{}');
+        console.log('Contact form submission:', body);
+        
+        // Basic validation
+        if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
+          return {
+            statusCode: 400,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'All required fields must be filled'
+            })
+          };
+        }
+        
+        // Create new message object
+        const newMessage = {
+          id: messageIdCounter.toString(),
+          firstName: body.firstName.trim(),
+          lastName: body.lastName.trim(), 
+          email: body.email.trim(),
+          phone: body.phone ? body.phone.trim() : null,
+          subject: body.subject,
+          message: body.message.trim(),
+          createdAt: new Date().toISOString()
+        };
+        
+        // Add to in-memory storage
+        contactMessages.unshift(newMessage); // Add to beginning for newest first
+        messageIdCounter++;
+        
+        console.log('Contact message saved:', {
+          id: newMessage.id,
+          from: newMessage.email,
+          subject: newMessage.subject,
+          total: contactMessages.length
+        });
+        
         return {
-          statusCode: 400,
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'Message sent successfully!'
+          })
+        };
+        
+      } catch (error) {
+        console.error('Contact form submission error:', error);
+        return {
+          statusCode: 500,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'All required fields must be filled'
+            message: 'Failed to process your message. Please try again.'
           })
         };
       }
-      
-      // For now, just log the contact form (in production, you'd save to database or send email)
-      console.log('Contact form received from:', body.email, 'Subject:', body.subject);
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          message: 'Message sent successfully!'
-        })
-      };
     }
 
     // Handle contact messages endpoint (for admin dashboard)
@@ -335,34 +395,19 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Mock contact messages data (in production, fetch from database)
-      const mockMessages = [
-        {
-          id: '1',
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john.doe@example.com',
-          phone: '(555) 123-4567',
-          subject: 'general',
-          message: 'I would like to learn more about your church services.',
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: '2',
-          firstName: 'Jane',
-          lastName: 'Smith',
-          email: 'jane.smith@example.com',
-          phone: null,
-          subject: 'visit',
-          message: 'Planning to visit this Sunday. What time is the service?',
-          createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-        }
-      ];
+      // Return stored contact messages (sorted by newest first)
+      const sortedMessages = contactMessages
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      
+      console.log('Returning contact messages:', {
+        count: sortedMessages.length,
+        latest: sortedMessages[0]?.createdAt
+      });
       
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify(mockMessages)
+        body: JSON.stringify(sortedMessages)
       };
     }
 
@@ -385,7 +430,29 @@ export const handler = async (event, context) => {
       const messageId = path.split('/').pop();
       console.log('Message deletion requested for ID:', messageId);
       
-      // Mock message deletion (in production, delete from database)
+      // Find and remove message from storage
+      const messageIndex = contactMessages.findIndex(msg => msg.id === messageId);
+      
+      if (messageIndex === -1) {
+        return {
+          statusCode: 404,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Message not found'
+          })
+        };
+      }
+      
+      // Remove the message
+      const deletedMessage = contactMessages.splice(messageIndex, 1)[0];
+      
+      console.log('Message deleted successfully:', {
+        id: deletedMessage.id,
+        from: deletedMessage.email,
+        remaining: contactMessages.length
+      });
+      
       return {
         statusCode: 200,
         headers,
@@ -415,7 +482,30 @@ export const handler = async (event, context) => {
       const messageId = path.split('/').slice(-2, -1)[0];
       console.log('Message marked as replied for ID:', messageId);
       
-      // Mock message reply marking (in production, update database)
+      // Find message and mark as replied
+      const message = contactMessages.find(msg => msg.id === messageId);
+      
+      if (!message) {
+        return {
+          statusCode: 404,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Message not found'
+          })
+        };
+      }
+      
+      // Add replied flag and timestamp
+      message.replied = true;
+      message.repliedAt = new Date().toISOString();
+      
+      console.log('Message marked as replied:', {
+        id: message.id,
+        from: message.email,
+        repliedAt: message.repliedAt
+      });
+      
       return {
         statusCode: 200,
         headers,
@@ -611,11 +701,16 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Mock analytics data (in production, calculate from database)
+      // Calculate analytics from actual data
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      const recentMessages = contactMessages.filter(msg => 
+        new Date(msg.createdAt) >= oneDayAgo
+      ).length;
+      
       const mockAnalytics = {
         totalUsers: 1,
-        totalMessages: 2,
-        recentMessages: 1,
+        totalMessages: contactMessages.length,
+        recentMessages: recentMessages,
         activeUsersToday: 1,
         messagesByDay: [
           { date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
