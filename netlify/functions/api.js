@@ -122,12 +122,22 @@ async function saveContactMessageToDatabase(messageData) {
 async function getContactMessagesFromDatabase() {
   const db = await connectToDatabase();
   if (!db) {
-    console.log('No database connection, using fallback storage');
-    return storage.getMessages().messages;
+    console.log('❌ No database connection, using fallback storage');
+    const fallbackData = storage.getMessages().messages;
+    console.log('📊 Fallback storage data:', {
+      count: fallbackData.length,
+      messages: fallbackData.map(m => ({ id: m.id, from: m.email || m.firstName }))
+    });
+    return fallbackData;
   }
 
   try {
     console.log('📖 Fetching contact messages from Neon database');
+    
+    // First check if table exists and has any data
+    const countResult = await db.query('SELECT COUNT(*) as count FROM contact_messages');
+    console.log('📊 Database row count:', countResult[0]?.count || 0);
+    
     const messages = await db.query(`
       SELECT id, first_name as "firstName", last_name as "lastName", 
              email, phone, subject, message, created_at as "createdAt"
@@ -135,11 +145,18 @@ async function getContactMessagesFromDatabase() {
       ORDER BY created_at DESC
     `);
     
-    console.log(`✅ Retrieved ${messages.length} messages from database`);
+    console.log(`✅ Retrieved ${messages.length} messages from database:`, 
+      messages.map(m => ({ id: m.id, from: m.email, subject: m.subject, createdAt: m.createdAt }))
+    );
     return messages;
   } catch (error) {
-    console.error('❌ Database read error:', error);
-    return [];
+    console.error('❌ Database read error:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail
+    });
+    console.log('🔄 Falling back to memory storage due to database error');
+    return storage.getMessages().messages;
   }
 }
 
@@ -191,8 +208,14 @@ async function connectToDatabase() {
   if (dbConnection) return dbConnection;
   
   const DATABASE_URL = process.env.DATABASE_URL;
+  console.log('🔍 Environment check:', {
+    hasDatabaseUrl: !!DATABASE_URL,
+    urlLength: DATABASE_URL?.length || 0,
+    urlStart: DATABASE_URL?.substring(0, 20) || 'none'
+  });
+  
   if (!DATABASE_URL) {
-    console.log('❌ No DATABASE_URL configured, using fallback auth');
+    console.log('❌ No DATABASE_URL configured - check Netlify environment variables');
     return null;
   }
   
@@ -354,6 +377,13 @@ async function authenticateUser(username, password) {
 
 // Serverless function for Netlify with Neon database
 export const handler = async (event, context) => {
+  console.log('🚀 Netlify function invoked:', {
+    method: event.httpMethod,
+    path: event.path,
+    headers: Object.keys(event.headers || {}),
+    bodyLength: event.body?.length || 0,
+    timestamp: new Date().toISOString()
+  });
   console.log('Serverless function called:', event.httpMethod, event.path);
   
   // Set headers for CORS
@@ -654,7 +684,17 @@ export const handler = async (event, context) => {
       }
       
       // Read messages from database first, fallback to memory storage
+      console.log('🔍 Starting message retrieval process...');
       const messages = await getContactMessagesFromDatabase();
+      console.log('📊 Messages retrieved:', {
+        count: messages.length,
+        source: messages.length > 0 ? 'database' : 'fallback',
+        firstMessage: messages[0] ? {
+          id: messages[0].id,
+          from: messages[0].email || messages[0].firstName,
+          subject: messages[0].subject
+        } : 'none'
+      });
       
       // Sort by newest first (already sorted in query, but just in case)
       const sortedMessages = messages
