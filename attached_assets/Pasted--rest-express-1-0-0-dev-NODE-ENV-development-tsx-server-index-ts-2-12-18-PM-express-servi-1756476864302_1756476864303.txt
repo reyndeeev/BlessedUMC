@@ -1,0 +1,40 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+2:12:18 PM [express] serving on port 5000
+2:13:48 PM [express] GET /api/auth/me 401 in 3ms :: {"success":false,"message":"Not authenticated"}
+AUTH: Looking for user: admin
+AUTH: User found, checking password. Hash: $2b$12$6rHVSCFAoQiOkgpYmNPXvey5zVNNZ3TJikMBAtrRU7MymifamBMT2
+AUTH: Plain password length: 8
+AUTH: Password comparison result: true
+AUTH: Authentication successful
+2:13:57 PM [express] POST /api/auth/login 200 in 2252ms :: {"success":true,"message":"Login successf…
+2:13:57 PM [express] GET /api/auth/me 200 in 2ms :: {"success":true,"user":{"id":"1914d366-97c2-4be4…
+2:13:57 PM [express] GET /api/contact-messages 304 in 149ms :: []
+Error fetching analytics: TypeError: value.toISOString is not a function
+    at PgTimestamp.mapToDriverValue (/home/runner/workspace/node_modules/src/pg-core/columns/timestamp.ts:66:16)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:223:69)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:174:17)
+    at Array.map (<anonymous>)
+    at SQL.buildQueryFromSourceParams (/home/runner/workspace/node_modules/src/sql/sql.ts:148:30)
+    at <anonymous> (/home/runner/workspace/node_modules/src/sql/sql.ts:124:23)
+    at Object.startActiveSpan (/home/runner/workspace/node_modules/src/tracing.ts:27:11)
+    at SQL.toQuery (/home/runner/workspace/node_modules/src/sql/sql.ts:123:17)
+    at PgDialect.sqlToQuery (/home/runner/workspace/node_modules/src/pg-core/dialect.ts:591:14)
+    at <anonymous> (/home/runner/workspace/node_modules/src/pg-core/query-builders/select.ts:982:14)
+    at Object.startActiveSpan (/home/runner/workspace/node_modules/src/tracing.ts:27:11)
+    at PgSelectBase._prepare (/home/runner/workspace/node_modules/src/pg-core/query-builders/select.ts:978:17)
+    at <anonymous> (/home/runner/workspace/node_modules/src/pg-core/query-builders/select.ts:1009:16)
+    at Object.startActiveSpan (/home/runner/workspace/node_modules/src/tracing.ts:27:11)
+    at PgSelectBase.execute (/home/runner/workspace/node_modules/src/pg-core/query-builders/select.ts:1008:17)
+    at PgSelectBase.then (/home/runner/workspace/node_modules/src/query-promise.ts:31:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2:13:59 PM [express] GET /api/analytics 500 in 1785ms :: {"success":false,"message":"Failed to fetch…
+2:14:00 PM [express] GET /api/users 304 in 3339ms :: [{"id":"1914d366-97c2-4be4-9b00-b9ed583b25ae","…
+
