@@ -69,6 +69,7 @@ export function useAuth() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+      refetch(); // Force refetch the auth state immediately
       toast({
         title: "Login Successful",
         description: "You are now logged in.",

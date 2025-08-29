@@ -40,6 +40,9 @@ export default function Login() {
     setError("");
     try {
       await login(data.username, data.password);
+      // After successful login, redirect to dashboard
+      console.log("Login completed, redirecting to dashboard");
+      setLocation("/bumcdashboard");
     } catch (error: any) {
       console.error("Login form error:", error);
       setError(error.message || "Login failed");
