@@ -616,9 +616,9 @@ export const handler = async (event, context) => {
             throw new Error('Token expired');
           }
           
-          // CRITICAL: Verify the user credentials are EXACTLY admin/admin123
-          if (userData.username !== 'admin' || userData.id !== '1') {
-            console.log('TOKEN VALIDATION: REJECTED - Invalid user credentials in token');
+          // CRITICAL: Verify the user credentials are valid admin user
+          if (userData.username !== 'admin') {
+            console.log('TOKEN VALIDATION: REJECTED - Invalid username in token');
             throw new Error('Invalid user credentials');
           }
           
