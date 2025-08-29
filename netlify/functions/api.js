@@ -85,20 +85,24 @@ export const handler = async (event, context) => {
       const user = result[0];
       console.log('User found:', user.username);
       
-      // Simple password verification (since bcrypt might not be available)
-      // In production, you should always use bcrypt, but for debugging let's try both
+      // Password verification - try bcrypt first, fallback to direct comparison
       let isValidPassword = false;
       try {
-        // Try bcrypt first
-        const bcrypt = await import('bcrypt');
-        isValidPassword = await bcrypt.compare(password, user.password);
-        console.log('Bcrypt comparison result:', isValidPassword);
+        // Try bcrypt with proper import handling
+        const bcryptModule = await import('bcrypt');
+        const bcrypt = bcryptModule.default || bcryptModule;
+        if (bcrypt && typeof bcrypt.compare === 'function') {
+          isValidPassword = await bcrypt.compare(password, user.password);
+          console.log('Bcrypt comparison result:', isValidPassword);
+        } else {
+          throw new Error('Bcrypt not properly loaded');
+        }
       } catch (bcryptError) {
         // Fallback: direct comparison (NOT secure, only for debugging)
-        console.log('Bcrypt not available, using direct comparison');
-        console.log('Stored password:', user.password);
-        console.log('Provided password:', password);
+        console.log('Bcrypt error:', bcryptError.message);
+        console.log('Using direct password comparison');
         isValidPassword = password === user.password;
+        console.log('Direct comparison result:', isValidPassword);
       }
       
       if (!isValidPassword) {
