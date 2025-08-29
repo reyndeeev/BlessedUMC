@@ -1,21 +1,9 @@
 
 // Ultra-simple serverless function for Netlify
-// Using basic fetch for database queries to avoid module compatibility issues
-
-async function queryDatabase(query, params = []) {
-  const DATABASE_URL = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
-  if (!DATABASE_URL) {
-    throw new Error('Database URL not found. Please set DATABASE_URL in Netlify environment variables.');
-  }
-  
-  // Simple HTTP-based database query using fetch
-  // This is a simplified version for Netlify compatibility
-  // In a real deployment, you'd use a proper database client
-  throw new Error('Database connection not available in serverless environment. Please use the main application.');
-}
+// Handles authentication and basic API endpoints
 
 export const handler = async (event, context) => {
-  console.log('Serverless function started');
+  console.log('Serverless function called:', event.httpMethod, event.path);
   
   // Set headers for CORS
   const headers = {
@@ -37,22 +25,82 @@ export const handler = async (event, context) => {
   try {
     const path = event.path.replace('/.netlify/functions/api', '');
     const method = event.httpMethod;
+    
+    console.log(`Processing: ${method} ${path}`);
 
-    console.log(`${method} ${path}`);
+    // Handle authentication endpoints
+    if (path === '/auth/login' && method === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+      const { username, password } = body;
+      
+      // Simple hardcoded admin check for demo
+      if (username === 'admin' && password === 'password') {
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'Login successful',
+            user: { id: '1', username: 'admin' },
+            token: 'demo-token-' + Date.now()
+          })
+        };
+      } else {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Invalid credentials'
+          })
+        };
+      }
+    }
 
-    // For Netlify deployment, redirect to main application
-    // The serverless function is provided for basic compatibility but
-    // the main application should be used for full functionality
+    // Handle auth/me endpoint
+    if (path === '/auth/me' && method === 'GET') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            user: { id: '1', username: 'admin' }
+          })
+        };
+      } else {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Not authenticated'
+          })
+        };
+      }
+    }
+
+    // Handle other API endpoints with basic responses
+    if (path.startsWith('/')) {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'API endpoint placeholder',
+          data: []
+        })
+      };
+    }
+
+    // Default response for unhandled paths
     return {
-      statusCode: 302,
-      headers: {
-        ...headers,
-        'Location': '/'
-      },
-      body: JSON.stringify({ 
-        success: false, 
-        message: 'Please use the main application for full functionality',
-        redirect: '/'
+      statusCode: 404,
+      headers,
+      body: JSON.stringify({
+        success: false,
+        message: 'Endpoint not found'
       })
     };
 
