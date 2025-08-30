@@ -290,11 +290,11 @@ async function connectToDatabase() {
                 password TEXT NOT NULL
               )
             `;
-          } else if (queryText.includes('INSERT INTO users') && params.length === 2 && queryText.includes('RETURNING id')) {
+          } else if (queryText.includes('INSERT INTO users') && params.length === 2) {
             result = await sql`
               INSERT INTO users (username, password)
               VALUES (${params[0]}, ${params[1]})
-              RETURNING id
+              RETURNING id, username
             `;
           } else if (queryText.includes('SELECT id, username') && queryText.includes('FROM users') && queryText.includes('ORDER BY')) {
             result = await sql`
@@ -302,7 +302,14 @@ async function connectToDatabase() {
               FROM users
               ORDER BY username
             `;
+          } else if (queryText.includes('DELETE FROM users WHERE id =') && params.length === 1) {
+            result = await sql`DELETE FROM users WHERE id = ${params[0]} RETURNING id`;
           } else {
+            console.error('❌ Unsupported query pattern:', { 
+              queryText: queryText.substring(0, 100),
+              params: params.length,
+              fullQuery: queryText
+            });
             throw new Error('Unsupported query pattern: ' + queryText.substring(0, 50));
           }
           
@@ -1196,13 +1203,18 @@ export const handler = async (event, context) => {
           };
 
         } catch (dbError) {
-          console.error('❌ Database error during user creation:', dbError);
+          console.error('❌ Database error during user creation:', {
+            error: dbError.message,
+            stack: dbError.stack,
+            username: username
+          });
           return {
             statusCode: 500,
             headers,
             body: JSON.stringify({
               success: false,
-              message: 'Database connection failed'
+              message: 'Failed to create user: ' + dbError.message,
+              details: process.env.NODE_ENV === 'development' ? dbError.message : undefined
             })
           };
         }
