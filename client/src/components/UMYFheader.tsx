@@ -48,7 +48,7 @@
                         onClick={() => scrollToSection("about")}
                       >
                         <img 
-                          src="https://cdn.discordapp.com/attachments/948276718609772597/1407790711054799010/lllAcgAAAAZJREFUAwCMaEhuxYNxJwAAAABJRU5ErkJggg.png?ex=68aaae85&is=68a95d05&hm=bf236b3263e79c62443a14dcc26db24393ab5b086e6786ba94139007fd4bff21&"
+                          src="https://s3.amazonaws.com/Website_Properties/Resources/graphics-library/Cross_Flame_CLR.png"
                           alt="UMYF Logo" 
                           className="w-12 h-12 rounded-full object-cover"
                         />
