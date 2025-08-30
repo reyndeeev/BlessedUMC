@@ -986,6 +986,34 @@ export const handler = async (event, context) => {
         };
       }
       
+      // Validate the token
+      const token = authHeader.replace('Bearer ', '');
+      try {
+        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
+        
+        if (!userData.id || !userData.username || !userData.isValid) {
+          throw new Error('Invalid token format');
+        }
+        
+        // Check token age (24 hours max)
+        const tokenAge = Date.now() - (userData.loginTime || 0);
+        const maxAge = 24 * 60 * 60 * 1000;
+        if (tokenAge > maxAge) {
+          throw new Error('Token expired');
+        }
+        
+      } catch (error) {
+        console.error('Token validation failed:', error);
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Invalid or expired token'
+          })
+        };
+      }
+      
       // Fetch users from database
       const db = await connectToDatabase();
       if (!db) {
@@ -1039,6 +1067,34 @@ export const handler = async (event, context) => {
           body: JSON.stringify({
             success: false,
             message: 'Authentication required'
+          })
+        };
+      }
+      
+      // Validate the token
+      const token = authHeader.replace('Bearer ', '');
+      try {
+        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
+        
+        if (!userData.id || !userData.username || !userData.isValid) {
+          throw new Error('Invalid token format');
+        }
+        
+        // Check token age (24 hours max)
+        const tokenAge = Date.now() - (userData.loginTime || 0);
+        const maxAge = 24 * 60 * 60 * 1000;
+        if (tokenAge > maxAge) {
+          throw new Error('Token expired');
+        }
+        
+      } catch (error) {
+        console.error('Token validation failed:', error);
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Invalid or expired token'
           })
         };
       }
@@ -1192,6 +1248,34 @@ export const handler = async (event, context) => {
           body: JSON.stringify({
             success: false,
             message: 'Authentication required'
+          })
+        };
+      }
+      
+      // Validate the token
+      const token = authHeader.replace('Bearer ', '');
+      try {
+        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
+        
+        if (!userData.id || !userData.username || !userData.isValid) {
+          throw new Error('Invalid token format');
+        }
+        
+        // Check token age (24 hours max)
+        const tokenAge = Date.now() - (userData.loginTime || 0);
+        const maxAge = 24 * 60 * 60 * 1000;
+        if (tokenAge > maxAge) {
+          throw new Error('Token expired');
+        }
+        
+      } catch (error) {
+        console.error('Token validation failed:', error);
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Invalid or expired token'
           })
         };
       }
