@@ -619,12 +619,7 @@ export const handler = async (event, context) => {
             throw new Error('Token expired');
           }
           
-          // CRITICAL: Verify the user credentials are valid admin user
-          if (userData.username !== 'admin') {
-            console.log('TOKEN VALIDATION: REJECTED - Invalid username in token');
-            throw new Error('Invalid user credentials');
-          }
-          
+          // Verify user exists in database
           const db = await connectToDatabase();
           if (db) {
             // Verify user still exists in database
