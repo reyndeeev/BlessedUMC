@@ -28,20 +28,27 @@ export default function Users() {
   const createUserMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
       const response = await apiRequest('POST', '/api/users', userData);
-      return response.json();
+      const result = await response.json();
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to create user');
+      }
+      
+      return result;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api", "users"] });
       setIsCreateDialogOpen(false);
+      form.reset();
       toast({
         title: "Success",
-        description: "User created successfully",
+        description: `User "${data.user.username}" created successfully`,
       });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
         title: "Error",
-        description: "Failed to create user",
+        description: error.message || "Failed to create user",
         variant: "destructive",
       });
     },
