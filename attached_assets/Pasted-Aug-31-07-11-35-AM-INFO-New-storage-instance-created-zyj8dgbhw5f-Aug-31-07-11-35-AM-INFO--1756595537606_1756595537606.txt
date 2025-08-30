@@ -1,0 +1,467 @@
+Aug 31, 07:11:35 AM: INFO   🆔 New storage instance created: zyj8dgbhw5f
+Aug 31, 07:11:35 AM: INFO   🔄 Initializing storage instance: zyj8dgbhw5f
+Aug 31, 07:11:35 AM: 543736ce INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:35.082Z'
+}
+Aug 31, 07:11:35 AM: 543736ce INFO   Serverless function called: GET /api/auth/me
+Aug 31, 07:11:35 AM: 543736ce INFO   Processing: GET /api/auth/me
+Aug 31, 07:11:35 AM: 543736ce INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756595133193
+}
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Environment check: {
+  hasDatabaseUrl: true,
+  urlLength: 116,
+  urlStart: 'postgresql://neondb_'
+}
+Aug 31, 07:11:35 AM: 543736ce INFO   🔌 Attempting to connect to Neon database via HTTP...
+Aug 31, 07:11:35 AM: 543736ce INFO   🧪 Testing database connection...
+Aug 31, 07:11:35 AM: 543736ce INFO   ✅ Database connection test successful: { current_time: 2025-08-30T23:11:35.655Z }
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Verifying contact_messages table exists...
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Executing query: {
+  sql: '\n' +
+    '      SELECT EXISTS (\n' +
+    '        SELECT FROM information_schema.tables \n' +
+    "        WHERE table_schema = '...",
+  paramCount: 0
+}
+Aug 31, 07:11:35 AM: 543736ce INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:35 AM: 543736ce INFO   📊 Table existence check: { exists: true }
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Verifying users table exists...
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Executing query: {
+  sql: '\n' +
+    '      SELECT EXISTS (\n' +
+    '        SELECT FROM information_schema.tables \n' +
+    "        WHERE table_schema = '...",
+  paramCount: 0
+}
+Aug 31, 07:11:35 AM: 543736ce INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:35 AM: 543736ce INFO   📊 Users table existence check: { exists: true }
+Aug 31, 07:11:35 AM: 543736ce INFO   ✅ Database connection established and verified
+Aug 31, 07:11:35 AM: 543736ce INFO   🔍 Executing query: { sql: 'SELECT * FROM users WHERE id = $1...', paramCount: 1 }
+Aug 31, 07:11:35 AM: 543736ce INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:35 AM: 543736ce Duration: 711.54 ms	Memory Usage: 99 MB
+Aug 31, 07:11:36 AM: 4bffa994 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:36.440Z'
+}
+Aug 31, 07:11:36 AM: 4bffa994 INFO   Serverless function called: GET /api/auth/me
+Aug 31, 07:11:36 AM: 4bffa994 INFO   Processing: GET /api/auth/me
+Aug 31, 07:11:36 AM: 4bffa994 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756595133193
+}
+Aug 31, 07:11:36 AM: 4bffa994 INFO   🔍 Executing query: { sql: 'SELECT * FROM users WHERE id = $1...', paramCount: 1 }
+Aug 31, 07:11:36 AM: 4bffa994 INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:36 AM: 4bffa994 Duration: 295.65 ms	Memory Usage: 131 MB
+Aug 31, 07:11:37 AM: 7423cd50 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/contact-messages',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:37.069Z'
+}
+Aug 31, 07:11:37 AM: 7423cd50 INFO   Serverless function called: GET /api/contact-messages
+Aug 31, 07:11:37 AM: 7423cd50 INFO   Processing: GET /api/contact-messages
+Aug 31, 07:11:37 AM: 7423cd50 INFO   🔍 Starting message retrieval process...
+Aug 31, 07:11:37 AM: 7423cd50 INFO   📖 Fetching contact messages from Neon database
+Aug 31, 07:11:37 AM: 7423cd50 INFO   🔍 Executing query: {
+  sql: 'SELECT COUNT(*) as count FROM contact_messages...',
+  paramCount: 0
+}
+Aug 31, 07:11:37 AM: 7423cd50 INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:37 AM: 7423cd50 INFO   📊 Database row count: 3
+Aug 31, 07:11:37 AM: 7423cd50 INFO   🔍 Executing query: {
+  sql: '\n' +
+    '      SELECT id, first_name as "firstName", last_name as "lastName", \n' +
+    '             email, phone, su...',
+  paramCount: 0
+}
+Aug 31, 07:11:37 AM: 7423cd50 INFO   ✅ Query successful, rows returned: 3
+Aug 31, 07:11:37 AM: 7423cd50 INFO   ✅ Retrieved 3 messages from database: [
+  {
+    id: '7fffc1c9-7609-451b-8a14-80e8620a4cf1',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'visit',
+    createdAt: 2025-08-30T23:07:20.315Z
+  },
+  {
+    id: '76cb500c-31e9-46e5-ab07-b4351bad18de',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'visit',
+    createdAt: 2025-08-30T19:09:43.779Z
+  },
+  {
+    id: 'b94fe661-d7c6-4f69-a10e-828918a30f97',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'pastoral',
+    createdAt: 2025-08-29T23:17:07.957Z
+  }
+]
+Aug 31, 07:11:37 AM: 7423cd50 INFO   📊 Messages retrieved: {
+  count: 3,
+  source: 'database',
+  firstMessage: {
+    id: '7fffc1c9-7609-451b-8a14-80e8620a4cf1',
+    from: 'danielreignelomedaaustria@gmail.com',
+    subject: 'visit'
+  }
+}
+Aug 31, 07:11:37 AM: 7423cd50 INFO   📖 GET /contact-messages - Reading from database: {
+  totalMessages: 3,
+  messageIds: [
+    {
+      id: '7fffc1c9-7609-451b-8a14-80e8620a4cf1',
+      from: 'danielreignelomedaaustria@gmail.com'
+    },
+    {
+      id: '76cb500c-31e9-46e5-ab07-b4351bad18de',
+      from: 'danielreignelomedaaustria@gmail.com'
+    },
+    {
+      id: 'b94fe661-d7c6-4f69-a10e-828918a30f97',
+      from: 'danielreignelomedaaustria@gmail.com'
+    }
+  ],
+  sortedCount: 3,
+  latest: 2025-08-30T23:07:20.315Z,
+  source: 'database'
+}
+Aug 31, 07:11:37 AM: 7423cd50 Duration: 21.61 ms	Memory Usage: 131 MB
+Aug 31, 07:11:37 AM: b91d7610 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/auth/me',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:37.097Z'
+}
+Aug 31, 07:11:37 AM: b91d7610 INFO   Serverless function called: GET /api/auth/me
+Aug 31, 07:11:37 AM: b91d7610 INFO   Processing: GET /api/auth/me
+Aug 31, 07:11:37 AM: b91d7610 INFO   TOKEN VALIDATION: Checking token data: {
+  hasId: true,
+  hasUsername: true,
+  isValid: true,
+  loginTime: 1756595133193
+}
+Aug 31, 07:11:37 AM: b91d7610 INFO   🔍 Executing query: { sql: 'SELECT * FROM users WHERE id = $1...', paramCount: 1 }
+Aug 31, 07:11:37 AM: b91d7610 INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:37 AM: b91d7610 Duration: 6.34 ms	Memory Usage: 131 MB
+Aug 31, 07:11:37 AM: e874f606 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:37.110Z'
+}
+Aug 31, 07:11:37 AM: e874f606 INFO   Serverless function called: GET /api/users
+Aug 31, 07:11:37 AM: e874f606 INFO   Processing: GET /api/users
+Aug 31, 07:11:37 AM: e874f606 INFO   📖 Fetching users from database...
+Aug 31, 07:11:37 AM: e874f606 INFO   🔍 Executing query: {
+  sql: '\n' +
+    '          SELECT id, username\n' +
+    '          FROM users\n' +
+    '          ORDER BY username\n' +
+    '        ...',
+  paramCount: 0
+}
+Aug 31, 07:11:37 AM: e874f606 INFO   ✅ Query successful, rows returned: 1
+Aug 31, 07:11:37 AM: e874f606 INFO   ✅ Retrieved 1 users from database
+Aug 31, 07:11:37 AM: e874f606 Duration: 8.12 ms	Memory Usage: 131 MB
+Aug 31, 07:11:37 AM: d814c026 INFO   🚀 Netlify function invoked: {
+  method: 'GET',
+  path: '/api/analytics',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 0,
+  timestamp: '2025-08-30T23:11:37.124Z'
+}
+Aug 31, 07:11:37 AM: d814c026 INFO   Serverless function called: GET /api/analytics
+Aug 31, 07:11:37 AM: d814c026 INFO   Processing: GET /api/analytics
+Aug 31, 07:11:37 AM: d814c026 INFO   📖 Getting messages from instance zyj8dgbhw5f: 0 messages
+Aug 31, 07:11:37 AM: d814c026 Duration: 2.18 ms	Memory Usage: 131 MB
+Aug 31, 07:11:37 AM: INFO   🆔 New storage instance created: 5bn30hb5f4
+Aug 31, 07:11:37 AM: INFO   🔄 Initializing storage instance: 5bn30hb5f4
+Aug 31, 07:11:37 AM: INFO   🆔 New storage instance created: 5jx6otrt33p
+Aug 31, 07:11:37 AM: INFO   🔄 Initializing storage instance: 5jx6otrt33p
+Aug 31, 07:11:37 AM: INFO   🆔 New storage instance created: k6v5tqj6dub
+Aug 31, 07:11:37 AM: INFO   🔄 Initializing storage instance: k6v5tqj6dub
+Aug 31, 07:11:51 AM: 8a16b00f INFO   🚀 Netlify function invoked: {
+  method: 'POST',
+  path: '/api/users',
+  headers: [
+    'accept',
+    'accept-encoding',
+    'accept-language',
+    'authorization',
+    'cdn-loop',
+    'content-length',
+    'content-type',
+    'host',
+    'netlify-agent-category',
+    'netlify-invocation-source',
+    'origin',
+    'priority',
+    'referer',
+    'sec-ch-ua',
+    'sec-ch-ua-mobile',
+    'sec-ch-ua-platform',
+    'sec-fetch-dest',
+    'sec-fetch-mode',
+    'sec-fetch-site',
+    'traceparent',
+    'user-agent',
+    'x-country',
+    'x-forwarded-for',
+    'x-forwarded-proto',
+    'x-language',
+    'x-nf-account-id',
+    'x-nf-account-tier',
+    'x-nf-client-connection-ip',
+    'x-nf-deploy-context',
+    'x-nf-deploy-id',
+    'x-nf-deploy-published',
+    'x-nf-geo',
+    'x-nf-request-id',
+    'x-nf-request-start',
+    'x-nf-site-id',
+    'x-nf-trace-span-id'
+  ],
+  bodyLength: 52,
+  timestamp: '2025-08-30T23:11:51.184Z'
+}
+Aug 31, 07:11:51 AM: 8a16b00f INFO   Serverless function called: POST /api/users
+Aug 31, 07:11:51 AM: 8a16b00f INFO   Processing: POST /api/users
+Aug 31, 07:11:51 AM: 8a16b00f INFO   User creation request: { username: 'blessedumc', passwordLength: 13 }
+Aug 31, 07:11:51 AM: 8a16b00f INFO   🔍 Executing query: { sql: 'SELECT id FROM users WHERE username = $1...', paramCount: 1 }
+Aug 31, 07:11:51 AM: 8a16b00f ERROR  ❌ Unsupported query pattern: {
+  queryText: 'SELECT id FROM users WHERE username = $1',
+  params: 1,
+  fullQuery: 'SELECT id FROM users WHERE username = $1'
+}
+Aug 31, 07:11:51 AM: 8a16b00f ERROR  ❌ Query failed: {
+  error: 'Unsupported query pattern: SELECT id FROM users WHERE username = $1',
+  sql: 'SELECT id FROM users WHERE username = $1...',
+  paramCount: 1
+}
+Aug 31, 07:11:51 AM: 8a16b00f ERROR  ❌ Database error during user creation: {
+  error: 'Unsupported query pattern: SELECT id FROM users WHERE username = $1',
+  stack: 'Error: Unsupported query pattern: SELECT id FROM users WHERE username = $1\n' +
+    '    at Object.query (/var/task/netlify/functions/api.js:299:19)\n' +
+    '    at Runtime.handler (/var/task/netlify/functions/api.js:991:42)',
+  username: 'blessedumc'
+}
+Aug 31, 07:11:51 AM: 8a16b00f Duration: 28.57 ms	Memory Usage: 131 MB

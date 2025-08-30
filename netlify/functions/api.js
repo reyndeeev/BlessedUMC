@@ -278,6 +278,8 @@ async function connectToDatabase() {
             result = await sql`SELECT id FROM contact_messages WHERE id = ${params[0]}`;
           } else if (queryText.includes('DELETE FROM contact_messages WHERE id =') && params.length === 1) {
             result = await sql`DELETE FROM contact_messages WHERE id = ${params[0]} RETURNING id`;
+          } else if (queryText.includes('SELECT id FROM users WHERE username =') && params.length === 1) {
+            result = await sql`SELECT id FROM users WHERE username = ${params[0]}`;
           } else if (queryText.includes('SELECT * FROM users WHERE username =') && params.length === 1) {
             result = await sql`SELECT * FROM users WHERE username = ${params[0]}`;
           } else if (queryText.includes('SELECT * FROM users WHERE id =') && params.length === 1) {
