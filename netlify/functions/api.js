@@ -1181,7 +1181,7 @@ export const handler = async (event, context) => {
 
           // Hash password and create user
           const bcrypt = await import('bcrypt');
-          const hashedPassword = await bcrypt.hash(password.trim(), 12);
+          const hashedPassword = await bcrypt.default.hash(password.trim(), 12);
 
           console.log('Creating new user:', username);
           const newUsers = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username', [username.trim(), hashedPassword]);
