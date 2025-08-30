@@ -1360,13 +1360,32 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Read messages from persistent storage for analytics
-      const { messages } = readMessages();
+      // Get analytics from database instead of memory storage
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
       
-      // Calculate analytics from actual persistent data
-      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      const recentMessages = messages.filter(msg => 
-        new Date(msg.createdAt) >= oneDayAgo
+      try {
+        // Get total users from database
+        const usersResult = await db.query('SELECT COUNT(*) as count FROM users');
+        const totalUsers = usersResult[0]?.count || 0;
+        
+        // Get total messages from database
+        const messagesResult = await db.query('SELECT COUNT(*) as count FROM contact_messages');
+        const totalMessages = messagesResult[0]?.count || 0;
+        
+        // Calculate analytics from database data
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const recentResult = await db.query('SELECT COUNT(*) as count FROM contact_messages WHERE created_at >= $1', [oneDayAgo.toISOString()]);
+        const recentMessages = recentResult[0]?.count || 0;
       ).length;
       
       const mockAnalytics = {
