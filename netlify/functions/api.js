@@ -305,6 +305,12 @@ async function connectToDatabase() {
               VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]})
               RETURNING id
             `;
+          } else if (queryText.includes('SELECT id, username, email, role, created_at') && queryText.includes('FROM users') && queryText.includes('ORDER BY')) {
+            result = await sql`
+              SELECT id, username, email, role, created_at as "createdAt"
+              FROM users
+              ORDER BY created_at DESC
+            `;
           } else {
             throw new Error('Unsupported query pattern: ' + queryText.substring(0, 50));
           }
@@ -980,19 +986,45 @@ export const handler = async (event, context) => {
         };
       }
       
-      // Mock users data (in production, fetch from database)
-      const mockUsers = [
-        {
-          id: '1',
-          username: 'admin'
-        }
-      ];
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(mockUsers)
-      };
+      // Fetch users from database
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
+
+      try {
+        console.log('📖 Fetching users from database...');
+        const users = await db.query(`
+          SELECT id, username, email, role, created_at as "createdAt"
+          FROM users
+          ORDER BY created_at DESC
+        `);
+        
+        console.log(`✅ Retrieved ${users.length} users from database`);
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(users)
+        };
+      } catch (dbError) {
+        console.error('❌ Database error during user retrieval:', dbError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to fetch users from database'
+          })
+        };
+      }
     }
 
     // Handle create user endpoint
@@ -1059,26 +1091,65 @@ export const handler = async (event, context) => {
           };
         }
         
-        // Check for duplicate username (mock check) - only prevent exact duplicate 'admin'
-        if (username.toLowerCase() === 'admin') {
+        // Check for duplicate username in database
+        const db = await connectToDatabase();
+        if (!db) {
           return {
-            statusCode: 409,
+            statusCode: 500,
             headers,
             body: JSON.stringify({
               success: false,
-              message: 'Username "admin" already exists. Please choose a different username.',
-              errors: [{ field: 'username', message: 'This username is already taken. Try admin2, manager, or another name.' }]
+              message: 'Database connection failed'
             })
           };
         }
-        
-        // Mock user creation (in production, save to database)
-        const newUser = {
-          id: Math.random().toString(36).substr(2, 9),
-          username: username.trim()
-        };
-        
-        console.log('User created successfully:', newUser);
+
+        try {
+          // Check if username already exists
+          const existingUsers = await db.query('SELECT * FROM users WHERE username = $1', [username.trim()]);
+          if (existingUsers.length > 0) {
+            return {
+              statusCode: 409,
+              headers,
+              body: JSON.stringify({
+                success: false,
+                message: `Username "${username}" already exists. Please choose a different username.`,
+                errors: [{ field: 'username', message: 'This username is already taken.' }]
+              })
+            };
+          }
+          
+          // Hash the password
+          const bcrypt = await import('bcrypt');
+          const hashedPassword = await bcrypt.hash(password, 10);
+          
+          // Create user in database  
+          console.log('💾 Creating new user in database:', { username: username.trim() });
+          const newUsers = await db.query(`
+            INSERT INTO users (username, email, password_hash, role)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, username, email, role, created_at
+          `, [username.trim(), `${username.trim()}@blessed-umc.org`, hashedPassword, 'user']);
+          
+          const newUser = newUsers[0];
+          console.log('✅ User created successfully in database:', {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            role: newUser.role
+          });
+          
+        } catch (dbError) {
+          console.error('❌ Database error during user creation:', dbError);
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'Failed to create user in database'
+            })
+          };
+        }
         
         return {
           statusCode: 200,
@@ -1086,7 +1157,13 @@ export const handler = async (event, context) => {
           body: JSON.stringify({
             success: true,
             message: 'User created successfully',
-            user: newUser
+            user: {
+              id: newUser.id,
+              username: newUser.username,
+              email: newUser.email,
+              role: newUser.role,
+              createdAt: newUser.created_at
+            }
           })
         };
         
@@ -1122,15 +1199,67 @@ export const handler = async (event, context) => {
       const userId = path.split('/').pop();
       console.log('User deletion requested for ID:', userId);
       
-      // Mock user deletion (in production, delete from database)
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          message: 'User deleted successfully'
-        })
-      };
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
+
+      try {
+        // Check if user exists before deletion
+        const existingUsers = await db.query('SELECT id FROM users WHERE id = $1', [userId]);
+        if (existingUsers.length === 0) {
+          return {
+            statusCode: 404,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'User not found'
+            })
+          };
+        }
+
+        // Delete user from database
+        console.log('🗑️  Deleting user from database:', userId);
+        const deletedUsers = await db.query('DELETE FROM users WHERE id = $1 RETURNING id', [userId]);
+        
+        if (deletedUsers.length > 0) {
+          console.log('✅ User deleted successfully:', userId);
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              success: true,
+              message: 'User deleted successfully'
+            })
+          };
+        } else {
+          return {
+            statusCode: 404,
+            headers,
+            body: JSON.stringify({
+              success: false,
+              message: 'User not found'
+            })
+          };
+        }
+      } catch (dbError) {
+        console.error('❌ Database error during user deletion:', dbError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to delete user from database'
+          })
+        };
+      }
     }
 
     // Handle analytics endpoint
