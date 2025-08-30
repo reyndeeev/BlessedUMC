@@ -207,7 +207,7 @@ initializeStorage();
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
   
-  const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+  const DATABASE_URL = process.env.DATABASE_URL;
   console.log('🔍 Environment check:', {
     hasDatabaseUrl: !!DATABASE_URL,
     urlLength: DATABASE_URL?.length || 0,
@@ -290,7 +290,7 @@ async function connectToDatabase() {
                 password TEXT NOT NULL
               )
             `;
-          } else if (queryText.includes('INSERT INTO users') && params.length === 2) {
+          } else if (queryText.includes('INSERT INTO users') && params.length === 2 && queryText.includes('RETURNING id, username')) {
             result = await sql`
               INSERT INTO users (username, password)
               VALUES (${params[0]}, ${params[1]})
@@ -1184,7 +1184,7 @@ export const handler = async (event, context) => {
           const hashedPassword = await bcrypt.hash(password.trim(), 12);
 
           console.log('Creating new user:', username);
-          const newUsers = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [username.trim(), hashedPassword]);
+          const newUsers = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username', [username.trim(), hashedPassword]);
           
           if (newUsers.length === 0) {
             throw new Error('Failed to create user');
