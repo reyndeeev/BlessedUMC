@@ -1002,9 +1002,9 @@ export const handler = async (event, context) => {
       try {
         console.log('📖 Fetching users from database...');
         const users = await db.query(`
-          SELECT id, username, email, role, created_at as "createdAt"
+          SELECT id, username
           FROM users
-          ORDER BY created_at DESC
+          ORDER BY username
         `);
         
         console.log(`✅ Retrieved ${users.length} users from database`);
