@@ -207,7 +207,7 @@ initializeStorage();
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
   
-  const DATABASE_URL = process.env.DATABASE_URL;
+  const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
   console.log('🔍 Environment check:', {
     hasDatabaseUrl: !!DATABASE_URL,
     urlLength: DATABASE_URL?.length || 0,
