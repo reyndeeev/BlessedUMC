@@ -104,7 +104,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create simple token for client storage
       const { password: _, ...userWithoutPassword } = user;
-      const token = btoa(JSON.stringify({ id: userWithoutPassword.id, username: userWithoutPassword.username, loginTime: Date.now() }));
+      const token = btoa(JSON.stringify({ id: userWithoutPassword.id, username: userWithoutPassword.username, loginTime: Date.now(), isValid: true }));
       
       res.json({ 
         success: true, 

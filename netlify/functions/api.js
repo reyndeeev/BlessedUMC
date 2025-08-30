@@ -285,31 +285,22 @@ async function connectToDatabase() {
           } else if (queryText.includes('CREATE TABLE IF NOT EXISTS users')) {
             result = await sql`
               CREATE TABLE IF NOT EXISTS users (
-                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
                 username TEXT UNIQUE NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password_hash TEXT NOT NULL,
-                role TEXT DEFAULT 'admin',
-                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+                password TEXT NOT NULL
               )
             `;
-          } else if (queryText.includes('INSERT INTO users') && params.length === 4 && queryText.includes('RETURNING id, username')) {
+          } else if (queryText.includes('INSERT INTO users') && params.length === 2 && queryText.includes('RETURNING id')) {
             result = await sql`
-              INSERT INTO users (username, email, password_hash, role)
-              VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]})
-              RETURNING id, username, email, role
-            `;
-          } else if (queryText.includes('INSERT INTO users') && params.length === 4 && queryText.includes('RETURNING id')) {
-            result = await sql`
-              INSERT INTO users (username, email, password_hash, role)
-              VALUES (${params[0]}, ${params[1]}, ${params[2]}, ${params[3]})
+              INSERT INTO users (username, password)
+              VALUES (${params[0]}, ${params[1]})
               RETURNING id
             `;
-          } else if (queryText.includes('SELECT id, username, email, role, created_at') && queryText.includes('FROM users') && queryText.includes('ORDER BY')) {
+          } else if (queryText.includes('SELECT id, username') && queryText.includes('FROM users') && queryText.includes('ORDER BY')) {
             result = await sql`
-              SELECT id, username, email, role, created_at as "createdAt"
+              SELECT id, username
               FROM users
-              ORDER BY created_at DESC
+              ORDER BY username
             `;
           } else {
             throw new Error('Unsupported query pattern: ' + queryText.substring(0, 50));
@@ -381,12 +372,9 @@ async function verifyTableExists() {
       console.log('⚠️ users table does not exist, creating...');
       await dbConnection.query(`
         CREATE TABLE IF NOT EXISTS users (
-          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
           username TEXT UNIQUE NOT NULL,
-          email TEXT UNIQUE NOT NULL,
-          password_hash TEXT NOT NULL,
-          role TEXT DEFAULT 'admin',
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+          password TEXT NOT NULL
         )
       `);
       console.log('✅ users table created successfully');
@@ -398,8 +386,8 @@ async function verifyTableExists() {
         const hashedPassword = await bcrypt.hash('admin123', 10);
         
         // Use the query handler for the INSERT
-        const insertResult = await dbConnection.query(`INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id`, 
-          ['admin', 'admin@blessed-umc.org', hashedPassword, 'admin']);
+        const insertResult = await dbConnection.query(`INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`, 
+          ['admin', hashedPassword]);
         
         console.log('✅ Default admin user created');
       } catch (userCreateError) {
@@ -991,8 +979,13 @@ export const handler = async (event, context) => {
       try {
         const userData = JSON.parse(Buffer.from(token, 'base64').toString());
         
-        if (!userData.id || !userData.username || !userData.isValid) {
+        if (!userData.id || !userData.username) {
           throw new Error('Invalid token format');
+        }
+        
+        // Accept tokens with or without isValid for backward compatibility
+        if (userData.isValid !== undefined && userData.isValid !== true) {
+          throw new Error('Invalid token status');
         }
         
         // Check token age (24 hours max)
@@ -1076,8 +1069,13 @@ export const handler = async (event, context) => {
       try {
         const userData = JSON.parse(Buffer.from(token, 'base64').toString());
         
-        if (!userData.id || !userData.username || !userData.isValid) {
+        if (!userData.id || !userData.username) {
           throw new Error('Invalid token format');
+        }
+        
+        // Accept tokens with or without isValid for backward compatibility
+        if (userData.isValid !== undefined && userData.isValid !== true) {
+          throw new Error('Invalid token status');
         }
         
         // Check token age (24 hours max)
@@ -1162,39 +1160,41 @@ export const handler = async (event, context) => {
 
         try {
           // Check if username already exists
-          const existingUsers = await db.query('SELECT * FROM users WHERE username = $1', [username.trim()]);
+          const existingUsers = await db.query('SELECT id FROM users WHERE username = $1', [username.trim()]);
           if (existingUsers.length > 0) {
             return {
               statusCode: 409,
               headers,
               body: JSON.stringify({
                 success: false,
-                message: `Username "${username}" already exists. Please choose a different username.`,
-                errors: [{ field: 'username', message: 'This username is already taken.' }]
+                message: 'Username already exists'
               })
             };
           }
-          
-          // Hash the password
+
+          // Hash password and create user
           const bcrypt = await import('bcrypt');
-          const hashedPassword = await bcrypt.hash(password, 10);
+          const hashedPassword = await bcrypt.hash(password.trim(), 12);
+
+          console.log('Creating new user:', username);
+          const newUsers = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id', [username.trim(), hashedPassword]);
           
-          // Create user in database  
-          console.log('💾 Creating new user in database:', { username: username.trim() });
-          const newUsers = await db.query(`
-            INSERT INTO users (username, email, password_hash, role)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, username, email, role, created_at
-          `, [username.trim(), `${username.trim()}@blessed-umc.org`, hashedPassword, 'user']);
-          
+          if (newUsers.length === 0) {
+            throw new Error('Failed to create user');
+          }
+
           const newUser = newUsers[0];
-          console.log('✅ User created successfully in database:', {
-            id: newUser.id,
-            username: newUser.username,
-            email: newUser.email,
-            role: newUser.role
-          });
-          
+          console.log('✅ User created successfully:', { id: newUser.id, username: username });
+
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              success: true,
+              user: { id: newUser.id, username: username }
+            })
+          };
+
         } catch (dbError) {
           console.error('❌ Database error during user creation:', dbError);
           return {
@@ -1202,26 +1202,10 @@ export const handler = async (event, context) => {
             headers,
             body: JSON.stringify({
               success: false,
-              message: 'Failed to create user in database'
+              message: 'Database connection failed'
             })
           };
         }
-        
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            message: 'User created successfully',
-            user: {
-              id: newUser.id,
-              username: newUser.username,
-              email: newUser.email,
-              role: newUser.role,
-              createdAt: newUser.created_at
-            }
-          })
-        };
         
       } catch (parseError) {
         console.error('User creation parse error:', parseError);
@@ -1257,8 +1241,13 @@ export const handler = async (event, context) => {
       try {
         const userData = JSON.parse(Buffer.from(token, 'base64').toString());
         
-        if (!userData.id || !userData.username || !userData.isValid) {
+        if (!userData.id || !userData.username) {
           throw new Error('Invalid token format');
+        }
+        
+        // Accept tokens with or without isValid for backward compatibility
+        if (userData.isValid !== undefined && userData.isValid !== true) {
+          throw new Error('Invalid token status');
         }
         
         // Check token age (24 hours max)
