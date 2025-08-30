@@ -31,36 +31,53 @@ export class DatabaseStorage implements IStorage {
   
   constructor() {
     this.db = getDatabaseConnection();
-    this.createDefaultAdmin();
+    // Don't create admin immediately, wait for first database operation to ensure connection is ready
+    this.ensureDefaultAdmin();
   }
 
-  private async createDefaultAdmin() {
-    // Create a default admin user for testing
+  private async ensureDefaultAdmin() {
+    // Create a default admin user for testing - with proper error handling
     try {
-      const existingAdmin = await this.getUserByUsername("admin");
-      if (!existingAdmin) {
-        const defaultAdmin = await this.createUser({
-          username: "admin",
-          password: "admin123"
-        });
-        console.log("Default admin user created:", { username: defaultAdmin.username, id: defaultAdmin.id });
-      }
+      // Wait a bit to ensure database connection is established
+      setTimeout(async () => {
+        try {
+          const existingAdmin = await this.getUserByUsername("admin");
+          if (!existingAdmin) {
+            const defaultAdmin = await this.createUser({
+              username: "admin",
+              password: "admin123"
+            });
+            console.log("Default admin user created (database):", { username: defaultAdmin.username, id: defaultAdmin.id });
+          }
+        } catch (error) {
+          console.warn("Could not create default admin in database (database may not be connected):", error instanceof Error ? error.message : String(error));
+        }
+      }, 1000);
     } catch (error) {
-      console.error("Failed to create default admin:", error);
+      console.error("Failed to schedule default admin creation:", error);
     }
   }
 
   async getUser(id: string): Promise<User | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const [user] = await this.db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const [user] = await this.db.select().from(users).where(eq(users.username, username));
     return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const hashedPassword = await bcrypt.hash(insertUser.password, SALT_ROUNDS);
     const [user] = await this.db
       .insert(users)
@@ -92,6 +109,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const [message] = await this.db
       .insert(contactMessages)
       .values(insertMessage)
@@ -100,19 +120,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getContactMessages(): Promise<ContactMessage[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     return await this.db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
   }
 
   async getAllUsers(): Promise<User[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     return await this.db.select().from(users).orderBy(users.username);
   }
 
   async deleteUser(id: string): Promise<boolean> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const result = await this.db.delete(users).where(eq(users.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 
   async getAnalytics(): Promise<AnalyticsData> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const [totalUsersResult] = await this.db.select({ count: sql<number>`count(*)` }).from(users);
     const [totalMessagesResult] = await this.db.select({ count: sql<number>`count(*)` }).from(contactMessages);
 
@@ -139,6 +171,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async getMessagesByDay(): Promise<{ date: string; count: number }[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -156,6 +191,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async getTopSubjects(): Promise<{ subject: string; count: number }[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
     const results = await this.db
       .select({ 
         subject: contactMessages.subject, 

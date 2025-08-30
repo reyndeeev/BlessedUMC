@@ -156,6 +156,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Public user registration endpoint (no authentication required)
+  app.post("/api/auth/register", async (req, res) => {
+    try {
+      const validatedData = insertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByUsername(validatedData.username);
+      if (existingUser) {
+        return res.status(409).json({ 
+          success: false, 
+          message: "Username already exists" 
+        });
+      }
+      
+      const user = await storage.createUser(validatedData);
+      // Don't send password back
+      const { password, ...safeUser } = user;
+      
+      // Create a token for immediate login after registration
+      const token = btoa(JSON.stringify({ id: safeUser.id, username: safeUser.username, loginTime: Date.now() }));
+      
+      res.json({ 
+        success: true, 
+        message: "User created successfully",
+        user: safeUser,
+        token: token
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ 
+          success: false, 
+          message: "Invalid user data", 
+          errors: error.errors 
+        });
+      } else {
+        console.error("Error creating user:", error);
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to create user" 
+        });
+      }
+    }
+  });
+
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {
