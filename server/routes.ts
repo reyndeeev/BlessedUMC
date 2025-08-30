@@ -29,21 +29,41 @@ declare global {
 }
 
 // Authentication middleware
-const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   // Check session first
   if (req.session.user) {
     return next();
   }
   
-  // Fallback to token authentication
+  // Fallback to token authentication (same logic as /api/auth/me)
   const token = req.headers.authorization?.replace('Bearer ', '');
-  if (token && globalThis.activeTokens?.has(token)) {
-    // Set user for downstream middleware
-    req.user = globalThis.activeTokens.get(token);
-    return next();
+  if (!token) {
+    return res.status(401).json({ success: false, message: "Authentication required" });
   }
   
-  return res.status(401).json({ success: false, message: "Authentication required" });
+  try {
+    // Decode the base64 token
+    const userData = JSON.parse(atob(token));
+    
+    if (!userData.id || !userData.username) {
+      throw new Error('Invalid token format');
+    }
+    
+    // Verify user still exists in database
+    const user = await storage.getUser(userData.id);
+    if (!user || user.username !== userData.username) {
+      throw new Error('User not found or username mismatch');
+    }
+    
+    // Set user for downstream middleware
+    const { password: _, ...userWithoutPassword } = user;
+    req.user = userWithoutPassword;
+    return next();
+    
+  } catch (error) {
+    console.error("Authentication error:", error);
+    return res.status(401).json({ success: false, message: "Authentication required" });
+  }
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -156,49 +176,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Public user registration endpoint (no authentication required)
-  app.post("/api/auth/register", async (req, res) => {
-    try {
-      const validatedData = insertUserSchema.parse(req.body);
-      
-      // Check if user already exists
-      const existingUser = await storage.getUserByUsername(validatedData.username);
-      if (existingUser) {
-        return res.status(409).json({ 
-          success: false, 
-          message: "Username already exists" 
-        });
-      }
-      
-      const user = await storage.createUser(validatedData);
-      // Don't send password back
-      const { password, ...safeUser } = user;
-      
-      // Create a token for immediate login after registration
-      const token = btoa(JSON.stringify({ id: safeUser.id, username: safeUser.username, loginTime: Date.now() }));
-      
-      res.json({ 
-        success: true, 
-        message: "User created successfully",
-        user: safeUser,
-        token: token
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ 
-          success: false, 
-          message: "Invalid user data", 
-          errors: error.errors 
-        });
-      } else {
-        console.error("Error creating user:", error);
-        res.status(500).json({ 
-          success: false, 
-          message: "Failed to create user" 
-        });
-      }
-    }
-  });
 
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
@@ -260,6 +237,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/users", requireAuth, async (req, res) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByUsername(validatedData.username);
+      if (existingUser) {
+        return res.status(409).json({ 
+          success: false, 
+          message: "Username already exists" 
+        });
+      }
+      
       const user = await storage.createUser(validatedData);
       // Don't send password back
       const { password, ...safeUser } = user;
