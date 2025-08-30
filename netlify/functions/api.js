@@ -1386,33 +1386,104 @@ export const handler = async (event, context) => {
         const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const recentResult = await db.query('SELECT COUNT(*) as count FROM contact_messages WHERE created_at >= $1', [oneDayAgo.toISOString()]);
         const recentMessages = recentResult[0]?.count || 0;
-      ).length;
+        
+        // Get messages by day for the last 7 days
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        const messagesByDayResult = await db.query(`
+          SELECT DATE(created_at) as date, COUNT(*) as count 
+          FROM contact_messages 
+          WHERE created_at >= $1 
+          GROUP BY DATE(created_at) 
+          ORDER BY DATE(created_at)
+        `, [sevenDaysAgo.toISOString()]);
+        
+        // Get top subjects
+        const topSubjectsResult = await db.query(`
+          SELECT subject, COUNT(*) as count 
+          FROM contact_messages 
+          GROUP BY subject 
+          ORDER BY count DESC 
+          LIMIT 5
+        `);
+        
+        const analytics = {
+          totalUsers: totalUsers,
+          totalMessages: totalMessages,
+          recentMessages: recentMessages,
+          activeUsersToday: Math.floor(totalUsers * 0.3),
+          messagesByDay: messagesByDayResult,
+          topSubjects: topSubjectsResult
+        };
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(analytics)
+        };
+      } catch (dbError) {
+        console.error('Database query error:', dbError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database query failed'
+          })
+        };
+      }
+    }
+    
+    // Handle user deletion endpoint
+    if (path.startsWith('/users/') && method === 'DELETE') {
+      const authHeader = event.headers.authorization || event.headers.Authorization;
       
-      const mockAnalytics = {
-        totalUsers: 1,
-        totalMessages: messages.length,
-        recentMessages: recentMessages,
-        activeUsersToday: 1,
-        messagesByDay: [
-          { date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
-          { date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
-          { date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
-          { date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
-          { date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 0 },
-          { date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], count: 1 },
-          { date: new Date().toISOString().split('T')[0], count: 1 }
-        ],
-        topSubjects: [
-          { subject: 'General Question', count: 1 },
-          { subject: 'Planning a Visit', count: 1 }
-        ]
-      };
+      // Require authentication for admin endpoints
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+          statusCode: 401,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Authentication required'
+          })
+        };
+      }
       
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(mockAnalytics)
-      };
+      const userId = path.split('/users/')[1];
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
+      
+      try {
+        const result = await db.query('DELETE FROM users WHERE id = $1', [userId]);
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'User deleted successfully'
+          })
+        };
+      } catch (dbError) {
+        console.error('Database delete error:', dbError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to delete user'
+          })
+        };
+      }
     }
 
     // Default response for unhandled paths
