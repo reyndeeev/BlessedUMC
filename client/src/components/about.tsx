@@ -83,7 +83,7 @@ export default function About() {
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-6">
               <img
-                src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/abou2.jpg"
                 alt="Diverse congregation in worship"
                 className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                 data-testid="image-congregation"
@@ -101,7 +101,7 @@ export default function About() {
             
             <div className="space-y-6 pt-8">
               <img
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481103334_122203825064219109_8322692855473669829_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGg5b9fTN3ra2MpiJJCgTwIOXNDwft-Chc5c0PB-34KF2EEfVwIK3ax3rLXCT7L85YHcbv3x5JXh2ywDGq2oKUY&_nc_ohc=i996r0uHIycQ7kNvwFLvpTn&_nc_oc=AdldXXfImAkOC2sZksC8RC44w0HGLCXnVV0ycp_mvTHy-FVrt52PWhQesJj_9m-3Uj0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=J3fvsW0S_-Fgx8NOsYShJQ&oh=00_AfW8K9JOcNhDxXGsNwNVgVCvP0cJ_f8qYG_rIjc3tTX4uA&oe=68AD0F41"
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/about1.jpg"
                 alt="Church community serving together"
                 className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                 data-testid="image-community"

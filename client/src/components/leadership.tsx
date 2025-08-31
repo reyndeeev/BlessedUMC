@@ -6,7 +6,7 @@ export default function Leadership() {
     title: "Church Local Pastor CY (2025-2026)",
     description:
       "Rev. John B. Manalo faithfully serves as our Church Local Pastor, leading with dedication, humility, and a heart for God’s people.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    image: "https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/pastor.jpg",
     email: "john.manalo@example.com", // replace with real email if available
     phone: "+63 900 000 0000",        // replace with real number if available
   };
