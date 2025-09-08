@@ -207,15 +207,17 @@ initializeStorage();
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
   
-  const DATABASE_URL = process.env.DATABASE_URL;
+  const DATABASE_URL = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
   console.log('🔍 Environment check:', {
-    hasDatabaseUrl: !!DATABASE_URL,
+    hasNetlifyDatabaseUrl: !!process.env.NETLIFY_DATABASE_URL,
+    hasDatabaseUrl: !!process.env.DATABASE_URL,
+    usingUrl: DATABASE_URL ? 'found' : 'none',
     urlLength: DATABASE_URL?.length || 0,
     urlStart: DATABASE_URL?.substring(0, 20) || 'none'
   });
   
   if (!DATABASE_URL) {
-    console.log('❌ No DATABASE_URL configured - check Netlify environment variables');
+    console.log('❌ No NETLIFY_DATABASE_URL or DATABASE_URL configured - check Netlify environment variables');
     return null;
   }
   
