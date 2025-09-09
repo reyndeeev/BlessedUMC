@@ -39,7 +39,7 @@ export default function UMYF() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(30, 64, 175, 0.4) 25%, rgba(147, 51, 234, 0.3) 50%, rgba(59, 130, 246, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%), url('https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/481083794_122203831448219109_2198001000273705036_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFlNOnNaUP4F5xuUyAqK06uE9MB2hbs8vMT0wHaFuzy85hGv0VWRq80MNKmHHqbx4_12IlO2j1s0Ym8TUyEl3M8&_nc_ohc=xQ2V4i5YfIMQ7kNvwGRQg0a&_nc_oc=AdmLGEWqiNANdCWASfdztSJRwMP7KZhL-BUps8zJJ6-WfArEtVvMOz0Lm91blzrJmW8&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7lnuJwP-6abI0sgN1lb4bA&oh=00_AfXOW6wm5sncvz2oAJgfeIngIr2f3Wc0f46xRn_lMbVN6w&oe=68ABB3D3')`,
+            backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(30, 64, 175, 0.4) 25%, rgba(147, 51, 234, 0.3) 50%, rgba(59, 130, 246, 0.4) 75%, rgba(0, 0, 0, 0.5) 100%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%), url('https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/umyffrontpage.jpg')`,
           }}
         />
         {/* Planetshakers-style subtle effects */}
@@ -271,7 +271,7 @@ export default function UMYF() {
           <div className="mb-16">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/506712672_706634195447669_3586623967235578761_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFbMyLxz3yxweLPpKMMjDDGL5tZ7MtMaOkvm1nsy0xo6W4Rks312DXAWoPbdT72VU9wZWbvo7GDC_-Ch_XwQJIH&_nc_ohc=c6J3mOinNmMQ7kNvwGyKNvs&_nc_oc=AdnKm9eUge1FU3fb8Bf_7b1o-eMyeHw0k9wmD6HtF0c8NCkKaNxZrxP1fe-kJyyfYBU&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=Tgmc9TxeRQz3pWMQEaqTZw&oh=00_AfXPwN08gGu7GQCUaGGAW4OL-gSBbiZkB4BTox814cy7XA&oe=68AFECB3" 
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/umyfphoto1.jpg" 
                 alt="UMYF Youth Worship"
                 className="w-full h-96 object-cover"
               />
@@ -289,7 +289,7 @@ export default function UMYF() {
             {/* Featured large image */}
             <div className="col-span-2 row-span-2 relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/483969249_636295449148211_2026287748428530527_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEbHNIW8r4aGEA8-_PlUZ_kTvOuBYXHbkZO864FhcduRs24hWJqHFx4fqRqgMLmPV940PRAxAnQwdvmMykz1MLN&_nc_ohc=YNDG9vz34FUQ7kNvwGHXM5D&_nc_oc=AdlOsGykXJobSwWCi4d-b_txeopjF6MtL0SvuwdoBsO1XdPg5zhNZ2HJmhbDaHzpy6o&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=9YieLzSR03RdX4w-GVNh3A&oh=00_AfVRONt0PPKc4UkoGORvxupuSk5C1AjAHguRQZk8nSBJvw&oe=68B0024C" 
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/umyfcimmunityservice.jpg" 
                 alt="Youth Service Project"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -303,7 +303,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/492133066_666011709509918_1704696767511708694_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEeZ4TgICjWhiIpO7yQ7oeUASsQReZmEekBKxBF5mYR6Y976PQVQflBbHA6OcHs35S_qB3vKos_sgXnRJt24iSR&_nc_ohc=yx4xiNZ3QEMQ7kNvwEOR_Mx&_nc_oc=AdmDtdTS4IEjgD546kQspfAgYKlZuarKv2FkavkZJZVJMeu5lETK6AO_khy5kWr8lSg&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=ztobGDAD4eI0zm7QGByTCA&oh=00_AfV-1eARSEyFRYDmTQ1SstEHyyF_BfrivHEavj2NSJ7rsQ&oe=68B00DDF" 
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/youthfellowship.jpg" 
                 alt="Youth Fellowship"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />

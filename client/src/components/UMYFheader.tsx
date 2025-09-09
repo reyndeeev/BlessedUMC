@@ -48,7 +48,7 @@
                         onClick={() => scrollToSection("about")}
                       >
                         <img 
-                          src="https://s3.amazonaws.com/Website_Properties/Resources/graphics-library/Cross_Flame_CLR.png"
+                          src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/blessedumyflogo.jpg"
                           alt="UMYF Logo" 
                           className="w-12 h-12 rounded-full object-cover"
                         />
