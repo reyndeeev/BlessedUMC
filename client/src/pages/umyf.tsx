@@ -289,7 +289,7 @@ export default function UMYF() {
             {/* Featured large image */}
             <div className="col-span-2 row-span-2 relative group rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <img 
-                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/umyfcimmunityservice.jpg" 
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/service.jpg" 
                 alt="Youth Service Project"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -316,7 +316,7 @@ export default function UMYF() {
 
             <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
               <img 
-                src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/482013599_633421326102290_370273174270203519_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEkyzXTIWuoyrePMeE6OHFo9RMe0jidtun1Ex7SOJ226XF7yOBjkr1gslFu7y_1pQspPR60o-989e_paXkx3HrM&_nc_ohc=ckl1_FykAIIQ7kNvwENyHa0&_nc_oc=AdmNg8oG8reNk1okDJG9YMrGcrYODOaUHWDemmd86im7QQYR51vXh9L-c3w4-hPkgvE&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=qHySqgdv6tnnfLGEpH2P_A&oh=00_AfX0B6vysWNcRUVsRfbsFY_k6vIq-wviW2F9V-05jrWl2w&oe=68AFEC01" 
+                src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/youthpaw.jpg" 
                 alt="Youth Worship"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -394,7 +394,7 @@ export default function UMYF() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/509360583_709167175194371_4684710157190126259_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeGfPgesl-8fsDq8ieR8P63v6KFIqTHPjx3ooUipMc-PHezL3V_Vz4rm6MqujK3RdKAjDGSqib7ubNJ51aDpa-00&_nc_ohc=Nwisss07UUcQ7kNvwF6Q-Lv&_nc_oc=AdmPclFXE9bWsZ0N5wMFwRwxnUohOuvNzx_Vt84UXT7YMw9aJX89BI6Vec1gVk6arRs&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=W7r3nSl91Vh5nWMLuhWGDA&oh=00_AfW9xo6edGdI5NYVIRbHMCLatGua_4k8DeVoCsgBTJxfeg&oe=68AFE96F" 
+                  src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/gamenight.jpg" 
                   alt="Youth Game Night"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -407,7 +407,7 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/492916253_1190317292894026_5738367445172444705_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFq4QzDhOQKdbBOBlP_lhi1qui9AbvIT32q6L0Bu8hPfecHJ6Ky4Mk8z6LA_XNuU3q_lW175iAk5TiCvcE2U4rD&_nc_ohc=gQvau8YBGO0Q7kNvwEc52Ln&_nc_oc=AdmExr7YmPmns6U4DyJ0c3a-li-lDR_5mWSFHznE8E9u8i6QA1HNYXljG3uzivcocH0&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=gutO43is4v-Pgitt82C17w&oh=00_AfXvR0xavCQ0HT3qkDWKByn_vug13wBeHygltrNfF0C3Hw&oe=68AFFF9B" 
+                  src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/gamenightyouth.jpg" 
                   alt="Youth Sports"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -433,7 +433,7 @@ export default function UMYF() {
 
               <div className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <img 
-                  src="https://scontent.fmnl19-1.fna.fbcdn.net/v/t39.30808-6/484304010_636295345814888_8857990127270516538_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeHRR23YwX-lhfjnQGKJ168Pe2EjdHh1rrl7YSN0eHWuufI09BNgeLEtPNjN_YWSMl97Avj5H2Ap38c6_OzPau5j&_nc_ohc=CscFj63vACcQ7kNvwEVhN-s&_nc_oc=AdlfEr0wPQJ8BpQx4DbNfV7xSgOK-TGBwYaHJX0iO4RiYmTCi1FMc2eJcfVvmgWUpBQ&_nc_zt=23&_nc_ht=scontent.fmnl19-1.fna&_nc_gid=7whHPTlBAjuNsO26v3699Q&oh=00_AfVXlDL_POC1DUxKZ-aYTUg6ouayczQYSVcx1LfkyfAPiw&oe=68AFEE08" 
+                  src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/vcs.jpg" 
                   alt="Youth Outreach"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
