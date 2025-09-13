@@ -2,10 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Settings, ArrowLeft, Plus, Trash2, Edit, Calendar, Mail, Phone } from "lucide-react";
+import { Settings, ArrowLeft, Plus, Trash2, Edit, Calendar, Mail, Phone, Upload } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -18,6 +19,8 @@ import { apiRequest } from "@/lib/queryClient";
 
 export default function Birthdays() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  const [importData, setImportData] = useState('');
   const [editingBirthday, setEditingBirthday] = useState<Birthday | null>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -131,6 +134,77 @@ export default function Birthdays() {
     }
   };
 
+  const handleImport = async () => {
+    if (!importData.trim()) {
+      toast({ title: "Please enter data to import", variant: "destructive" });
+      return;
+    }
+
+    try {
+      const lines = importData.trim().split('\n').filter(line => line.trim());
+      const birthdays = [];
+
+      for (const line of lines) {
+        // Try different separators
+        let parts;
+        if (line.includes('\t')) {
+          parts = line.split('\t');
+        } else if (line.includes(',')) {
+          parts = line.split(',').map(p => p.trim());
+        } else {
+          parts = line.split(/\s+/);
+        }
+
+        if (parts.length < 3) continue;
+
+        const firstName = parts[0]?.trim();
+        const lastName = parts[1]?.trim();
+        let birthDate = parts[2]?.trim();
+        const phone = parts[3]?.trim() || null;
+        const email = parts[4]?.trim() || null;
+
+        // Handle date formats
+        if (birthDate && !birthDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          // Try to convert MM/DD/YYYY or other formats
+          const date = new Date(birthDate);
+          if (!isNaN(date.getTime())) {
+            birthDate = date.toISOString().split('T')[0];
+          }
+        }
+
+        if (firstName && lastName && birthDate) {
+          birthdays.push({
+            firstName,
+            lastName,
+            birthDate,
+            phone,
+            email
+          });
+        }
+      }
+
+      if (birthdays.length === 0) {
+        toast({ title: "No valid birthdays found in the data", variant: "destructive" });
+        return;
+      }
+
+      // Import all birthdays
+      for (const birthday of birthdays) {
+        await createBirthdayMutation.mutateAsync(birthday);
+      }
+
+      toast({ title: `Successfully imported ${birthdays.length} birthdays!` });
+      setImportData('');
+      setIsImportDialogOpen(false);
+    } catch (error) {
+      toast({
+        title: "Import failed",
+        description: error instanceof Error ? error.message : "Failed to import birthdays",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleEdit = (birthday: Birthday) => {
     setEditingBirthday(birthday);
     form.reset({
@@ -223,13 +297,58 @@ export default function Birthdays() {
             <h1 className="text-3xl font-bold text-gray-900">Birthday Management</h1>
           </div>
           
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={handleCreate} data-testid="button-create-birthday">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Birthday
-              </Button>
-            </DialogTrigger>
+          <div className="flex gap-2">
+            <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" data-testid="button-import-birthdays">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Import from Google Docs
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Import Birthdays from Google Docs</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Paste your data (format: First Name, Last Name, Birth Date, Phone, Email)
+                    </label>
+                    <Textarea 
+                      value={importData}
+                      onChange={(e) => setImportData(e.target.value)}
+                      placeholder="Example:&#10;John Smith 1990-03-15 555-1234 john@email.com&#10;Sarah Johnson 1985-07-22 555-5678 sarah@email.com"
+                      className="min-h-48 font-mono text-sm"
+                      data-testid="textarea-import-data"
+                    />
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <strong>Supported formats:</strong>
+                    <ul className="mt-1 space-y-1">
+                      <li>• Comma-separated: John, Smith, 1990-03-15, 555-1234, john@email.com</li>
+                      <li>• Tab-separated (copy directly from Google Docs table)</li>
+                      <li>• Space-separated: John Smith 1990-03-15 555-1234 john@email.com</li>
+                    </ul>
+                  </div>
+                  <div className="flex gap-2 justify-end">
+                    <Button variant="outline" onClick={() => setIsImportDialogOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleImport} data-testid="button-process-import">
+                      Import Data
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={handleCreate} data-testid="button-create-birthday">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Birthday
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>
@@ -363,6 +482,7 @@ export default function Birthdays() {
               </Form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
 
         {/* Birthdays Grid */}

@@ -2,10 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Settings, ArrowLeft, Plus, Trash2, Edit, Calendar, Mail, Phone, Heart } from "lucide-react";
+import { Settings, ArrowLeft, Plus, Trash2, Edit, Calendar, Mail, Phone, Heart, Upload } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -18,6 +19,8 @@ import { apiRequest } from "@/lib/queryClient";
 
 export default function Anniversaries() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  const [importData, setImportData] = useState('');
   const [editingAnniversary, setEditingAnniversary] = useState<Anniversary | null>(null);
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -146,6 +149,79 @@ export default function Anniversaries() {
     setIsCreateDialogOpen(true);
   };
 
+  const handleImport = async () => {
+    if (!importData.trim()) {
+      toast({ title: "Please enter data to import", variant: "destructive" });
+      return;
+    }
+
+    try {
+      const lines = importData.trim().split('\n').filter(line => line.trim());
+      const anniversaries = [];
+
+      for (const line of lines) {
+        // Try different separators
+        let parts;
+        if (line.includes('\t')) {
+          parts = line.split('\t');
+        } else if (line.includes(',')) {
+          parts = line.split(',').map(p => p.trim());
+        } else {
+          parts = line.split(/\s+/);
+        }
+
+        if (parts.length < 3) continue;
+
+        const husbandName = parts[0]?.trim();
+        const wifeName = parts[1]?.trim();
+        let anniversaryDate = parts[2]?.trim();
+        const phone = parts[3]?.trim() || null;
+        const email = parts[4]?.trim() || null;
+        const yearsMarried = parts[5]?.trim() || null;
+
+        // Handle date formats
+        if (anniversaryDate && !anniversaryDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          // Try to convert MM/DD/YYYY or other formats
+          const date = new Date(anniversaryDate);
+          if (!isNaN(date.getTime())) {
+            anniversaryDate = date.toISOString().split('T')[0];
+          }
+        }
+
+        if (husbandName && wifeName && anniversaryDate) {
+          anniversaries.push({
+            husbandName,
+            wifeName,
+            anniversaryDate,
+            phone,
+            email,
+            yearsMarried
+          });
+        }
+      }
+
+      if (anniversaries.length === 0) {
+        toast({ title: "No valid anniversaries found in the data", variant: "destructive" });
+        return;
+      }
+
+      // Import all anniversaries
+      for (const anniversary of anniversaries) {
+        await createAnniversaryMutation.mutateAsync(anniversary);
+      }
+
+      toast({ title: `Successfully imported ${anniversaries.length} anniversaries!` });
+      setImportData('');
+      setIsImportDialogOpen(false);
+    } catch (error) {
+      toast({
+        title: "Import failed",
+        description: error instanceof Error ? error.message : "Failed to import anniversaries",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleCreate = () => {
     setEditingAnniversary(null);
     form.reset();
@@ -225,13 +301,64 @@ export default function Anniversaries() {
             <h1 className="text-3xl font-bold text-gray-900">Anniversary Management</h1>
           </div>
           
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={handleCreate} data-testid="button-create-anniversary">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Anniversary
-              </Button>
-            </DialogTrigger>
+          <div className="flex gap-2">
+            <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" data-testid="button-import-anniversaries">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Import from Google Docs
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Import Anniversaries from Google Docs</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-2">
+                      Paste your anniversary data below. Supports multiple formats:
+                    </p>
+                    <ul className="text-xs text-gray-500 mb-4 list-disc list-inside space-y-1">
+                      <li>Comma-separated: HusbandName, WifeName, Date, Phone, Email, Years</li>
+                      <li>Tab-separated (copy from spreadsheet)</li>
+                      <li>Space-separated: HusbandName WifeName Date Phone Email Years</li>
+                      <li>Date format: YYYY-MM-DD or MM/DD/YYYY</li>
+                    </ul>
+                    <Textarea
+                      placeholder="John, Mary, 2010-05-15, 555-1234, john.mary@email.com, 13&#10;Robert, Linda, 2005-08-20, 555-5678, robert.linda@email.com, 18&#10;David Jennifer 2015-12-03 555-9012 david.jennifer@email.com 8"
+                      value={importData}
+                      onChange={(e) => setImportData(e.target.value)}
+                      className="min-h-32"
+                      data-testid="textarea-import-data"
+                    />
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsImportDialogOpen(false)}
+                      data-testid="button-cancel-import"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleImport}
+                      disabled={createAnniversaryMutation.isPending}
+                      data-testid="button-import-submit"
+                    >
+                      {createAnniversaryMutation.isPending ? "Importing..." : "Import Anniversaries"}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={handleCreate} data-testid="button-create-anniversary">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Anniversary
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>
