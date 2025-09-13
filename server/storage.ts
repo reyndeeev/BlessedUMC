@@ -1,4 +1,9 @@
-import { type User, type InsertUser, type ContactMessage, type InsertContactMessage, users, contactMessages } from "@shared/schema";
+import { 
+  type User, type InsertUser, type ContactMessage, type InsertContactMessage,
+  type Sermon, type InsertSermon, type Birthday, type InsertBirthday,
+  type Anniversary, type InsertAnniversary,
+  users, contactMessages, sermons, birthdays, anniversaries 
+} from "@shared/schema";
 import bcrypt from "bcrypt";
 import { getDatabaseConnection } from "./db";
 import { eq, desc, gte, sql } from "drizzle-orm";
@@ -24,6 +29,28 @@ export interface IStorage {
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
   getAnalytics(): Promise<AnalyticsData>;
+  
+  // Sermon methods
+  createSermon(sermon: InsertSermon): Promise<Sermon>;
+  getSermons(): Promise<Sermon[]>;
+  getFeaturedSermon(): Promise<Sermon | undefined>;
+  getRecentSermons(limit?: number): Promise<Sermon[]>;
+  updateSermon(id: string, sermon: Partial<InsertSermon>): Promise<Sermon | undefined>;
+  deleteSermon(id: string): Promise<boolean>;
+  
+  // Birthday methods
+  createBirthday(birthday: InsertBirthday): Promise<Birthday>;
+  getBirthdays(): Promise<Birthday[]>;
+  getUpcomingBirthdays(days?: number): Promise<Birthday[]>;
+  updateBirthday(id: string, birthday: Partial<InsertBirthday>): Promise<Birthday | undefined>;
+  deleteBirthday(id: string): Promise<boolean>;
+  
+  // Anniversary methods
+  createAnniversary(anniversary: InsertAnniversary): Promise<Anniversary>;
+  getAnniversaries(): Promise<Anniversary[]>;
+  getUpcomingAnniversaries(days?: number): Promise<Anniversary[]>;
+  updateAnniversary(id: string, anniversary: Partial<InsertAnniversary>): Promise<Anniversary | undefined>;
+  deleteAnniversary(id: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -36,6 +63,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async ensureDefaultAdmin() {
+    // Only create default admin in development environment
+    if (process.env.NODE_ENV !== 'development' && process.env.CREATE_DEFAULT_ADMIN !== 'true') {
+      return;
+    }
+    
     // Create a default admin user for testing - with proper error handling
     try {
       // Wait a bit to ensure database connection is established
@@ -87,24 +119,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async authenticateUser(username: string, password: string): Promise<User | null> {
-    console.log("AUTH: Looking for user:", username);
     const user = await this.getUserByUsername(username);
     if (!user) {
-      console.log("AUTH: User not found");
       return null;
     }
 
-    console.log("AUTH: User found, checking password. Hash:", user.password);
-    console.log("AUTH: Plain password length:", password.length);
     const isValidPassword = await bcrypt.compare(password, user.password);
-    console.log("AUTH: Password comparison result:", isValidPassword);
 
     if (!isValidPassword) {
-      console.log("AUTH: Password mismatch");
       return null;
     }
 
-    console.log("AUTH: Authentication successful");
     return user;
   }
 
@@ -206,12 +231,217 @@ export class DatabaseStorage implements IStorage {
 
     return results;
   }
+
+  // Sermon methods
+  async createSermon(insertSermon: InsertSermon): Promise<Sermon> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [sermon] = await this.db
+      .insert(sermons)
+      .values(insertSermon)
+      .returning();
+    return sermon;
+  }
+
+  async getSermons(): Promise<Sermon[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    return await this.db.select().from(sermons).orderBy(desc(sermons.date));
+  }
+
+  async getFeaturedSermon(): Promise<Sermon | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [sermon] = await this.db.select().from(sermons).where(eq(sermons.isFeatured, true)).limit(1);
+    return sermon || undefined;
+  }
+
+  async getRecentSermons(limit: number = 6): Promise<Sermon[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    return await this.db.select().from(sermons).orderBy(desc(sermons.date)).limit(limit);
+  }
+
+  async updateSermon(id: string, updateData: Partial<InsertSermon>): Promise<Sermon | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [sermon] = await this.db
+      .update(sermons)
+      .set(updateData)
+      .where(eq(sermons.id, id))
+      .returning();
+    return sermon || undefined;
+  }
+
+  async deleteSermon(id: string): Promise<boolean> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const result = await this.db.delete(sermons).where(eq(sermons.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Birthday methods
+  async createBirthday(insertBirthday: InsertBirthday): Promise<Birthday> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [birthday] = await this.db
+      .insert(birthdays)
+      .values(insertBirthday)
+      .returning();
+    return birthday;
+  }
+
+  async getBirthdays(): Promise<Birthday[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    return await this.db.select().from(birthdays).where(eq(birthdays.isActive, true)).orderBy(birthdays.firstName);
+  }
+
+  async getUpcomingBirthdays(days: number = 30): Promise<Birthday[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + days);
+    
+    return await this.db
+      .select()
+      .from(birthdays)
+      .where(sql`
+        ${birthdays.isActive} = true AND
+        (
+          -- Birthday within next ${days} days this year
+          (
+            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) >= 
+            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
+          ) AND (
+            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) <= 
+            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
+          )
+        ) OR (
+          -- Handle year wrap-around
+          DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') < DATE_PART('month', CURRENT_DATE) AND
+          (
+            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) >= 
+            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
+          ) OR (
+            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) <= 
+            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
+          )
+        )
+      `)
+      .orderBy(sql`DATE_PART('month', ${birthdays.birthDate}), DATE_PART('day', ${birthdays.birthDate})`);
+  }
+
+  async updateBirthday(id: string, updateData: Partial<InsertBirthday>): Promise<Birthday | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [birthday] = await this.db
+      .update(birthdays)
+      .set(updateData)
+      .where(eq(birthdays.id, id))
+      .returning();
+    return birthday || undefined;
+  }
+
+  async deleteBirthday(id: string): Promise<boolean> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const result = await this.db.delete(birthdays).where(eq(birthdays.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Anniversary methods
+  async createAnniversary(insertAnniversary: InsertAnniversary): Promise<Anniversary> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [anniversary] = await this.db
+      .insert(anniversaries)
+      .values(insertAnniversary)
+      .returning();
+    return anniversary;
+  }
+
+  async getAnniversaries(): Promise<Anniversary[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    return await this.db.select().from(anniversaries).where(eq(anniversaries.isActive, true)).orderBy(anniversaries.husbandName);
+  }
+
+  async getUpcomingAnniversaries(days: number = 30): Promise<Anniversary[]> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    return await this.db
+      .select()
+      .from(anniversaries)
+      .where(sql`
+        ${anniversaries.isActive} = true AND
+        (
+          -- Anniversary within next ${days} days this year
+          (
+            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) >= 
+            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
+          ) AND (
+            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) <= 
+            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
+          )
+        ) OR (
+          -- Handle year wrap-around
+          DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') < DATE_PART('month', CURRENT_DATE) AND
+          (
+            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) >= 
+            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
+          ) OR (
+            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) <= 
+            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
+          )
+        )
+      `)
+      .orderBy(sql`DATE_PART('month', ${anniversaries.anniversaryDate}), DATE_PART('day', ${anniversaries.anniversaryDate})`);
+  }
+
+  async updateAnniversary(id: string, updateData: Partial<InsertAnniversary>): Promise<Anniversary | undefined> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const [anniversary] = await this.db
+      .update(anniversaries)
+      .set(updateData)
+      .where(eq(anniversaries.id, id))
+      .returning();
+    return anniversary || undefined;
+  }
+
+  async deleteAnniversary(id: string): Promise<boolean> {
+    if (!this.db) {
+      throw new Error("Database connection not available");
+    }
+    const result = await this.db.delete(anniversaries).where(eq(anniversaries.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
 }
 
 // In-memory storage implementation for fallback
 export class MemStorage implements IStorage {
   private users: User[] = [];
   private contactMessages: ContactMessage[] = [];
+  private sermons: Sermon[] = [];
+  private birthdays: Birthday[] = [];
+  private anniversaries: Anniversary[] = [];
   private idCounter = 1;
 
   constructor() {
@@ -219,6 +449,11 @@ export class MemStorage implements IStorage {
   }
 
   private async createDefaultAdmin() {
+    // Only create default admin in development environment
+    if (process.env.NODE_ENV !== 'development' && process.env.CREATE_DEFAULT_ADMIN !== 'true') {
+      return;
+    }
+    
     // Create a default admin user for testing
     try {
       const existingAdmin = await this.getUserByUsername("admin");
@@ -254,23 +489,17 @@ export class MemStorage implements IStorage {
   }
 
   async authenticateUser(username: string, password: string): Promise<User | null> {
-    console.log("AUTH (MemStorage): Looking for user:", username);
     const user = await this.getUserByUsername(username);
     if (!user) {
-      console.log("AUTH (MemStorage): User not found");
       return null;
     }
 
-    console.log("AUTH (MemStorage): User found, checking password");
     const isValidPassword = await bcrypt.compare(password, user.password);
-    console.log("AUTH (MemStorage): Password comparison result:", isValidPassword);
 
     if (!isValidPassword) {
-      console.log("AUTH (MemStorage): Password mismatch");
       return null;
     }
 
-    console.log("AUTH (MemStorage): Authentication successful");
     return user;
   }
 
@@ -350,6 +579,204 @@ export class MemStorage implements IStorage {
       .map(([subject, count]) => ({ subject, count }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
+  }
+
+  // Sermon methods for MemStorage
+  async createSermon(insertSermon: InsertSermon): Promise<Sermon> {
+    const sermon: Sermon = {
+      id: (this.idCounter++).toString(),
+      title: insertSermon.title,
+      pastor: insertSermon.pastor,
+      date: insertSermon.date,
+      scripture: insertSermon.scripture || null,
+      description: insertSermon.description || null,
+      videoUrl: insertSermon.videoUrl || null,
+      audioUrl: insertSermon.audioUrl || null,
+      thumbnailUrl: insertSermon.thumbnailUrl || null,
+      isLive: insertSermon.isLive || false,
+      isFeatured: insertSermon.isFeatured || false,
+      createdAt: new Date()
+    };
+    this.sermons.push(sermon);
+    return sermon;
+  }
+
+  async getSermons(): Promise<Sermon[]> {
+    return [...this.sermons].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
+  async getFeaturedSermon(): Promise<Sermon | undefined> {
+    return this.sermons.find(sermon => sermon.isFeatured);
+  }
+
+  async getRecentSermons(limit: number = 6): Promise<Sermon[]> {
+    const sermons = await this.getSermons();
+    return sermons.slice(0, limit);
+  }
+
+  async updateSermon(id: string, updateData: Partial<InsertSermon>): Promise<Sermon | undefined> {
+    const index = this.sermons.findIndex(sermon => sermon.id === id);
+    if (index > -1) {
+      this.sermons[index] = { ...this.sermons[index], ...updateData };
+      return this.sermons[index];
+    }
+    return undefined;
+  }
+
+  async deleteSermon(id: string): Promise<boolean> {
+    const index = this.sermons.findIndex(sermon => sermon.id === id);
+    if (index > -1) {
+      this.sermons.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  // Birthday methods for MemStorage
+  async createBirthday(insertBirthday: InsertBirthday): Promise<Birthday> {
+    const birthday: Birthday = {
+      id: (this.idCounter++).toString(),
+      firstName: insertBirthday.firstName,
+      lastName: insertBirthday.lastName,
+      birthDate: insertBirthday.birthDate,
+      phone: insertBirthday.phone || null,
+      email: insertBirthday.email || null,
+      isActive: insertBirthday.isActive || true,
+      createdAt: new Date()
+    };
+    this.birthdays.push(birthday);
+    return birthday;
+  }
+
+  async getBirthdays(): Promise<Birthday[]> {
+    return this.birthdays.filter(birthday => birthday.isActive).sort((a, b) => a.firstName.localeCompare(b.firstName));
+  }
+
+  async getUpcomingBirthdays(days: number = 30): Promise<Birthday[]> {
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + days);
+    
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+    const endMonth = endDate.getMonth() + 1;
+    const endDay = endDate.getDate();
+    
+    return this.birthdays
+      .filter(birthday => birthday.isActive)
+      .filter(birthday => {
+        const birthDate = new Date(birthday.birthDate);
+        const birthMonth = birthDate.getMonth() + 1;
+        const birthDay = birthDate.getDate();
+        
+        const birthDateNumber = birthMonth * 100 + birthDay;
+        const currentDateNumber = currentMonth * 100 + currentDay;
+        const endDateNumber = endMonth * 100 + endDay;
+        
+        // Handle year wrap-around (e.g., December to January)
+        if (endDateNumber < currentDateNumber) {
+          return birthDateNumber >= currentDateNumber || birthDateNumber <= endDateNumber;
+        } else {
+          return birthDateNumber >= currentDateNumber && birthDateNumber <= endDateNumber;
+        }
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.birthDate);
+        const bDate = new Date(b.birthDate);
+        return (aDate.getMonth() * 100 + aDate.getDate()) - (bDate.getMonth() * 100 + bDate.getDate());
+      });
+  }
+
+  async updateBirthday(id: string, updateData: Partial<InsertBirthday>): Promise<Birthday | undefined> {
+    const index = this.birthdays.findIndex(birthday => birthday.id === id);
+    if (index > -1) {
+      this.birthdays[index] = { ...this.birthdays[index], ...updateData };
+      return this.birthdays[index];
+    }
+    return undefined;
+  }
+
+  async deleteBirthday(id: string): Promise<boolean> {
+    const index = this.birthdays.findIndex(birthday => birthday.id === id);
+    if (index > -1) {
+      this.birthdays.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  // Anniversary methods for MemStorage
+  async createAnniversary(insertAnniversary: InsertAnniversary): Promise<Anniversary> {
+    const anniversary: Anniversary = {
+      id: (this.idCounter++).toString(),
+      husbandName: insertAnniversary.husbandName,
+      wifeName: insertAnniversary.wifeName,
+      anniversaryDate: insertAnniversary.anniversaryDate,
+      phone: insertAnniversary.phone || null,
+      email: insertAnniversary.email || null,
+      yearsMarried: insertAnniversary.yearsMarried || null,
+      isActive: insertAnniversary.isActive || true,
+      createdAt: new Date()
+    };
+    this.anniversaries.push(anniversary);
+    return anniversary;
+  }
+
+  async getAnniversaries(): Promise<Anniversary[]> {
+    return this.anniversaries.filter(anniversary => anniversary.isActive).sort((a, b) => a.husbandName.localeCompare(b.husbandName));
+  }
+
+  async getUpcomingAnniversaries(days: number = 30): Promise<Anniversary[]> {
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + days);
+    
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+    const endMonth = endDate.getMonth() + 1;
+    const endDay = endDate.getDate();
+    
+    return this.anniversaries
+      .filter(anniversary => anniversary.isActive)
+      .filter(anniversary => {
+        const anniversaryDate = new Date(anniversary.anniversaryDate);
+        const anniversaryMonth = anniversaryDate.getMonth() + 1;
+        const anniversaryDay = anniversaryDate.getDate();
+        
+        const anniversaryDateNumber = anniversaryMonth * 100 + anniversaryDay;
+        const currentDateNumber = currentMonth * 100 + currentDay;
+        const endDateNumber = endMonth * 100 + endDay;
+        
+        // Handle year wrap-around (e.g., December to January)
+        if (endDateNumber < currentDateNumber) {
+          return anniversaryDateNumber >= currentDateNumber || anniversaryDateNumber <= endDateNumber;
+        } else {
+          return anniversaryDateNumber >= currentDateNumber && anniversaryDateNumber <= endDateNumber;
+        }
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.anniversaryDate);
+        const bDate = new Date(b.anniversaryDate);
+        return (aDate.getMonth() * 100 + aDate.getDate()) - (bDate.getMonth() * 100 + bDate.getDate());
+      });
+  }
+
+  async updateAnniversary(id: string, updateData: Partial<InsertAnniversary>): Promise<Anniversary | undefined> {
+    const index = this.anniversaries.findIndex(anniversary => anniversary.id === id);
+    if (index > -1) {
+      this.anniversaries[index] = { ...this.anniversaries[index], ...updateData };
+      return this.anniversaries[index];
+    }
+    return undefined;
+  }
+
+  async deleteAnniversary(id: string): Promise<boolean> {
+    const index = this.anniversaries.findIndex(anniversary => anniversary.id === id);
+    if (index > -1) {
+      this.anniversaries.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 }
 
