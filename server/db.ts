@@ -10,14 +10,15 @@ let pool: Pool | null = null;
 let db: ReturnType<typeof drizzle> | null = null;
 
 export function initializeDatabase() {
-  if (!process.env.DATABASE_URL) {
+  const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+  if (!databaseUrl) {
     throw new Error(
-      "DATABASE_URL must be set. Did you forget to provision a database?",
+      "NETLIFY_DATABASE_URL or DATABASE_URL must be set. Did you forget to provision a database?",
     );
   }
 
   if (!pool) {
-    pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    pool = new Pool({ connectionString: databaseUrl });
     db = drizzle({ client: pool, schema });
   }
 
@@ -34,10 +35,11 @@ export function getDatabaseConnection() {
 // For backward compatibility, export db but initialize it lazily
 export { db };
 
-// Initialize db only if DATABASE_URL is available
-if (process.env.DATABASE_URL) {
+// Initialize db only if NETLIFY_DATABASE_URL or DATABASE_URL is available
+const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+if (databaseUrl) {
   try {
-    pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    pool = new Pool({ connectionString: databaseUrl });
     db = drizzle({ client: pool, schema });
   } catch (error) {
     console.warn("Failed to initialize database connection:", error);
