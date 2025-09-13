@@ -54,155 +54,8 @@ class NetlifyStorage {
 // Create storage instance
 const storage = new NetlifyStorage();
 
-// Database operations for contact messages
-async function saveContactMessageToDatabase(messageData) {
-  const db = await connectToDatabase();
-  if (!db) {
-    console.log('❌ No database connection, using fallback storage');
-    return null;
-  }
-
-  try {
-    console.log('💾 Saving contact message to Neon database:', {
-      firstName: messageData.firstName,
-      lastName: messageData.lastName,
-      email: messageData.email,
-      subject: messageData.subject
-    });
-    
-    // Use simpler INSERT without explicit created_at (let database handle it)
-    const result = await db.query(`
-      INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id, first_name as "firstName", last_name as "lastName", 
-               email, phone, subject, message, created_at as "createdAt"
-    `, [
-      messageData.firstName,
-      messageData.lastName,
-      messageData.email,
-      messageData.phone || null,
-      messageData.subject,
-      messageData.message
-    ]);
-    
-    if (result.length === 0) {
-      console.error('❌ INSERT returned no rows');
-      return null;
-    }
-    
-    const savedMessage = result[0];
-    console.log('✅ Contact message saved to database successfully:', {
-      id: savedMessage.id,
-      from: savedMessage.email,
-      subject: savedMessage.subject,
-      createdAt: savedMessage.createdAt
-    });
-    
-    // Verify the message was actually saved by reading it back
-    const verifyResult = await db.query('SELECT id FROM contact_messages WHERE id = $1', [savedMessage.id]);
-    if (verifyResult.length === 0) {
-      console.error('❌ Message save verification failed - record not found after INSERT');
-      return null;
-    }
-    
-    console.log('✅ Message save verified successfully');
-    return savedMessage;
-  } catch (error) {
-    console.error('❌ Database save error:', {
-      message: error.message,
-      code: error.code,
-      detail: error.detail,
-      constraint: error.constraint,
-      table: error.table
-    });
-    return null;
-  }
-}
-
-async function getContactMessagesFromDatabase() {
-  const db = await connectToDatabase();
-  if (!db) {
-    console.log('❌ No database connection, using fallback storage');
-    const fallbackData = storage.getMessages().messages;
-    console.log('📊 Fallback storage data:', {
-      count: fallbackData.length,
-      messages: fallbackData.map(m => ({ id: m.id, from: m.email || m.firstName }))
-    });
-    return fallbackData;
-  }
-
-  try {
-    console.log('📖 Fetching contact messages from Neon database');
-    
-    // First check if table exists and has any data
-    const countResult = await db.query('SELECT COUNT(*) as count FROM contact_messages');
-    console.log('📊 Database row count:', countResult[0]?.count || 0);
-    
-    const messages = await db.query(`
-      SELECT id, first_name as "firstName", last_name as "lastName", 
-             email, phone, subject, message, created_at as "createdAt"
-      FROM contact_messages
-      ORDER BY created_at DESC
-    `);
-    
-    console.log(`✅ Retrieved ${messages.length} messages from database:`, 
-      messages.map(m => ({ id: m.id, from: m.email, subject: m.subject, createdAt: m.createdAt }))
-    );
-    return messages;
-  } catch (error) {
-    console.error('❌ Database read error:', {
-      message: error.message,
-      code: error.code,
-      detail: error.detail
-    });
-    console.log('🔄 Falling back to memory storage due to database error');
-    return storage.getMessages().messages;
-  }
-}
-
-async function deleteContactMessageFromDatabase(messageId) {
-  const db = await connectToDatabase();
-  if (!db) {
-    console.log('No database connection, using fallback storage');
-    return false;
-  }
-
-  try {
-    console.log('🗑️ Deleting contact message from database:', messageId);
-    const result = await db.query('DELETE FROM contact_messages WHERE id = $1 RETURNING id', [messageId]);
-    
-    if (result.length > 0) {
-      console.log('✅ Contact message deleted from database successfully:', messageId);
-      return true;
-    } else {
-      console.log('❌ Contact message not found in database:', messageId);
-      return false;
-    }
-  } catch (error) {
-    console.error('❌ Database delete error:', error);
-    return false;
-  }
-}
-
-// Wrapper functions for backward compatibility
-function initializeStorage() {
-  storage.init();
-}
-
-function readMessages() {
-  return storage.getMessages();
-}
-
-function writeMessages(messages, nextId) {
-  return storage.saveMessages(messages, nextId);
-}
-
-function getStorageStatus() {
-  return storage.getStatus();
-}
-
 // Initialize storage on module load
-initializeStorage();
+storage.init();
 
 async function connectToDatabase() {
   if (dbConnection) return dbConnection;
@@ -243,23 +96,8 @@ async function connectToDatabase() {
           
           if (queryText.includes('SELECT NOW()')) {
             result = await sql`SELECT NOW() as current_time`;
-          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('contact_messages')) {
-            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'contact_messages')`;
-          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('users')) {
-            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'users')`;
-          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS contact_messages')) {
-            result = await sql`
-              CREATE TABLE IF NOT EXISTS contact_messages (
-                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                first_name TEXT NOT NULL,
-                last_name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT,
-                subject TEXT NOT NULL,
-                message TEXT NOT NULL,
-                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-              )
-            `;
+          
+          // Contact messages queries
           } else if (queryText.includes('INSERT INTO contact_messages') && params.length === 6) {
             result = await sql`
               INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message)
@@ -267,9 +105,9 @@ async function connectToDatabase() {
               RETURNING id, first_name as "firstName", last_name as "lastName", 
                        email, phone, subject, message, created_at as "createdAt"
             `;
-          } else if (queryText.includes('SELECT COUNT(*)')) {
+          } else if (queryText.includes('SELECT COUNT(*)') && queryText.includes('contact_messages')) {
             result = await sql`SELECT COUNT(*) as count FROM contact_messages`;
-          } else if (queryText.includes('SELECT id, first_name as')) {
+          } else if (queryText.includes('SELECT id, first_name as') && queryText.includes('contact_messages')) {
             result = await sql`
               SELECT id, first_name as "firstName", last_name as "lastName", 
                      email, phone, subject, message, created_at as "createdAt"
@@ -280,20 +118,14 @@ async function connectToDatabase() {
             result = await sql`SELECT id FROM contact_messages WHERE id = ${params[0]}`;
           } else if (queryText.includes('DELETE FROM contact_messages WHERE id =') && params.length === 1) {
             result = await sql`DELETE FROM contact_messages WHERE id = ${params[0]} RETURNING id`;
+          
+          // Users queries
           } else if (queryText.includes('SELECT id FROM users WHERE username =') && params.length === 1) {
             result = await sql`SELECT id FROM users WHERE username = ${params[0]}`;
           } else if (queryText.includes('SELECT * FROM users WHERE username =') && params.length === 1) {
             result = await sql`SELECT * FROM users WHERE username = ${params[0]}`;
           } else if (queryText.includes('SELECT * FROM users WHERE id =') && params.length === 1) {
             result = await sql`SELECT * FROM users WHERE id = ${params[0]}`;
-          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS users')) {
-            result = await sql`
-              CREATE TABLE IF NOT EXISTS users (
-                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-                username TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
-              )
-            `;
           } else if (queryText.includes('INSERT INTO users') && params.length === 2 && queryText.includes('RETURNING id, username')) {
             result = await sql`
               INSERT INTO users (username, password)
@@ -308,6 +140,97 @@ async function connectToDatabase() {
             `;
           } else if (queryText.includes('DELETE FROM users WHERE id =') && params.length === 1) {
             result = await sql`DELETE FROM users WHERE id = ${params[0]} RETURNING id`;
+          
+          // Sermons queries
+          } else if (queryText.includes('SELECT * FROM sermons WHERE featured =') && queryText.includes('LIMIT 1')) {
+            result = await sql`SELECT * FROM sermons WHERE featured = true AND is_active = true ORDER BY date DESC LIMIT 1`;
+          } else if (queryText.includes('SELECT * FROM sermons WHERE is_active = true') && queryText.includes('ORDER BY date DESC LIMIT')) {
+            result = await sql`SELECT * FROM sermons WHERE is_active = true ORDER BY date DESC LIMIT 5`;
+          
+          // Birthdays queries
+          } else if (queryText.includes('SELECT * FROM birthdays WHERE is_active = true')) {
+            result = await sql`SELECT * FROM birthdays WHERE is_active = true ORDER BY first_name, last_name`;
+          
+          // Anniversaries queries  
+          } else if (queryText.includes('SELECT * FROM anniversaries WHERE is_active = true')) {
+            result = await sql`SELECT * FROM anniversaries WHERE is_active = true ORDER BY husband_name, wife_name`;
+          
+          // Table existence checks
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('contact_messages')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'contact_messages')`;
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('users')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'users')`;
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('sermons')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'sermons')`;
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('birthdays')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'birthdays')`;
+          } else if (queryText.includes('SELECT EXISTS') && queryText.includes('anniversaries')) {
+            result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'anniversaries')`;
+          
+          // Table creation
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS contact_messages')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS contact_messages (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT,
+                subject TEXT NOT NULL,
+                message TEXT NOT NULL,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS users')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS users (
+                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+              )
+            `;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS sermons')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS sermons (
+                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+                title TEXT NOT NULL,
+                pastor TEXT NOT NULL,
+                date DATE NOT NULL,
+                description TEXT,
+                video_url TEXT,
+                thumbnail_url TEXT,
+                featured BOOLEAN DEFAULT false,
+                is_active BOOLEAN DEFAULT true,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS birthdays')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS birthdays (
+                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                birth_date DATE NOT NULL,
+                phone TEXT,
+                email TEXT,
+                is_active BOOLEAN DEFAULT true,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
+          } else if (queryText.includes('CREATE TABLE IF NOT EXISTS anniversaries')) {
+            result = await sql`
+              CREATE TABLE IF NOT EXISTS anniversaries (
+                id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+                husband_name TEXT NOT NULL,
+                wife_name TEXT NOT NULL,
+                anniversary_date DATE NOT NULL,
+                phone TEXT,
+                email TEXT,
+                years_married INTEGER,
+                is_active BOOLEAN DEFAULT true,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+              )
+            `;
           } else {
             console.error('❌ Unsupported query pattern:', { 
               queryText: queryText.substring(0, 100),
@@ -330,8 +253,8 @@ async function connectToDatabase() {
       }
     };
     
-    // Verify the contact_messages table exists
-    await verifyTableExists();
+    // Verify all tables exist
+    await verifyAllTablesExist();
     
     console.log('✅ Database connection established and verified');
     return dbConnection;
@@ -345,68 +268,18 @@ async function connectToDatabase() {
   }
 }
 
-async function verifyTableExists() {
+async function verifyAllTablesExist() {
   if (!dbConnection) return false;
   
   try {
-    console.log('🔍 Verifying contact_messages table exists...');
-    const tableCheck = await dbConnection.query(`
-      SELECT EXISTS (
-        SELECT FROM information_schema.tables 
-        WHERE table_schema = 'public' 
-        AND table_name = 'contact_messages'
-      );
-    `);
+    // Create all required tables
+    await createContactMessagesTable();
+    await createUsersTable();
+    await createSermonsTable();
+    await createBirthdaysTable();
+    await createAnniversariesTable();
     
-    const tableExists = tableCheck[0]?.exists;
-    console.log('📊 Table existence check:', { exists: tableExists });
-    
-    if (!tableExists) {
-      console.log('⚠️ contact_messages table does not exist, attempting to create...');
-      await createContactMessagesTable();
-    }
-
-    // Check and create users table
-    console.log('🔍 Verifying users table exists...');
-    const usersCheck = await dbConnection.query(`
-      SELECT EXISTS (
-        SELECT FROM information_schema.tables 
-        WHERE table_schema = 'public' 
-        AND table_name = 'users'
-      );
-    `);
-    
-    const usersTableExists = usersCheck[0]?.exists;
-    console.log('📊 Users table existence check:', { exists: usersTableExists });
-    
-    if (!usersTableExists) {
-      console.log('⚠️ users table does not exist, creating...');
-      await dbConnection.query(`
-        CREATE TABLE IF NOT EXISTS users (
-          id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-          username TEXT UNIQUE NOT NULL,
-          password TEXT NOT NULL
-        )
-      `);
-      console.log('✅ users table created successfully');
-      
-      // Create default admin user
-      console.log('👤 Creating default admin user...');
-      try {
-        const bcrypt = await import('bcrypt');
-        const hashedPassword = await bcrypt.hash('admin123', 10);
-        
-        // Use the query handler for the INSERT
-        const insertResult = await dbConnection.query(`INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`, 
-          ['admin', hashedPassword]);
-        
-        console.log('✅ Default admin user created');
-      } catch (userCreateError) {
-        console.error('❌ Failed to create admin user:', userCreateError);
-      }
-    }
-    
-    return tableExists;
+    return true;
   } catch (error) {
     console.error('❌ Table verification failed:', error);
     return false;
@@ -414,8 +287,6 @@ async function verifyTableExists() {
 }
 
 async function createContactMessagesTable() {
-  if (!dbConnection) return false;
-  
   try {
     console.log('🏗️ Creating contact_messages table...');
     await dbConnection.query(`
@@ -434,6 +305,112 @@ async function createContactMessagesTable() {
     return true;
   } catch (error) {
     console.error('❌ Failed to create contact_messages table:', error);
+    return false;
+  }
+}
+
+async function createUsersTable() {
+  try {
+    console.log('🏗️ Creating users table...');
+    await dbConnection.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+    console.log('✅ users table created successfully');
+    
+    // Create default admin user
+    try {
+      const bcrypt = await import('bcrypt');
+      const hashedPassword = await bcrypt.hash('admin123', 10);
+      
+      const existingUsers = await dbConnection.query(`SELECT id FROM users WHERE username = $1`, ['admin']);
+      if (existingUsers.length === 0) {
+        await dbConnection.query(`INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`, 
+          ['admin', hashedPassword]);
+        console.log('✅ Default admin user created');
+      }
+    } catch (userCreateError) {
+      console.error('❌ Failed to create admin user:', userCreateError);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to create users table:', error);
+    return false;
+  }
+}
+
+async function createSermonsTable() {
+  try {
+    console.log('🏗️ Creating sermons table...');
+    await dbConnection.query(`
+      CREATE TABLE IF NOT EXISTS sermons (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        title TEXT NOT NULL,
+        pastor TEXT NOT NULL,
+        date DATE NOT NULL,
+        description TEXT,
+        video_url TEXT,
+        thumbnail_url TEXT,
+        featured BOOLEAN DEFAULT false,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+    console.log('✅ sermons table created successfully');
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to create sermons table:', error);
+    return false;
+  }
+}
+
+async function createBirthdaysTable() {
+  try {
+    console.log('🏗️ Creating birthdays table...');
+    await dbConnection.query(`
+      CREATE TABLE IF NOT EXISTS birthdays (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        first_name TEXT NOT NULL,
+        last_name TEXT NOT NULL,
+        birth_date DATE NOT NULL,
+        phone TEXT,
+        email TEXT,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+    console.log('✅ birthdays table created successfully');
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to create birthdays table:', error);
+    return false;
+  }
+}
+
+async function createAnniversariesTable() {
+  try {
+    console.log('🏗️ Creating anniversaries table...');
+    await dbConnection.query(`
+      CREATE TABLE IF NOT EXISTS anniversaries (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        husband_name TEXT NOT NULL,
+        wife_name TEXT NOT NULL,
+        anniversary_date DATE NOT NULL,
+        phone TEXT,
+        email TEXT,
+        years_married INTEGER,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `);
+    console.log('✅ anniversaries table created successfully');
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to create anniversaries table:', error);
     return false;
   }
 }
@@ -486,6 +463,33 @@ async function authenticateUser(username, password) {
   return null;
 }
 
+// Function to calculate upcoming birthdays and anniversaries
+function getUpcomingItems(items, dateField) {
+  const today = new Date();
+  const thirtyDaysFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+  
+  return items.filter(item => {
+    const itemDate = new Date(item[dateField]);
+    const thisYear = new Date(today.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+    const nextYear = new Date(today.getFullYear() + 1, itemDate.getMonth(), itemDate.getDate());
+    
+    return (thisYear >= today && thisYear <= thirtyDaysFromNow) || 
+           (nextYear >= today && nextYear <= thirtyDaysFromNow);
+  }).map(item => {
+    const itemDate = new Date(item[dateField]);
+    const thisYear = new Date(today.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+    const nextYear = new Date(today.getFullYear() + 1, itemDate.getMonth(), itemDate.getDate());
+    
+    const upcomingDate = thisYear >= today ? thisYear : nextYear;
+    const daysUntil = Math.ceil((upcomingDate - today) / (1000 * 60 * 60 * 24));
+    
+    return {
+      ...item,
+      daysUntil
+    };
+  }).sort((a, b) => a.daysUntil - b.daysUntil);
+}
+
 // Serverless function for Netlify with Neon database
 export const handler = async (event, context) => {
   console.log('🚀 Netlify function invoked:', {
@@ -495,7 +499,6 @@ export const handler = async (event, context) => {
     bodyLength: event.body?.length || 0,
     timestamp: new Date().toISOString()
   });
-  console.log('Serverless function called:', event.httpMethod, event.path);
   
   // Set headers for CORS
   const headers = {
@@ -520,14 +523,13 @@ export const handler = async (event, context) => {
     
     console.log(`Processing: ${method} ${path}`);
 
-    // Handle authentication endpoints - check for both /api/auth/login and /auth/login
+    // Authentication endpoints
     if ((path === '/auth/login' || path === '/api/auth/login') && method === 'POST') {
       const body = JSON.parse(event.body || '{}');
       const { username, password } = body;
       
       console.log('LOGIN ENDPOINT: Received login attempt for username:', username);
       
-      // STRICT validation at endpoint level
       if (!username || !password || username.trim() === '' || password.trim() === '') {
         console.log('LOGIN ENDPOINT: REJECTED - Missing credentials');
         return {
@@ -543,7 +545,6 @@ export const handler = async (event, context) => {
       try {
         const user = await authenticateUser(username, password);
         
-        // STRICT rejection - null means authentication failed
         if (!user) {
           console.log('LOGIN ENDPOINT: REJECTED - Authentication failed for:', username);
           return {
@@ -556,7 +557,6 @@ export const handler = async (event, context) => {
           };
         }
         
-        // Only create token if authentication was successful
         const tokenData = { 
           id: user.id, 
           username: user.username, 
@@ -590,80 +590,35 @@ export const handler = async (event, context) => {
       }
     }
 
-    // Handle auth/me endpoint - check for both /api/auth/me and /auth/me
+    // Auth verification endpoint
     if ((path === '/auth/me' || path === '/api/auth/me') && method === 'GET') {
       const authHeader = event.headers.authorization || event.headers.Authorization;
       if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.replace('Bearer ', '');
         
         try {
-          // Decode and validate token with strict security checks
           const userData = JSON.parse(Buffer.from(token, 'base64').toString());
           
-          console.log('TOKEN VALIDATION: Checking token data:', { 
-            hasId: !!userData.id, 
-            hasUsername: !!userData.username, 
-            isValid: userData.isValid,
-            loginTime: userData.loginTime 
-          });
-          
-          // ULTRA STRICT validation - all fields must be present and valid
           if (!userData.id || !userData.username || !userData.isValid || userData.isValid !== true) {
-            console.log('TOKEN VALIDATION: REJECTED - Invalid token format or missing fields');
             throw new Error('Invalid token format');
           }
           
-          // Additional validation - token must have been created recently (within 24 hours)
           const tokenAge = Date.now() - (userData.loginTime || 0);
           const maxAge = 24 * 60 * 60 * 1000; // 24 hours
           if (tokenAge > maxAge) {
-            console.log('TOKEN VALIDATION: REJECTED - Token expired');
             throw new Error('Token expired');
           }
           
-          // Verify user exists in database
-          const db = await connectToDatabase();
-          if (db) {
-            // Verify user still exists in database
-            const users = await db.query('SELECT * FROM users WHERE id = $1', [userData.id]);
-            
-            if (users.length === 0 || users[0].username !== userData.username) {
-              console.log('User not found or username mismatch');
-              return {
-                statusCode: 401,
-                headers,
-                body: JSON.stringify({
-                  success: false,
-                  message: 'Invalid or expired token'
-                })
-              };
-            }
-            
-            const user = users[0];
-            return {
-              statusCode: 200,
-              headers,
-              body: JSON.stringify({
-                success: true,
-                user: { id: user.id, username: user.username }
-              })
-            };
-          } else {
-            // Fallback validation
-            if (userData.username === 'admin') {
-              return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({
-                  success: true,
-                  user: { id: userData.id, username: userData.username }
-                })
-              };
-            }
-          }
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              success: true,
+              user: { id: userData.id, username: userData.username }
+            })
+          };
           
         } catch (error) {
-          console.error('Token validation error:', error);
           return {
             statusCode: 401,
             headers,
@@ -673,347 +628,20 @@ export const handler = async (event, context) => {
             })
           };
         }
-      } else {
-        console.log('No authorization header provided');
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'No token provided'
-          })
-        };
       }
-    }
 
-    // Handle contact form endpoint
-    if ((path === '/contact' || path === '/api/contact') && method === 'POST') {
-      try {
-        const body = JSON.parse(event.body || '{}');
-        console.log('📝 Contact form submission received:', body);
-        console.log('🔍 Current storage state before saving:', getStorageStatus());
-        
-        // Basic validation
-        if (!body.firstName || !body.lastName || !body.email || !body.subject || !body.message) {
-          console.log('❌ Validation failed - missing required fields');
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'All required fields must be filled'
-            })
-          };
-        }
-        
-        // Create new message object
-        const newMessage = {
-          firstName: body.firstName.trim(),
-          lastName: body.lastName.trim(), 
-          email: body.email.trim(),
-          phone: body.phone ? body.phone.trim() : null,
-          subject: body.subject,
-          message: body.message.trim()
-        };
-        
-        // Try to save to database first
-        const savedMessage = await saveContactMessageToDatabase(newMessage);
-        
-        if (!savedMessage) {
-          // Fallback to in-memory storage if database fails
-          console.log('⚠️ Database save failed, using fallback storage');
-          const { messages: currentMessages, nextId } = readMessages();
-          const fallbackMessage = {
-            ...newMessage,
-            id: nextId.toString(),
-            createdAt: new Date().toISOString()
-          };
-          const updatedMessages = [fallbackMessage, ...currentMessages];
-          const saveSuccess = writeMessages(updatedMessages, nextId + 1);
-          
-          if (!saveSuccess) {
-            return {
-              statusCode: 500,
-              headers,
-              body: JSON.stringify({
-                success: false,
-                message: 'Failed to save message. Please try again.'
-              })
-            };
-          }
-        }
-        
-        console.log('💾 Contact message saved successfully:', {
-          id: savedMessage?.id || 'fallback',
-          from: newMessage.email,
-          subject: newMessage.subject,
-          savedToDatabase: !!savedMessage
-        });
-        console.log('🔍 Storage state after saving:', getStorageStatus());
-        
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            message: 'Message sent successfully!'
-          })
-        };
-        
-      } catch (error) {
-        console.error('Contact form submission error:', error);
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Failed to process your message. Please try again.'
-          })
-        };
-      }
-    }
-
-    // Handle contact messages endpoint (for admin dashboard)
-    if ((path === '/contact-messages' || path === '/api/contact-messages') && method === 'GET') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      // Read messages from database first, fallback to memory storage
-      console.log('🔍 Starting message retrieval process...');
-      const messages = await getContactMessagesFromDatabase();
-      console.log('📊 Messages retrieved:', {
-        count: messages.length,
-        source: messages.length > 0 ? 'database' : 'fallback',
-        firstMessage: messages[0] ? {
-          id: messages[0].id,
-          from: messages[0].email || messages[0].firstName,
-          subject: messages[0].subject
-        } : 'none'
-      });
-      
-      // Sort by newest first (already sorted in query, but just in case)
-      const sortedMessages = messages
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      
-      console.log('📖 GET /contact-messages - Reading from database:', {
-        totalMessages: messages.length,
-        messageIds: messages.map(m => ({ id: m.id, from: m.email })),
-        sortedCount: sortedMessages.length,
-        latest: sortedMessages[0]?.createdAt,
-        source: 'database'
-      });
-      
       return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(sortedMessages)
-      };
-    }
-
-    // Handle delete contact message endpoint
-    if (path.match(/\/(api\/)?contact-messages\/[^/]+$/) && method === 'DELETE') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      const messageId = path.split('/').pop();
-      console.log('🗑️ Message deletion requested for ID:', messageId);
-      
-      // Try to delete from database first
-      const deleteSuccess = await deleteContactMessageFromDatabase(messageId);
-      
-      if (!deleteSuccess) {
-        // Fallback to in-memory storage if database fails
-        console.log('⚠️ Database delete failed, trying fallback storage');
-        const { messages: currentMessages, nextId } = readMessages();
-        const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
-        
-        if (messageIndex === -1) {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: `Message with ID ${messageId} not found`
-            })
-          };
-        }
-        
-        const updatedMessages = currentMessages.filter(msg => msg.id !== messageId);
-        const saveSuccess = writeMessages(updatedMessages, nextId);
-        
-        if (!saveSuccess) {
-          return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Failed to delete message. Please try again.'
-            })
-          };
-        }
-      }
-      
-      // Get updated count for response
-      const remainingMessages = await getContactMessagesFromDatabase();
-      
-      return {
-        statusCode: 200,
+        statusCode: 401,
         headers,
         body: JSON.stringify({
-          success: true,
-          message: 'Contact message deleted successfully',
-          deletedId: messageId,
-          remainingCount: remainingMessages.length
+          success: false,
+          message: 'No valid authentication token provided'
         })
       };
     }
 
-    // Handle mark message as replied endpoint
-    if (path.match(/\/(api\/)?contact-messages\/[^/]+\/reply$/) && method === 'PATCH') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      const messageId = path.split('/').slice(-2, -1)[0];
-      console.log('Message marked as replied for ID:', messageId);
-      
-      // Read current storage state
-      const { messages: currentMessages, nextId } = readMessages();
-      
-      // Find message to mark as replied
-      const messageIndex = currentMessages.findIndex(msg => msg.id === messageId);
-      
-      if (messageIndex === -1) {
-        return {
-          statusCode: 404,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Message not found'
-          })
-        };
-      }
-      
-      // Update message with replied status
-      const updatedMessages = [...currentMessages];
-      updatedMessages[messageIndex] = {
-        ...updatedMessages[messageIndex],
-        replied: true,
-        repliedAt: new Date().toISOString()
-      };
-      
-      // Save to persistent storage
-      const saveSuccess = writeMessages(updatedMessages, nextId);
-      
-      if (!saveSuccess) {
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Failed to mark message as replied. Please try again.'
-          })
-        };
-      }
-      
-      console.log('✉️ Message marked as replied in persistent storage:', {
-        id: messageId,
-        from: updatedMessages[messageIndex].email,
-        repliedAt: updatedMessages[messageIndex].repliedAt
-      });
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          message: 'Message marked as replied'
-        })
-      };
-    }
-
-    // Handle users endpoint
-    if ((path === '/users' || path === '/api/users') && method === 'GET') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      // Validate the token
-      const token = authHeader.replace('Bearer ', '');
-      try {
-        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
-        
-        if (!userData.id || !userData.username) {
-          throw new Error('Invalid token format');
-        }
-        
-        // Accept tokens with or without isValid for backward compatibility
-        if (userData.isValid !== undefined && userData.isValid !== true) {
-          throw new Error('Invalid token status');
-        }
-        
-        // Check token age (24 hours max)
-        const tokenAge = Date.now() - (userData.loginTime || 0);
-        const maxAge = 24 * 60 * 60 * 1000;
-        if (tokenAge > maxAge) {
-          throw new Error('Token expired');
-        }
-        
-      } catch (error) {
-        console.error('Token validation failed:', error);
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Invalid or expired token'
-          })
-        };
-      }
-      
-      // Fetch users from database
+    // Sermons endpoints
+    if (path === '/api/sermons/featured' && method === 'GET') {
       const db = await connectToDatabase();
       if (!db) {
         return {
@@ -1027,215 +655,215 @@ export const handler = async (event, context) => {
       }
 
       try {
-        console.log('📖 Fetching users from database...');
-        const users = await db.query(`
-          SELECT id, username
-          FROM users
-          ORDER BY username
-        `);
-        
-        console.log(`✅ Retrieved ${users.length} users from database`);
-        
+        const sermons = await db.query('SELECT * FROM sermons WHERE featured = true AND is_active = true ORDER BY date DESC LIMIT 1');
         return {
           statusCode: 200,
           headers,
-          body: JSON.stringify(users)
+          body: JSON.stringify(sermons[0] || null)
         };
-      } catch (dbError) {
-        console.error('❌ Database error during user retrieval:', dbError);
+      } catch (error) {
+        console.error('Database error:', error);
         return {
           statusCode: 500,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Failed to fetch users from database'
+            message: 'Failed to fetch featured sermon'
           })
         };
       }
     }
 
-    // Handle create user endpoint
-    if ((path === '/users' || path === '/api/users') && method === 'POST') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (path === '/api/sermons/recent' && method === 'GET') {
+      const db = await connectToDatabase();
+      if (!db) {
         return {
-          statusCode: 401,
+          statusCode: 500,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Authentication required'
+            message: 'Database connection failed'
           })
         };
       }
-      
-      // Validate the token
-      const token = authHeader.replace('Bearer ', '');
+
       try {
-        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
-        
-        if (!userData.id || !userData.username) {
-          throw new Error('Invalid token format');
-        }
-        
-        // Accept tokens with or without isValid for backward compatibility
-        if (userData.isValid !== undefined && userData.isValid !== true) {
-          throw new Error('Invalid token status');
-        }
-        
-        // Check token age (24 hours max)
-        const tokenAge = Date.now() - (userData.loginTime || 0);
-        const maxAge = 24 * 60 * 60 * 1000;
-        if (tokenAge > maxAge) {
-          throw new Error('Token expired');
-        }
-        
+        const sermons = await db.query('SELECT * FROM sermons WHERE is_active = true ORDER BY date DESC LIMIT 5');
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(sermons)
+        };
       } catch (error) {
-        console.error('Token validation failed:', error);
+        console.error('Database error:', error);
         return {
-          statusCode: 401,
+          statusCode: 500,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Invalid or expired token'
+            message: 'Failed to fetch recent sermons'
           })
         };
       }
-      
+    }
+
+    // Birthdays endpoints
+    if (path === '/api/birthdays/upcoming' && method === 'GET') {
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
+
       try {
-        const body = JSON.parse(event.body || '{}');
-        const { username, password } = body;
-        
-        console.log('User creation request:', { username, passwordLength: password?.length });
-        
-        // Enhanced validation
-        if (!username || !password || username.trim() === '' || password.trim() === '') {
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Username and password are required and cannot be empty',
-              errors: [
-                { field: 'username', message: !username ? 'Username is required' : null },
-                { field: 'password', message: !password ? 'Password is required' : null }
-              ].filter(e => e.message)
-            })
-          };
-        }
-        
-        // Username validation
-        if (username.length < 3) {
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Username must be at least 3 characters long',
-              errors: [{ field: 'username', message: 'Username must be at least 3 characters long' }]
-            })
-          };
-        }
-        
-        // Password validation
-        if (password.length < 6) {
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Password must be at least 6 characters long',
-              errors: [{ field: 'password', message: 'Password must be at least 6 characters long' }]
-            })
-          };
-        }
-        
-        // Check for duplicate username in database
-        const db = await connectToDatabase();
-        if (!db) {
-          return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Database connection failed'
-            })
-          };
-        }
+        const birthdays = await db.query('SELECT * FROM birthdays WHERE is_active = true');
+        const upcoming = getUpcomingItems(birthdays, 'birth_date');
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(upcoming)
+        };
+      } catch (error) {
+        console.error('Database error:', error);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to fetch upcoming birthdays'
+          })
+        };
+      }
+    }
 
-        try {
-          // Check if username already exists
-          const existingUsers = await db.query('SELECT id FROM users WHERE username = $1', [username.trim()]);
-          if (existingUsers.length > 0) {
-            return {
-              statusCode: 409,
-              headers,
-              body: JSON.stringify({
-                success: false,
-                message: 'Username already exists'
-              })
-            };
-          }
+    // Anniversaries endpoints
+    if (path === '/api/anniversaries/upcoming' && method === 'GET') {
+      const db = await connectToDatabase();
+      if (!db) {
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Database connection failed'
+          })
+        };
+      }
 
-          // Hash password and create user
-          const bcrypt = await import('bcrypt');
-          const hashedPassword = await bcrypt.default.hash(password.trim(), 12);
+      try {
+        const anniversaries = await db.query('SELECT * FROM anniversaries WHERE is_active = true');
+        const upcoming = getUpcomingItems(anniversaries, 'anniversary_date');
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(upcoming)
+        };
+      } catch (error) {
+        console.error('Database error:', error);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            success: false,
+            message: 'Failed to fetch upcoming anniversaries'
+          })
+        };
+      }
+    }
 
-          console.log('Creating new user:', username);
-          const newUsers = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username', [username.trim(), hashedPassword]);
-          
-          if (newUsers.length === 0) {
-            throw new Error('Failed to create user');
-          }
-
-          const newUser = newUsers[0];
-          console.log('✅ User created successfully:', { id: newUser.id, username: username });
-
-          return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({
-              success: true,
-              user: { id: newUser.id, username: username }
-            })
-          };
-
-        } catch (dbError) {
-          console.error('❌ Database error during user creation:', {
-            error: dbError.message,
-            stack: dbError.stack,
-            username: username
-          });
-          return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'Failed to create user: ' + dbError.message,
-              details: process.env.NODE_ENV === 'development' ? dbError.message : undefined
-            })
-          };
-        }
-        
-      } catch (parseError) {
-        console.error('User creation parse error:', parseError);
+    // Contact form endpoint
+    if ((path === '/contact' || path === '/api/contact') && method === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+      const { firstName, lastName, email, phone, subject, message } = body;
+      
+      console.log('📧 Contact form submission received:', {
+        firstName,
+        lastName,
+        email,
+        subject: subject?.substring(0, 50) + '...'
+      });
+      
+      if (!firstName || !lastName || !email || !subject || !message) {
+        console.log('❌ Invalid contact form data - missing required fields');
         return {
           statusCode: 400,
           headers,
           body: JSON.stringify({
             success: false,
-            message: 'Invalid request format'
+            message: 'All fields except phone are required'
           })
         };
       }
+      
+      const messageData = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        phone: phone?.trim() || null,
+        subject: subject.trim(),
+        message: message.trim()
+      };
+      
+      const db = await connectToDatabase();
+      let savedMessage = null;
+      
+      if (db) {
+        try {
+          const result = await db.query(`
+            INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id, first_name as "firstName", last_name as "lastName", 
+                     email, phone, subject, message, created_at as "createdAt"
+          `, [
+            messageData.firstName,
+            messageData.lastName,
+            messageData.email,
+            messageData.phone,
+            messageData.subject,
+            messageData.message
+          ]);
+          
+          if (result.length > 0) {
+            savedMessage = result[0];
+            console.log('✅ Contact message saved to database successfully');
+          }
+        } catch (dbError) {
+          console.error('❌ Database save error:', dbError);
+        }
+      }
+      
+      // Fallback to memory storage if database fails
+      if (!savedMessage) {
+        const messageId = storage.nextId++;
+        savedMessage = {
+          id: messageId,
+          ...messageData,
+          createdAt: new Date().toISOString()
+        };
+        storage.messages.push(savedMessage);
+        console.log('💾 Contact message saved to memory storage');
+      }
+      
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'Your message has been sent successfully!',
+          data: savedMessage
+        })
+      };
     }
 
-    // Handle delete user endpoint
-    if (path.match(/\/(api\/)?users\/[^/]+$/) && method === 'DELETE') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
+    // Admin endpoints require authentication
+    const authHeader = event.headers.authorization || event.headers.Authorization;
+    if (path.startsWith('/api/admin') || path.startsWith('/admin')) {
       if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return {
           statusCode: 401,
@@ -1243,246 +871,6 @@ export const handler = async (event, context) => {
           body: JSON.stringify({
             success: false,
             message: 'Authentication required'
-          })
-        };
-      }
-      
-      // Validate the token
-      const token = authHeader.replace('Bearer ', '');
-      try {
-        const userData = JSON.parse(Buffer.from(token, 'base64').toString());
-        
-        if (!userData.id || !userData.username) {
-          throw new Error('Invalid token format');
-        }
-        
-        // Accept tokens with or without isValid for backward compatibility
-        if (userData.isValid !== undefined && userData.isValid !== true) {
-          throw new Error('Invalid token status');
-        }
-        
-        // Check token age (24 hours max)
-        const tokenAge = Date.now() - (userData.loginTime || 0);
-        const maxAge = 24 * 60 * 60 * 1000;
-        if (tokenAge > maxAge) {
-          throw new Error('Token expired');
-        }
-        
-      } catch (error) {
-        console.error('Token validation failed:', error);
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Invalid or expired token'
-          })
-        };
-      }
-      
-      const userId = path.split('/').pop();
-      console.log('User deletion requested for ID:', userId);
-      
-      const db = await connectToDatabase();
-      if (!db) {
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Database connection failed'
-          })
-        };
-      }
-
-      try {
-        // Check if user exists before deletion
-        const existingUsers = await db.query('SELECT id FROM users WHERE id = $1', [userId]);
-        if (existingUsers.length === 0) {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'User not found'
-            })
-          };
-        }
-
-        // Delete user from database
-        console.log('🗑️  Deleting user from database:', userId);
-        const deletedUsers = await db.query('DELETE FROM users WHERE id = $1 RETURNING id', [userId]);
-        
-        if (deletedUsers.length > 0) {
-          console.log('✅ User deleted successfully:', userId);
-          return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({
-              success: true,
-              message: 'User deleted successfully'
-            })
-          };
-        } else {
-          return {
-            statusCode: 404,
-            headers,
-            body: JSON.stringify({
-              success: false,
-              message: 'User not found'
-            })
-          };
-        }
-      } catch (dbError) {
-        console.error('❌ Database error during user deletion:', dbError);
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Failed to delete user from database'
-          })
-        };
-      }
-    }
-
-    // Handle analytics endpoint
-    if ((path === '/analytics' || path === '/api/analytics') && method === 'GET') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      // Get analytics from database instead of memory storage
-      const db = await connectToDatabase();
-      if (!db) {
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Database connection failed'
-          })
-        };
-      }
-      
-      try {
-        // Get total users from database
-        const usersResult = await db.query('SELECT COUNT(*) as count FROM users');
-        const totalUsers = usersResult[0]?.count || 0;
-        
-        // Get total messages from database
-        const messagesResult = await db.query('SELECT COUNT(*) as count FROM contact_messages');
-        const totalMessages = messagesResult[0]?.count || 0;
-        
-        // Calculate analytics from database data
-        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        const recentResult = await db.query('SELECT COUNT(*) as count FROM contact_messages WHERE created_at >= $1', [oneDayAgo.toISOString()]);
-        const recentMessages = recentResult[0]?.count || 0;
-        
-        // Get messages by day for the last 7 days
-        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-        const messagesByDayResult = await db.query(`
-          SELECT DATE(created_at) as date, COUNT(*) as count 
-          FROM contact_messages 
-          WHERE created_at >= $1 
-          GROUP BY DATE(created_at) 
-          ORDER BY DATE(created_at)
-        `, [sevenDaysAgo.toISOString()]);
-        
-        // Get top subjects
-        const topSubjectsResult = await db.query(`
-          SELECT subject, COUNT(*) as count 
-          FROM contact_messages 
-          GROUP BY subject 
-          ORDER BY count DESC 
-          LIMIT 5
-        `);
-        
-        const analytics = {
-          totalUsers: totalUsers,
-          totalMessages: totalMessages,
-          recentMessages: recentMessages,
-          activeUsersToday: Math.floor(totalUsers * 0.3),
-          messagesByDay: messagesByDayResult,
-          topSubjects: topSubjectsResult
-        };
-        
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify(analytics)
-        };
-      } catch (dbError) {
-        console.error('Database query error:', dbError);
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Database query failed'
-          })
-        };
-      }
-    }
-    
-    // Handle user deletion endpoint
-    if (path.startsWith('/users/') && method === 'DELETE') {
-      const authHeader = event.headers.authorization || event.headers.Authorization;
-      
-      // Require authentication for admin endpoints
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-          statusCode: 401,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Authentication required'
-          })
-        };
-      }
-      
-      const userId = path.split('/users/')[1];
-      const db = await connectToDatabase();
-      if (!db) {
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Database connection failed'
-          })
-        };
-      }
-      
-      try {
-        const result = await db.query('DELETE FROM users WHERE id = $1', [userId]);
-        
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            message: 'User deleted successfully'
-          })
-        };
-      } catch (dbError) {
-        console.error('Database delete error:', dbError);
-        return {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            success: false,
-            message: 'Failed to delete user'
           })
         };
       }
@@ -1494,7 +882,7 @@ export const handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         success: false,
-        message: 'Endpoint not found'
+        message: `Endpoint not found: ${method} ${path}`
       })
     };
 
