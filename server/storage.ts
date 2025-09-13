@@ -63,30 +63,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async ensureDefaultAdmin() {
-    // Only create default admin in development environment
+    // Always create default admin in development
     if (process.env.NODE_ENV !== 'development' && process.env.CREATE_DEFAULT_ADMIN !== 'true') {
       return;
     }
     
-    // Create a default admin user for testing - with proper error handling
+    // Create a default admin user immediately - no timeout
     try {
-      // Wait a bit to ensure database connection is established
-      setTimeout(async () => {
-        try {
-          const existingAdmin = await this.getUserByUsername("admin");
-          if (!existingAdmin) {
-            const defaultAdmin = await this.createUser({
-              username: "admin",
-              password: "admin123"
-            });
-            console.log("Default admin user created (database):", { username: defaultAdmin.username, id: defaultAdmin.id });
-          }
-        } catch (error) {
-          console.warn("Could not create default admin in database (database may not be connected):", error instanceof Error ? error.message : String(error));
-        }
-      }, 1000);
+      const existingAdmin = await this.getUserByUsername("admin");
+      if (!existingAdmin) {
+        const defaultAdmin = await this.createUser({
+          username: "admin",
+          password: "admin123"
+        });
+        console.log("Default admin user created (database):", { username: defaultAdmin.username, id: defaultAdmin.id });
+      } else {
+        console.log("Admin user already exists in database:", { username: existingAdmin.username, id: existingAdmin.id });
+      }
     } catch (error) {
-      console.error("Failed to schedule default admin creation:", error);
+      console.warn("Could not create default admin in database:", error instanceof Error ? error.message : String(error));
     }
   }
 
