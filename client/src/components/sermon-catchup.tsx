@@ -1,56 +1,55 @@
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
-
-interface SermonData {
-  id: string;
-  title: string;
-  speaker: string;
-  thumbnail: string;
-  videoUrl: string;
-  date: string;
-}
-
-// Mock sermon data - replace with real data from your church
-const recentSermons: SermonData[] = [
-  {
-    id: "1",
-    title: "Compassionate Stewardship",
-    speaker: "Rev. John B. Manalo",
-    thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1409004953296441344/Messenger_creation_5B59B800-4D9D-4FFD-9E29-CD943AEF9DA5.jpg?ex=68abcd9e&is=68aa7c1e&hm=6b261fef5c36f1c2de2c232f3d2a1b588b1e2aacc9207d040861b224b9207669&",
-    videoUrl: "https://www.facebook.com/share/v/1CNqYxowwH/",
-    date: "Sunday, Aug 24",
-  },
-  {
-    id: "2",
-    title: "Costly Commitment to Kingdom Values",
-    speaker: "Rev. John B. Manalo",
-    thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408040197937041607/532190189_122239032812219109_6637788950243137293_n.jpg?ex=68ac3f9f&is=68aaee1f&hm=7d51fa9b5db119e1401d9129fe2cef9ea176fc5bff57fad2836c3ef6cc4acb67&",
-    videoUrl: "https://www.facebook.com/61556573281040/videos/1723558745031243",
-    date: "Sunday, Aug 17",
-  },
-  {
-    id: "3",
-    title: "Watchful and Trusting Stewardship",
-    speaker: "Rev. John B. Manalo",
-    thumbnail:
-      "https://cdn.discordapp.com/attachments/948276718609772597/1408048819505074277/D127B3DF-2D9E-4F94-95D6-BA1ABCBCD0A4.png?ex=68aaf626&is=68a9a4a6&hm=1a5ba2bcd10ea907ba229d9e456571ec08408f5898370d3e8d66bea95960e0da&",
-    videoUrl: "https://www.facebook.com/61556573281040/videos/1111171580908275",
-    date: "Sunday, Aug 10",
-  },
-  {
-    id: "4",
-    title: "Guarding the Heart from Greed",
-    speaker: "Rev. John B. Manalo",
-    thumbnail:
-      "https://media.discordapp.net/attachments/948276718609772597/1408051272069939222/99046FBD-FC7B-4030-8B28-675C5A6F864F.png?ex=68aaf86f&is=68a9a6ef&hm=a46e2b114a171ab2702bf25cb70e5764fee3bd4e254572e3685675d18eed5c68&=&format=webp&quality=lossless",
-    videoUrl: "https://www.facebook.com/61556573281040/videos/2488379231495004",
-    date: "Sunday, Aug 3",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import type { Sermon } from "@shared/schema";
 
 export default function SermonCatchup() {
+  // Fetch featured sermon
+  const { data: featuredSermon, isLoading: featuredLoading, error: featuredError } = useQuery<Sermon | null>({
+    queryKey: ["/api", "sermons", "featured"],
+    queryFn: async () => {
+      const response = await fetch('/api/sermons/featured');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch featured sermon: ${response.status}`);
+      }
+      return response.json();
+    },
+  });
+
+  // Fetch recent sermons
+  const { data: recentSermons = [], isLoading: recentsLoading, error: recentsError } = useQuery<Sermon[]>({
+    queryKey: ["/api", "sermons", "recent"],
+    queryFn: async () => {
+      const response = await fetch('/api/sermons/recent?limit=4');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch recent sermons: ${response.status}`);
+      }
+      return response.json();
+    },
+  });
+
+  const isLoading = featuredLoading || recentsLoading;
+  const hasError = featuredError || recentsError;
+
+  // Use featured sermon if available, otherwise fall back to first recent sermon
+  const displaySermon = featuredSermon || recentSermons[0];
+  const additionalSermons = featuredSermon ? recentSermons.slice(0, 3) : recentSermons.slice(1);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const getVideoUrl = (sermon: Sermon) => {
+    return sermon.videoUrl || '#';
+  };
+
+  const getDisplayImage = (sermon: Sermon) => {
+    return sermon.thumbnailUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop';
+  };
   const handleSermonClick = (videoUrl: string) => {
     window.open(videoUrl, "_blank");
   };
@@ -82,6 +81,51 @@ export default function SermonCatchup() {
           </p>
         </div>
 
+        {isLoading ? (
+          <div className="flex flex-col lg:flex-row gap-12">
+            {/* Loading skeleton */}
+            <div className="lg:w-1/3 flex flex-col justify-center">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+                <div className="h-8 bg-gray-200 rounded mb-4 animate-pulse"></div>
+                <div className="h-20 bg-gray-200 rounded mb-6 animate-pulse"></div>
+                <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            </div>
+            <div className="lg:w-2/3">
+              <div className="h-80 lg:h-96 bg-gray-200 rounded-2xl mb-8 animate-pulse"></div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-64 bg-gray-200 rounded-xl animate-pulse"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : hasError ? (
+          <div className="text-center py-16 bg-red-50 rounded-2xl border border-red-200">
+            <h3 className="text-2xl font-heading font-bold text-red-600 mb-4">
+              Unable to Load Sermons
+            </h3>
+            <p className="text-red-500 mb-4">
+              We're experiencing technical difficulties. Please try refreshing the page.
+            </p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 hover:bg-red-700 text-white"
+              data-testid="button-reload-sermons"
+            >
+              Refresh Page
+            </Button>
+          </div>
+        ) : !displaySermon ? (
+          <div className="text-center py-16">
+            <h3 className="text-2xl font-heading font-bold text-gray-600 mb-4">
+              No Sermons Available
+            </h3>
+            <p className="text-gray-500">
+              Check back soon for the latest messages!
+            </p>
+          </div>
+        ) : (
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Left side - Enhanced Description */}
           <div className="lg:w-1/3 flex flex-col justify-center">
@@ -111,10 +155,10 @@ export default function SermonCatchup() {
               <div
                 className="relative bg-cover bg-center rounded-2xl overflow-hidden shadow-2xl cursor-pointer group h-80 lg:h-96 border border-gray-200"
                 style={{
-                  backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%), url('${recentSermons[0].thumbnail}')`,
+                  backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%), url('${getDisplayImage(displaySermon)}')`,
                 }}
-                onClick={() => handleSermonClick(recentSermons[0].videoUrl)}
-                data-testid={`featured-sermon-${recentSermons[0].id}`}
+                onClick={() => handleSermonClick(getVideoUrl(displaySermon))}
+                data-testid={`featured-sermon-${displaySermon?.id}`}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="bg-white bg-opacity-15 backdrop-blur-md rounded-full p-6 group-hover:bg-opacity-25 group-hover:scale-110 transition-all duration-500 shadow-xl">
@@ -122,14 +166,14 @@ export default function SermonCatchup() {
                   </div>
                 </div>
                 <div className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                  ● New
+                  ● {featuredSermon ? 'Featured' : 'New'}
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/70 to-transparent p-8">
                   <div className="text-warm-gold text-3xl lg:text-5xl font-black mb-3 font-heading tracking-tight">
-                    Compassionate Stewardship
+                    {displaySermon?.title}
                   </div>
                   <div className="text-white text-xl font-medium">
-                    {recentSermons[0].speaker} • {recentSermons[0].date}
+                    {displaySermon?.pastor} • {displaySermon?.date}
                   </div>
                 </div>
               </div>
@@ -137,11 +181,11 @@ export default function SermonCatchup() {
 
             {/* Sermon Thumbnails Grid - Enhanced */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {recentSermons.slice(1).map((sermon) => (
+              {additionalSermons.length > 0 && additionalSermons.map((sermon) => (
                 <div
                   key={sermon.id}
                   className="group cursor-pointer"
-                  onClick={() => handleSermonClick(sermon.videoUrl)}
+                  onClick={() => handleSermonClick(getVideoUrl(sermon))}
                   data-testid={`sermon-${sermon.id}`}
                 >
                   <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-1">
@@ -149,7 +193,7 @@ export default function SermonCatchup() {
                       <div
                         className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                         style={{
-                          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%), url('${sermon.thumbnail}')`,
+                          backgroundImage: `linear-gradient(135deg, rgba(27, 54, 93, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%), url('${getDisplayImage(sermon)}')`,
                         }}
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -166,7 +210,7 @@ export default function SermonCatchup() {
                         {sermon.title}
                       </h4>
                       <p className="text-gray-600 text-sm font-medium mb-1">
-                        {sermon.speaker}
+                        {sermon.pastor}
                       </p>
                       <p className="text-gray-400 text-xs">{sermon.date}</p>
                     </div>
@@ -176,6 +220,7 @@ export default function SermonCatchup() {
             </div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );

@@ -309,37 +309,45 @@ export class DatabaseStorage implements IStorage {
     if (!this.db) {
       throw new Error("Database connection not available");
     }
+    
+    // Get all active birthdays and filter in application logic
+    // This is simpler and avoids complex SQL parameter binding issues
+    const allBirthdays = await this.db
+      .select()
+      .from(birthdays)
+      .where(eq(birthdays.isActive, true));
+    
     const today = new Date();
     const endDate = new Date();
     endDate.setDate(today.getDate() + days);
     
-    return await this.db
-      .select()
-      .from(birthdays)
-      .where(sql`
-        ${birthdays.isActive} = true AND
-        (
-          -- Birthday within next ${days} days this year
-          (
-            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) >= 
-            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
-          ) AND (
-            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) <= 
-            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
-          )
-        ) OR (
-          -- Handle year wrap-around
-          DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') < DATE_PART('month', CURRENT_DATE) AND
-          (
-            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) >= 
-            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
-          ) OR (
-            DATE_PART('month', ${birthdays.birthDate}) * 100 + DATE_PART('day', ${birthdays.birthDate}) <= 
-            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
-          )
-        )
-      `)
-      .orderBy(sql`DATE_PART('month', ${birthdays.birthDate}), DATE_PART('day', ${birthdays.birthDate})`);
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+    const endMonth = endDate.getMonth() + 1;
+    const endDay = endDate.getDate();
+    
+    return allBirthdays
+      .filter(birthday => {
+        const birthDate = new Date(birthday.birthDate);
+        const birthMonth = birthDate.getMonth() + 1;
+        const birthDay = birthDate.getDate();
+        
+        const birthDateNumber = birthMonth * 100 + birthDay;
+        const currentDateNumber = currentMonth * 100 + currentDay;
+        const endDateNumber = endMonth * 100 + endDay;
+        
+        // Handle year wrap-around (e.g., December to January)
+        if (endDateNumber < currentDateNumber) {
+          return birthDateNumber >= currentDateNumber || birthDateNumber <= endDateNumber;
+        } else {
+          return birthDateNumber >= currentDateNumber && birthDateNumber <= endDateNumber;
+        }
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.birthDate);
+        const bDate = new Date(b.birthDate);
+        return (aDate.getMonth() * 100 + aDate.getDate()) - (bDate.getMonth() * 100 + bDate.getDate());
+      });
   }
 
   async updateBirthday(id: string, updateData: Partial<InsertBirthday>): Promise<Birthday | undefined> {
@@ -385,33 +393,45 @@ export class DatabaseStorage implements IStorage {
     if (!this.db) {
       throw new Error("Database connection not available");
     }
-    return await this.db
+    
+    // Get all active anniversaries and filter in application logic
+    // This is simpler and avoids complex SQL parameter binding issues
+    const allAnniversaries = await this.db
       .select()
       .from(anniversaries)
-      .where(sql`
-        ${anniversaries.isActive} = true AND
-        (
-          -- Anniversary within next ${days} days this year
-          (
-            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) >= 
-            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
-          ) AND (
-            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) <= 
-            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
-          )
-        ) OR (
-          -- Handle year wrap-around
-          DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') < DATE_PART('month', CURRENT_DATE) AND
-          (
-            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) >= 
-            DATE_PART('month', CURRENT_DATE) * 100 + DATE_PART('day', CURRENT_DATE)
-          ) OR (
-            DATE_PART('month', ${anniversaries.anniversaryDate}) * 100 + DATE_PART('day', ${anniversaries.anniversaryDate}) <= 
-            DATE_PART('month', CURRENT_DATE + INTERVAL '${days} days') * 100 + DATE_PART('day', CURRENT_DATE + INTERVAL '${days} days')
-          )
-        )
-      `)
-      .orderBy(sql`DATE_PART('month', ${anniversaries.anniversaryDate}), DATE_PART('day', ${anniversaries.anniversaryDate})`);
+      .where(eq(anniversaries.isActive, true));
+    
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + days);
+    
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+    const endMonth = endDate.getMonth() + 1;
+    const endDay = endDate.getDate();
+    
+    return allAnniversaries
+      .filter(anniversary => {
+        const anniversaryDate = new Date(anniversary.anniversaryDate);
+        const anniversaryMonth = anniversaryDate.getMonth() + 1;
+        const anniversaryDay = anniversaryDate.getDate();
+        
+        const anniversaryDateNumber = anniversaryMonth * 100 + anniversaryDay;
+        const currentDateNumber = currentMonth * 100 + currentDay;
+        const endDateNumber = endMonth * 100 + endDay;
+        
+        // Handle year wrap-around (e.g., December to January)
+        if (endDateNumber < currentDateNumber) {
+          return anniversaryDateNumber >= currentDateNumber || anniversaryDateNumber <= endDateNumber;
+        } else {
+          return anniversaryDateNumber >= currentDateNumber && anniversaryDateNumber <= endDateNumber;
+        }
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.anniversaryDate);
+        const bDate = new Date(b.anniversaryDate);
+        return (aDate.getMonth() * 100 + aDate.getDate()) - (bDate.getMonth() * 100 + bDate.getDate());
+      });
   }
 
   async updateAnniversary(id: string, updateData: Partial<InsertAnniversary>): Promise<Anniversary | undefined> {

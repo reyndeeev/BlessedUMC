@@ -7,6 +7,7 @@ import Leadership from "@/components/leadership";
 import Ministries from "@/components/ministries";
 import Events from "@/components/events";
 import SermonCatchup from "@/components/sermon-catchup";
+import Celebrations from "@/components/celebrations";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
 
@@ -21,6 +22,7 @@ export default function Home() {
       <Leadership />
       <Ministries />
       <Events />
+      <Celebrations />
       <SermonCatchup />
       <Contact />
       <Footer />
