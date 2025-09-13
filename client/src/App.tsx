@@ -12,6 +12,9 @@ import Admin from "@/pages/admin";
 import Messages from "@/pages/messages";
 import Users from "@/pages/users";
 import Analytics from "@/pages/analytics";
+import Sermons from "@/pages/sermons";
+import Birthdays from "@/pages/birthdays";
+import Anniversaries from "@/pages/anniversaries";
 import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -43,6 +46,21 @@ function Router() {
       <Route path="/bumcdashboard/analytics">
         <ProtectedRoute>
           <Analytics />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/sermons">
+        <ProtectedRoute>
+          <Sermons />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/birthdays">
+        <ProtectedRoute>
+          <Birthdays />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/bumcdashboard/anniversaries">
+        <ProtectedRoute>
+          <Anniversaries />
         </ProtectedRoute>
       </Route>
       <Route component={NotFound} />

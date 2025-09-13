@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Settings, MessageSquare, ArrowLeft, Users, BarChart3, LogOut, User as UserIcon } from "lucide-react";
+import { Settings, MessageSquare, ArrowLeft, Users, BarChart3, LogOut, User as UserIcon, Calendar, Heart, Play } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
@@ -159,6 +159,65 @@ export default function Admin() {
             </CardContent>
           </Card>
 
+          {/* Sermon Management Card */}
+          <Card className="hover:shadow-md transition-shadow" data-testid="card-sermon-management">
+            <CardHeader>
+              <div className="flex items-center space-x-2">
+                <Play className="h-6 w-6 text-red-500" />
+                <CardTitle className="text-lg">Sermon Management</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                Manage sermons, featured content, and video/audio resources.
+              </p>
+              <Link href="/bumcdashboard/sermons">
+                <Button className="w-full" data-testid="button-manage-sermons">
+                  Manage Sermons
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Birthday Management Card */}
+          <Card className="hover:shadow-md transition-shadow" data-testid="card-birthday-management">
+            <CardHeader>
+              <div className="flex items-center space-x-2">
+                <Calendar className="h-6 w-6 text-orange-500" />
+                <CardTitle className="text-lg">Birthday Management</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                Track and manage member birthdays and celebration reminders.
+              </p>
+              <Link href="/bumcdashboard/birthdays">
+                <Button className="w-full" data-testid="button-manage-birthdays">
+                  Manage Birthdays
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Anniversary Management Card */}
+          <Card className="hover:shadow-md transition-shadow" data-testid="card-anniversary-management">
+            <CardHeader>
+              <div className="flex items-center space-x-2">
+                <Heart className="h-6 w-6 text-pink-500" />
+                <CardTitle className="text-lg">Anniversary Management</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                Track and manage member anniversaries and milestone celebrations.
+              </p>
+              <Link href="/bumcdashboard/anniversaries">
+                <Button className="w-full" data-testid="button-manage-anniversaries">
+                  Manage Anniversaries
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
 
         </div>
 
