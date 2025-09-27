@@ -794,14 +794,67 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Try to use database storage, fallback to memory storage
+// Initialize storage with better error handling and fallback
 let storage: IStorage;
-try {
-  storage = new DatabaseStorage();
-  console.log("Using DatabaseStorage with PostgreSQL");
-} catch (error) {
-  console.warn("Failed to initialize DatabaseStorage, falling back to MemStorage:", error);
+
+// Function to test database connectivity
+async function testDatabaseConnection(db: DatabaseStorage): Promise<boolean> {
+  try {
+    // Try a simple operation to test connectivity
+    await db.getAnalytics();
+    return true;
+  } catch (error) {
+    console.warn("Database connectivity test failed:", error instanceof Error ? error.message : String(error));
+    return false;
+  }
+}
+
+// Initialize storage
+async function initializeStorage(): Promise<IStorage> {
+  const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+  
+  if (databaseUrl && databaseUrl.includes('postgresql://')) {
+    try {
+      const dbStorage = new DatabaseStorage();
+      console.log("Testing DatabaseStorage connection...");
+      
+      // Test connection in background - don't wait for it
+      setTimeout(async () => {
+        const isConnected = await testDatabaseConnection(dbStorage);
+        if (!isConnected) {
+          console.warn("Database connection failed, recommend switching to MemStorage for development");
+        }
+      }, 1000);
+      
+      console.log("Using DatabaseStorage with PostgreSQL");
+      return dbStorage;
+    } catch (error) {
+      console.warn("Failed to initialize DatabaseStorage:", error instanceof Error ? error.message : String(error));
+      console.log("Falling back to MemStorage");
+      return new MemStorage();
+    }
+  } else {
+    console.log("No DATABASE_URL configured, using MemStorage for development");
+    return new MemStorage();
+  }
+}
+
+// For development/testing in environments with SSL issues, force MemStorage
+const forceMemStorage = process.env.FORCE_MEM_STORAGE === 'true' || 
+                       (process.env.NODE_ENV === 'development' && process.env.REPL_ID);
+
+if (forceMemStorage) {
+  console.log("Forcing MemStorage for development environment (SSL issues with Neon in Replit)");
   storage = new MemStorage();
+} else {
+  // Initialize asynchronously and export
+  storage = new MemStorage(); // Temporary fallback
+  initializeStorage().then(initializedStorage => {
+    storage = initializedStorage;
+  }).catch(error => {
+    console.error("Failed to initialize storage:", error);
+    storage = new MemStorage();
+  });
 }
 
 export { storage };
