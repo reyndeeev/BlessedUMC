@@ -95,7 +95,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-6">
                 <img
-                  src="https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/abou2.jpg"
                   alt="Diverse congregation in worship"
                   className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                 />
@@ -112,7 +112,7 @@ export default function AboutPage() {
               
               <div className="space-y-6 pt-8">
                 <img
-                  src="https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="https://raw.githubusercontent.com/reyndeeev/BlessedUMC/refs/heads/main/attached_assets/images/about1.jpg"
                   alt="Church community serving together"
                   className="rounded-2xl shadow-xl w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                 />
