@@ -1,5 +1,4 @@
 import type { Express, Request, Response, NextFunction } from "express";
-import { createServer, type Server } from "http";
 import jwt from "jsonwebtoken";
 import { storage } from "./storage";
 import { 
@@ -27,7 +26,12 @@ declare module 'express-serve-static-core' {
 }
 
 // JWT secret and configuration
-const JWT_SECRET = process.env.JWT_SECRET || 'blessed-umc-dev-secret-jwt-key-change-in-production';
+// SECURITY: JWT_SECRET must be set in production
+const isProduction = process.env.NODE_ENV === 'production';
+const JWT_SECRET = process.env.JWT_SECRET || 
+  (isProduction 
+    ? (() => { throw new Error('JWT_SECRET environment variable must be set in production'); })()
+    : 'blessed-umc-dev-secret-jwt-key-change-in-production');
 const JWT_EXPIRES_IN = '24h';
 
 // Helper functions for JWT
@@ -53,13 +57,13 @@ const verifyToken = (token: string): { id: string; username: string } => {
 
 // Authentication middleware
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
-  // Check session first
-  if (req.session.user) {
+  // Check session first (development only - session may be undefined in production)
+  if (req.session?.user) {
     req.user = req.session.user;
     return next();
   }
   
-  // Fallback to JWT token authentication
+  // JWT token authentication (primary method for production)
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ success: false, message: "Authentication required" });
@@ -87,22 +91,32 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export async function registerRoutes(app: Express): Promise<Server> {
-  // Secure session configuration
+export async function registerRoutes(app: Express): Promise<void> {
+  // Note: Session storage is not used in production (serverless incompatible)
+  // We rely on JWT tokens for stateless authentication
   const isProduction = process.env.NODE_ENV === 'production';
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
-    resave: false,
-    saveUninitialized: false,
-    name: 'connect.sid',
-    cookie: {
-      secure: isProduction, // Use secure cookies in production
-      httpOnly: true, // Prevent XSS attacks
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-  }));
+  
+  // SECURITY CHECK: Ensure JWT_SECRET is set in production
+  if (isProduction && !process.env.JWT_SECRET) {
+    throw new Error('FATAL: JWT_SECRET environment variable must be set in production for secure authentication');
+  }
+  
+  // Only use sessions in development for convenience
+  if (!isProduction) {
+    app.use(session({
+      secret: process.env.SESSION_SECRET || 'blessed-umc-dev-secret',
+      resave: false,
+      saveUninitialized: false,
+      name: 'connect.sid',
+      cookie: {
+        secure: false,
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      }
+    }));
+  }
 
   // Authentication endpoints
   app.post("/api/auth/login", async (req, res) => {
@@ -128,11 +142,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { password: _, ...userWithoutPassword } = user;
       const token = generateToken(userWithoutPassword);
       
+      // Set session in development only
+      if (req.session) {
+        req.session.user = userWithoutPassword;
+      }
+      
       res.json({ 
         success: true, 
         message: "Login successful",
         user: userWithoutPassword,
-        token: token // Send token as backup
+        token: token
       });
     } catch (error) {
       console.error("Login error:", error);
@@ -144,18 +163,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post("/api/auth/logout", (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Logout error:", err);
-        return res.status(500).json({ 
-          success: false, 
-          message: "Failed to logout" 
-        });
-      }
-      res.json({ 
-        success: true, 
-        message: "Logout successful" 
+    // Clear session if it exists (development only)
+    if (req.session && req.session.destroy) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error("Logout error:", err);
+        }
       });
+    }
+    
+    // In production, logout is client-side (remove JWT token)
+    res.json({ 
+      success: true, 
+      message: "Logout successful" 
     });
   });
 
@@ -617,6 +637,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  return httpServer;
 }

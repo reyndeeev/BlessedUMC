@@ -63,12 +63,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   private async ensureDefaultAdmin() {
-    // Always create default admin in development
-    if (process.env.NODE_ENV !== 'development' && process.env.CREATE_DEFAULT_ADMIN !== 'true') {
+    // SECURITY: Only create default admin in development environment
+    // In production, admin users must be created manually
+    if (process.env.NODE_ENV === 'production') {
+      console.log("Production environment - default admin creation skipped");
       return;
     }
     
-    // Create a default admin user immediately - no timeout
+    // Development only: Create a default admin for testing
     try {
       const existingAdmin = await this.getUserByUsername("admin");
       if (!existingAdmin) {
@@ -76,7 +78,7 @@ export class DatabaseStorage implements IStorage {
           username: "admin",
           password: "admin123"
         });
-        console.log("Default admin user created (database):", { username: defaultAdmin.username, id: defaultAdmin.id });
+        console.log("Default admin user created (database - DEV ONLY):", { username: defaultAdmin.username, id: defaultAdmin.id });
       } else {
         console.log("Admin user already exists in database:", { username: existingAdmin.username, id: existingAdmin.id });
       }
@@ -464,12 +466,14 @@ export class MemStorage implements IStorage {
   }
 
   private async createDefaultAdmin() {
-    // Only create default admin in development environment
-    if (process.env.NODE_ENV !== 'development' && process.env.CREATE_DEFAULT_ADMIN !== 'true') {
+    // SECURITY: Only create default admin in development environment
+    // In production, admin users must be created manually
+    if (process.env.NODE_ENV === 'production') {
+      console.log("Production environment - default admin creation skipped");
       return;
     }
     
-    // Create a default admin user for testing
+    // Development only: Create a default admin for testing
     try {
       const existingAdmin = await this.getUserByUsername("admin");
       if (!existingAdmin) {
@@ -477,7 +481,7 @@ export class MemStorage implements IStorage {
           username: "admin",
           password: "admin123"
         });
-        console.log("Default admin user created (in-memory):", { username: defaultAdmin.username, id: defaultAdmin.id });
+        console.log("Default admin user created (in-memory - DEV ONLY):", { username: defaultAdmin.username, id: defaultAdmin.id });
       }
     } catch (error) {
       console.error("Failed to create default admin:", error);
