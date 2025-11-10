@@ -81,6 +81,26 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Netlify Serverless Deployment Fix (November 10, 2025)
+- **Achievement**: Fixed critical bugs preventing dashboard from working on Netlify
+- **Problem Solved**: Dashboard endpoints were missing in Netlify because custom serverless function didn't include admin routes
+- **Solution Implemented**: 
+  - Refactored server/index.ts to export `createApp()` factory function for code reuse
+  - Created proper netlify/functions/api.ts using serverless-http wrapper
+  - Eliminated code duplication by reusing Express app in both dev and production
+- **Authentication Fixed**:
+  - Sessions disabled in production (serverless incompatible)
+  - JWT-only authentication for Netlify deployment
+  - Optional chaining for req.session?.user prevents crashes
+  - Startup validation ensures JWT_SECRET is set in production
+- **Security Improvements**:
+  - Default admin (admin/admin123) only created in development
+  - Production requires manual admin creation for security
+  - JWT_SECRET required in production or app refuses to start
+  - Removed hard-coded JWT fallback secret
+- **Files Modified**: server/index.ts, server/routes.ts, server/storage.ts, netlify/functions/api.ts, netlify.toml
+- **Status**: ✅ Ready for Netlify deployment with full admin dashboard support
+
 ### Planetshakers-Inspired UI Redesign (August 21, 2025)
 - **Achievement**: Complete modern UI redesign inspired by Planetshakers.com with bold typography and clean layouts
 - **Hero Section**: Enhanced with massive "BLESSED" headline, modern tagline "Empowering Generations To Win Generations", and professional rounded buttons
