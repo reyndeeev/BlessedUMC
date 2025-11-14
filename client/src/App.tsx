@@ -8,6 +8,7 @@ import UMYF from "@/pages/umyf";
 import MYAF from "@/pages/myaf";
 import AboutPage from "@/pages/about";
 import MinistriesPage from "@/pages/ministries";
+import EventDetails from "@/pages/event-details";
 import Admin from "@/pages/admin";
 import Messages from "@/pages/messages";
 import Users from "@/pages/users";
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/myaf" component={MYAF} />
       <Route path="/about" component={AboutPage} />
       <Route path="/ministries" component={MinistriesPage} />
+      <Route path="/events/:id" component={EventDetails} />
       <Route path="/login" component={Login} />
       <Route path="/bumcdashboard">
         <ProtectedRoute>
