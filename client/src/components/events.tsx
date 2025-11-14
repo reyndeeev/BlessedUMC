@@ -105,6 +105,12 @@ export default function Events() {
                       </div>
 
                       <Button
+                        onClick={() => {
+                          const contactSection = document.getElementById('contact');
+                          if (contactSection) {
+                            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }}
                         className="bg-methodist-blue hover:bg-methodist-blue/90 text-white px-6 py-3 rounded-full text-sm font-bold w-full transition-all transform hover:scale-105 shadow-lg"
                         data-testid={`button-event-${index}`}
                       >
