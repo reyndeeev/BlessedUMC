@@ -8,7 +8,7 @@ const events = [
     date: { day: "23", month: "NOV" },
     title: "Church Anniversary",
     description: "Join a beautiful presentation of the Church Anniversary",
-    fullDescription: "Join us for a special celebration of our church anniversary! This will be a memorable evening filled with worship, testimonies, and fellowship as we reflect on God's faithfulness throughout the years. We'll have special performances, refreshments, and a time of thanksgiving together as a church family.",
+    fullDescription: "HE HAS SHOWN YOU, O MORTAL, WHAT IS GOOD. aND WHAT DOES THE LORD REQUIRE OF YOU? TO ACT JUSTLY AND TO LOVE MERCY AND TO WALK HUMBLY WITH YOUR GOD.",
     dateText: "Sunday, November 30th",
     time: "7:00 PM",
     location: "Blessed UMC",
