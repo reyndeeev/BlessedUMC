@@ -36,7 +36,6 @@ In your Netlify site settings, configure these environment variables:
 
 ### Required Variables
 ```
-NODE_ENV=production
 DATABASE_URL=postgresql://postgres:09662301181Dan@db.rmjcxieniztdwgzbsjzh.supabase.co:5432/postgres
 JWT_SECRET=your-secure-random-secret-here-min-32-characters
 ```
@@ -45,6 +44,11 @@ JWT_SECRET=your-secure-random-secret-here-min-32-characters
 ```
 SESSION_SECRET=another-secure-random-secret-here
 ```
+
+### ⚠️ IMPORTANT: Do NOT set NODE_ENV
+**Do not set `NODE_ENV=production` in Netlify environment variables!**
+
+This will prevent build tools (vite, esbuild) from being installed during the build process. Netlify's serverless functions automatically run in production mode, so you don't need to set this variable.
 
 ### How to Generate Secure Secrets
 For `JWT_SECRET` and `SESSION_SECRET`, generate random strings:

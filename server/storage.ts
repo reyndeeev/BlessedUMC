@@ -815,7 +815,8 @@ async function testDatabaseConnection(db: DatabaseStorage): Promise<boolean> {
 // Initialize storage
 function initializeStorage(): IStorage {
   const databaseUrl = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
-  const isProduction = process.env.NODE_ENV === 'production';
+  // Detect production: explicit NODE_ENV or Netlify deployment environment
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.NETLIFY;
   const forceMemStorage = process.env.FORCE_MEM_STORAGE === 'true';
   
   if (isProduction) {

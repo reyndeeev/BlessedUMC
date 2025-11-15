@@ -1,16 +1,15 @@
 [build]
   base = "."
-  command = "npm install && npx vite build"
+  command = "npm install && npm run build"
   publish = "dist/public"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--include=dev"
 
 [functions]
   # Configure functions to use ES modules
   node_bundler = "esbuild"
-  external_node_modules = ["@neondatabase/serverless", "bcrypt", "drizzle-orm"]
+  external_node_modules = ["pg", "bcrypt", "drizzle-orm"]
 
 [[redirects]]
   from = "/api/*"

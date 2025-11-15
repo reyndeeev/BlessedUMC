@@ -1,0 +1,153 @@
+7:51:58 PM: buildbot version: 4c332285428c21109b8c0909375e4a36d2b29473
+7:51:58 PM: build-image version: d70b0ef54da475d70173c05e02b98ca494649213 (noble)
+7:51:58 PM: Fetching cached dependencies
+7:51:59 PM: Starting to download cache of 469.4MB (Last modified: 2025-11-10 11:24:40 +0000 UTC)
+7:52:00 PM: Finished downloading cache in 1.132s
+7:52:00 PM: Starting to extract cache
+7:52:18 PM: Finished extracting cache in 18.083s
+7:52:18 PM: Finished fetching cache in 19.273s
+7:52:18 PM: Starting to prepare the repo for build
+7:52:18 PM: Preparing Git Reference refs/heads/main
+7:52:19 PM: Custom publish path detected. Proceeding with the specified path: 'dist/public'
+7:52:19 PM: Custom functions path detected. Proceeding with the specified path: 'netlify/functions'
+7:52:19 PM: Custom build command detected. Proceeding with the specified command: 'npm install && npx vite build'
+7:52:19 PM: Starting to install dependencies
+7:52:19 PM: Started restoring cached python cache
+7:52:20 PM: Finished restoring cached python cache
+7:52:20 PM: Started restoring cached ruby cache
+7:52:21 PM: Finished restoring cached ruby cache
+7:52:21 PM: Started restoring cached Node.js version
+7:52:30 PM: Finished restoring cached Node.js version
+7:52:30 PM: v20.19.5 is already installed.
+7:52:31 PM: Now using node v20.19.5 (npm v10.8.2)
+7:52:31 PM: Enabling Node.js Corepack
+7:52:31 PM: Started restoring cached build plugins
+7:52:31 PM: Finished restoring cached build plugins
+7:52:31 PM: WARNING: The environment variable 'NODE_ENV' is set to 'production'. Any 'devDependencies' in package.json will not be installed
+7:52:31 PM: Started restoring cached corepack dependencies
+7:52:31 PM: Finished restoring cached corepack dependencies
+7:52:31 PM: No npm workspaces detected
+7:52:31 PM: Started restoring cached node modules
+7:52:31 PM: Finished restoring cached node modules
+7:52:32 PM: Installing npm packages using npm version 10.8.2
+7:52:34 PM: up to date, audited 602 packages in 3s
+7:52:34 PM: 78 packages are looking for funding
+7:52:34 PM:   run `npm fund` for details
+7:52:34 PM: 8 vulnerabilities (1 low, 6 moderate, 1 high)
+7:52:34 PM: To address issues that do not require attention, run:
+7:52:34 PM:   npm audit fix
+7:52:34 PM: To address all issues (including breaking changes), run:
+7:52:34 PM:   npm audit fix --force
+7:52:34 PM: Run `npm audit` for details.
+7:52:34 PM: npm packages installed
+7:52:34 PM: Successfully installed dependencies
+7:52:34 PM: Starting build script
+7:52:35 PM: Detected 1 framework(s)
+7:52:35 PM: "vite" at version "5.4.19"
+7:52:35 PM: Section completed: initializing
+7:52:36 PM: ​
+7:52:36 PM: Netlify Build                                                 
+7:52:36 PM: ────────────────────────────────────────────────────────────────
+7:52:36 PM: ​
+7:52:36 PM: ❯ Version
+7:52:36 PM:   @netlify/build 35.3.4
+7:52:36 PM: ​
+7:52:36 PM: ❯ Flags
+7:52:36 PM:   accountId: 68a6f1d8ea38cba556ece01b
+7:52:36 PM:   baseRelDir: true
+7:52:36 PM:   buildId: 6918695d114926e40d691eed
+7:52:36 PM:   deployId: 6918695d114926e40d691eef
+7:52:37 PM: ​
+7:52:37 PM: ❯ Current directory
+7:52:37 PM:   /opt/build/repo
+7:52:37 PM: ​
+7:52:37 PM: ❯ Config file
+7:52:37 PM:   /opt/build/repo/netlify.toml
+7:52:37 PM: ​
+7:52:37 PM: ❯ Context
+7:52:37 PM:   production
+7:52:37 PM: ​
+7:52:37 PM: ❯ Installing extensions
+7:52:37 PM:    - neon
+7:52:37 PM: ​
+7:52:37 PM: ❯ Loading extensions
+7:52:37 PM:    - neon
+7:52:38 PM: ​
+7:52:38 PM: build.command from netlify.toml                               
+7:52:38 PM: ────────────────────────────────────────────────────────────────
+7:52:38 PM: ​
+7:52:38 PM: $ npm install && npx vite build
+7:52:39 PM: up to date, audited 504 packages in 779ms
+7:52:39 PM: 66 packages are looking for funding
+7:52:39 PM:   run `npm fund` for details
+7:52:39 PM: 2 vulnerabilities (1 low, 1 high)
+7:52:39 PM: To address all issues, run:
+7:52:39 PM:   npm audit fix
+7:52:39 PM: Run `npm audit` for details.
+7:52:40 PM: npm warn exec The following package was not found and will be installed: vite@7.2.2
+7:52:43 PM: failed to load config from /opt/build/repo/vite.config.ts
+7:52:43 PM: error during build:
+7:52:43 PM: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/build/repo/node_modules/.vite-temp/vite.config.ts.timestamp-1763207563302-24d0a9645345f.mjs
+7:52:43 PM:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+7:52:43 PM:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+7:52:43 PM:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+7:52:43 PM:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+7:52:43 PM:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+7:52:43 PM:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+7:52:43 PM:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+7:52:43 PM:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49)
+7:52:43 PM: ​
+7:52:43 PM: "build.command" failed                                        
+7:52:43 PM: ────────────────────────────────────────────────────────────────
+7:52:43 PM: ​
+7:52:43 PM:   Error message
+7:52:43 PM:   Command failed with exit code 1: npm install && npx vite build (https://ntl.fyi/exit-code-1)
+7:52:43 PM: ​
+7:52:43 PM:   Error location
+7:52:43 PM:   In build.command from netlify.toml:
+7:52:43 PM:   npm install && npx vite build
+7:52:43 PM: ​
+7:52:43 PM:   Resolved config
+7:52:43 PM:   build:
+7:52:43 PM:     base: /opt/build/repo
+7:52:43 PM:     command: npm install && npx vite build
+7:52:43 PM:     commandOrigin: config
+7:52:43 PM:     environment:
+7:52:43 PM:       - DATABASE_URL
+7:52:43 PM:       - JWT_SECRET
+7:52:43 PM:       - NODE_ENV
+7:52:43 PM:       - NODE_VERSION
+7:52:43 PM:       - NPM_FLAGS
+7:52:43 PM:     publish: /opt/build/repo/dist/public
+7:52:43 PM:     publishOrigin: config
+7:52:43 PM:   functions:
+7:52:43 PM:     "*":
+7:52:43 PM:       external_node_modules:
+7:52:43 PM:         - "@neondatabase/serverless"
+7:52:43 PM:         - bcrypt
+7:52:43 PM:         - drizzle-orm
+7:52:43 PM:       node_bundler: esbuild
+7:52:43 PM:   functionsDirectory: /opt/build/repo/netlify/functions
+7:52:43 PM:   headers:
+7:52:44 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+7:52:44 PM:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+    - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+7:52:44 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+7:52:44 PM: Failing build: Failed to build site
+7:52:44 PM: Finished processing build request in 45.605s
