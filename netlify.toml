@@ -10,6 +10,22 @@
   # Configure functions to use ES modules
   node_bundler = "esbuild"
   external_node_modules = ["pg", "bcrypt", "drizzle-orm"]
+  
+[functions."api"]
+  node_bundler = "esbuild"
+  
+  [functions."api".esbuild]
+    format = "esm"
+    platform = "node"
+    external = [
+      "pg", 
+      "bcrypt", 
+      "drizzle-orm", 
+      "@neondatabase/serverless",
+      "lightningcss",
+      "@babel/preset-typescript",
+      "vite"
+    ]
 
 [[redirects]]
   from = "/api/*"
