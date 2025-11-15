@@ -798,13 +798,12 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Initialize storage with better error handling and fallback
+// Initialize storage with better error handling and strict production requirements
 let storage: IStorage;
 
 // Function to test database connectivity
 async function testDatabaseConnection(db: DatabaseStorage): Promise<boolean> {
   try {
-    // Try a simple operation to test connectivity
     await db.getAnalytics();
     return true;
   } catch (error) {
@@ -814,51 +813,62 @@ async function testDatabaseConnection(db: DatabaseStorage): Promise<boolean> {
 }
 
 // Initialize storage
-async function initializeStorage(): Promise<IStorage> {
-  const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+function initializeStorage(): IStorage {
+  const databaseUrl = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const forceMemStorage = process.env.FORCE_MEM_STORAGE === 'true';
+  
+  if (isProduction) {
+    if (!databaseUrl) {
+      throw new Error('FATAL: DATABASE_URL must be set in production environment');
+    }
+    
+    if (forceMemStorage) {
+      throw new Error('FATAL: Cannot use MemStorage in production. FORCE_MEM_STORAGE must be false.');
+    }
+    
+    console.log("Production environment: Enforcing DatabaseStorage");
+    const dbStorage = new DatabaseStorage();
+    
+    testDatabaseConnection(dbStorage).then(isConnected => {
+      if (!isConnected) {
+        console.error("CRITICAL: Database connection test failed in production!");
+      } else {
+        console.log("Database connection verified successfully");
+      }
+    });
+    
+    return dbStorage;
+  }
+  
+  if (forceMemStorage) {
+    console.log("Development: Using MemStorage (FORCE_MEM_STORAGE=true)");
+    return new MemStorage();
+  }
   
   if (databaseUrl && databaseUrl.includes('postgresql://')) {
     try {
       const dbStorage = new DatabaseStorage();
-      console.log("Testing DatabaseStorage connection...");
+      console.log("Development: Using DatabaseStorage with PostgreSQL");
       
-      // Test connection in background - don't wait for it
-      setTimeout(async () => {
-        const isConnected = await testDatabaseConnection(dbStorage);
+      testDatabaseConnection(dbStorage).then(isConnected => {
         if (!isConnected) {
-          console.warn("Database connection failed, recommend switching to MemStorage for development");
+          console.warn("Database connection test failed. Consider setting FORCE_MEM_STORAGE=true for development");
         }
-      }, 1000);
+      });
       
-      console.log("Using DatabaseStorage with PostgreSQL");
       return dbStorage;
     } catch (error) {
-      console.warn("Failed to initialize DatabaseStorage:", error instanceof Error ? error.message : String(error));
-      console.log("Falling back to MemStorage");
+      console.error("Failed to initialize DatabaseStorage:", error instanceof Error ? error.message : String(error));
+      console.log("Falling back to MemStorage for development");
       return new MemStorage();
     }
   } else {
-    console.log("No DATABASE_URL configured, using MemStorage for development");
+    console.log("Development: No DATABASE_URL configured, using MemStorage");
     return new MemStorage();
   }
 }
 
-// For development/testing in environments with SSL issues, force MemStorage
-const forceMemStorage = process.env.FORCE_MEM_STORAGE === 'true' || 
-                       (process.env.NODE_ENV === 'development' && process.env.REPL_ID);
-
-if (forceMemStorage) {
-  console.log("Forcing MemStorage for development environment (SSL issues with Neon in Replit)");
-  storage = new MemStorage();
-} else {
-  // Initialize asynchronously and export
-  storage = new MemStorage(); // Temporary fallback
-  initializeStorage().then(initializedStorage => {
-    storage = initializedStorage;
-  }).catch(error => {
-    console.error("Failed to initialize storage:", error);
-    storage = new MemStorage();
-  });
-}
+storage = initializeStorage();
 
 export { storage };

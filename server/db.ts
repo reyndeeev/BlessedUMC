@@ -1,40 +1,38 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "@shared/schema";
 
-// Configure Neon for Replit/development environments
-neonConfig.webSocketConstructor = ws;
-
-// For development environments, configure to work with various SSL setups
-if (process.env.NODE_ENV === 'development' || process.env.REPL_ID) {
-  // Try HTTP-only mode first for better compatibility in Replit
-  neonConfig.useSecureWebSocket = false;
-  neonConfig.pipelineTLS = false;
-  neonConfig.pipelineConnect = false;
-}
-
-// Set longer timeout for slow connections
-neonConfig.poolQueryViaFetch = true;
-
-// Create database connection only if DATABASE_URL is available
 let pool: Pool | null = null;
 let db: ReturnType<typeof drizzle> | null = null;
 
 export function initializeDatabase() {
-  const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+  const databaseUrl = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
+  
   if (!databaseUrl) {
-    throw new Error(
-      "NETLIFY_DATABASE_URL or DATABASE_URL must be set. Did you forget to provision a database?",
-    );
+    const errorMsg = "DATABASE_URL or NETLIFY_DATABASE_URL must be set. Please configure your database connection string.";
+    
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(`FATAL: ${errorMsg}`);
+    }
+    
+    console.warn(errorMsg);
+    throw new Error(errorMsg);
   }
 
   if (!pool) {
+    console.log("Initializing PostgreSQL connection pool...");
     pool = new Pool({ 
       connectionString: databaseUrl,
-      ssl: { rejectUnauthorized: false } // Allow self-signed certificates in development
+      ssl: databaseUrl.includes('supabase.co') || process.env.NODE_ENV === 'production'
+        ? { rejectUnauthorized: false }
+        : undefined,
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 10000,
     });
-    db = drizzle({ client: pool, schema });
+    
+    db = drizzle(pool, { schema });
+    console.log("PostgreSQL connection pool initialized successfully");
   }
 
   return db;
@@ -47,19 +45,22 @@ export function getDatabaseConnection() {
   return db;
 }
 
-// For backward compatibility, export db but initialize it lazily
-export { db };
+export async function closeDatabaseConnection() {
+  if (pool) {
+    await pool.end();
+    pool = null;
+    db = null;
+    console.log("PostgreSQL connection pool closed");
+  }
+}
 
-// Initialize db only if NETLIFY_DATABASE_URL or DATABASE_URL is available
-const databaseUrl = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+export { db, pool };
+
+const databaseUrl = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL;
 if (databaseUrl) {
   try {
-    pool = new Pool({ 
-      connectionString: databaseUrl,
-      ssl: { rejectUnauthorized: false } // Allow self-signed certificates in development
-    });
-    db = drizzle({ client: pool, schema });
+    initializeDatabase();
   } catch (error) {
-    console.warn("Failed to initialize database connection:", error);
+    console.error("Failed to initialize database connection:", error instanceof Error ? error.message : String(error));
   }
 }
