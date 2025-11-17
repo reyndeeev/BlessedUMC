@@ -13,6 +13,7 @@
   
 [functions."api"]
   node_bundler = "esbuild"
+  included_files = ["dist/index.js"]
   
   [functions."api".esbuild]
     format = "esm"
@@ -24,7 +25,17 @@
       "@neondatabase/serverless",
       "lightningcss",
       "@babel/preset-typescript",
-      "vite"
+      "vite",
+      "@vitejs/*",
+      "@replit/*",
+      "esbuild",
+      "rollup",
+      "@babel/*",
+      "./vite.config.js",
+      "./vite.config.ts",
+      "../vite.config",
+      "../vite.config.js",
+      "../vite.config.ts"
     ]
 
 [[redirects]]

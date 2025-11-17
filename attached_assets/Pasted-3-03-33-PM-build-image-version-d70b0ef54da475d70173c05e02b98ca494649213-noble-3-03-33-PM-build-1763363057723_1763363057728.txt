@@ -1,0 +1,210 @@
+3:03:33 PM: build-image version: d70b0ef54da475d70173c05e02b98ca494649213 (noble)
+3:03:33 PM: buildbot version: 4c332285428c21109b8c0909375e4a36d2b29473
+3:03:33 PM: Fetching cached dependencies
+3:03:33 PM: Failed to fetch cache, continuing with build
+3:03:33 PM: Starting to prepare the repo for build
+3:03:33 PM: No cached dependencies found. Cloning fresh repo
+3:03:33 PM: git clone --filter=blob:none https://github.com/reyndeeev/BlessedUMC
+3:03:33 PM: Preparing Git Reference refs/heads/main
+3:03:35 PM: Custom functions path detected. Proceeding with the specified path: 'netlify/functions'
+3:03:35 PM: Starting to install dependencies
+3:03:36 PM: Downloading and installing node v20.19.5...
+3:03:36 PM: Downloading https://nodejs.org/dist/v20.19.5/node-v20.19.5-linux-x64.tar.xz...
+3:03:37 PM: Computing checksum with sha256sum
+3:03:37 PM: Checksums matched!
+3:03:38 PM: Now using node v20.19.5 (npm v10.8.2)
+3:03:39 PM: Enabling Node.js Corepack
+3:03:39 PM: Started restoring cached build plugins
+3:03:39 PM: Finished restoring cached build plugins
+3:03:39 PM: Started restoring cached corepack dependencies
+3:03:39 PM: Finished restoring cached corepack dependencies
+3:03:39 PM: No npm workspaces detected
+3:03:39 PM: Started restoring cached node modules
+3:03:39 PM: Finished restoring cached node modules
+3:03:39 PM: Installing npm packages using npm version 10.8.2
+3:03:41 PM: npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+3:03:41 PM: npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+3:03:44 PM: added 594 packages in 5s
+3:03:44 PM: npm packages installed
+3:03:44 PM: Successfully installed dependencies
+3:03:44 PM: Starting build script
+3:03:45 PM: Detected 1 framework(s)
+3:03:45 PM: "vite" at version "5.4.19"
+3:03:45 PM: Section completed: initializing
+3:03:46 PM: ​
+3:03:46 PM: Netlify Build                                                 
+3:03:46 PM: ────────────────────────────────────────────────────────────────
+3:03:46 PM: ​
+3:03:46 PM: ❯ Version
+3:03:46 PM:   @netlify/build 35.3.4
+3:03:46 PM: ​
+3:03:46 PM: ❯ Flags
+3:03:46 PM:   accountId: 689edf79ec68e461bebcb332
+3:03:46 PM:   baseRelDir: true
+3:03:46 PM:   buildId: 691ac8c39afbf6d65cbe91cd
+3:03:46 PM:   deployId: 691ac8c39afbf6d65cbe91cf
+3:03:46 PM: ​
+3:03:46 PM: ❯ Current directory
+3:03:46 PM:   /opt/build/repo
+3:03:46 PM: ​
+3:03:46 PM: ❯ Config file
+3:03:46 PM:   /opt/build/repo/netlify.toml
+3:03:46 PM: ​
+3:03:46 PM: ❯ Context
+3:03:46 PM:   production
+3:03:46 PM: ​
+3:03:46 PM: build.command from netlify.toml                               
+3:03:46 PM: ────────────────────────────────────────────────────────────────
+3:03:46 PM: ​
+3:03:46 PM: $ npm install && npm run build
+3:03:47 PM: up to date, audited 595 packages in 1s
+3:03:47 PM: 77 packages are looking for funding
+3:03:47 PM:   run `npm fund` for details
+3:03:48 PM: 7 vulnerabilities (1 low, 6 moderate)
+3:03:48 PM: To address issues that do not require attention, run:
+3:03:48 PM:   npm audit fix
+3:03:48 PM: To address all issues (including breaking changes), run:
+3:03:48 PM:   npm audit fix --force
+3:03:48 PM: Run `npm audit` for details.
+3:03:48 PM: > rest-express@1.0.0 build
+3:03:48 PM: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+3:03:48 PM: vite v5.4.19 building for production...
+3:03:48 PM: transforming...
+3:03:54 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+3:03:53 PM: ✓ 2655 modules transformed.
+3:03:53 PM: rendering chunks...
+3:03:53 PM: computing gzip size...
+3:03:53 PM: ../dist/public/index.html                     2.53 kB │ gzip:   0.94 kB
+3:03:53 PM: ../dist/public/assets/index-DSWsYjjj.css     87.75 kB │ gzip:  14.14 kB
+3:03:53 PM: ../dist/public/assets/index-BQ2YGry2.js   1,110.88 kB │ gzip: 303.24 kB
+3:03:53 PM: 
+3:03:53 PM: (!) Some chunks are larger than 500 kB after minification. Consider:
+3:03:53 PM: - Using dynamic import() to code-split the application
+3:03:53 PM: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+3:03:53 PM: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+3:03:53 PM: ✓ built in 5.56s
+3:03:53 PM:   dist/index.js  50.6kb
+3:03:53 PM: ⚡ Done in 6ms
+3:03:53 PM: ​
+3:03:53 PM: (build.command completed in 7.2s)
+3:03:53 PM: ​
+3:03:53 PM: Functions bundling                                            
+3:03:53 PM: ────────────────────────────────────────────────────────────────
+3:03:53 PM: ​
+3:03:53 PM: Packaging Functions from netlify/functions directory:
+3:03:53 PM:  - api.ts
+3:03:53 PM: ​
+3:03:53 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:53 PM:     server/index.ts:70:4:
+3:03:53 PM:       70 │ if (import.meta.url === `file://${process.argv[1]}`) {
+3:03:53 PM:          ╵     ~~~~~~~~~~~
+3:03:53 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:53 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:53 PM:     server/vite.ts:71:32:
+3:03:53 PM:       71 │   const distPath = path.resolve(import.meta.dirname, "public");
+3:03:53 PM:          ╵                                 ~~~~~~~~~~~
+3:03:53 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:53 PM: ✘ [ERROR] Top-level await is currently not supported with the "cjs" output format
+3:03:53 PM:     vite.config.ts:13:10:
+3:03:53 PM:       13 │           await import("@replit/vite-plugin-cartographer").then((m...
+3:03:53 PM:          ╵           ~~~~~
+3:03:53 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:53 PM:     vite.config.ts:21:24:
+3:03:53 PM:       21 │       "@": path.resolve(import.meta.dirname, "client", "src"),
+3:03:53 PM:          ╵                         ~~~~~~~~~~~
+3:03:53 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:53 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:53 PM:     vite.config.ts:22:30:
+3:03:53 PM:       22 │       "@shared": path.resolve(import.meta.dirname, "shared"),
+3:03:53 PM:          ╵                               ~~~~~~~~~~~
+3:03:53 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:54 PM: ✘ [ERROR] Could not resolve "@babel/preset-typescript/package.json"
+3:03:54 PM:     node_modules/@babel/core/lib/config/files/module-types.js:171:36:
+3:03:54 PM:       171 │ ...t packageJson = require("@babel/preset-typescript/package.json");
+3:03:54 PM:           ╵                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3:03:54 PM:   You can mark the path "@babel/preset-typescript/package.json" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle. You can also surround this "require" call with a try/catch block to handle this failure at run-time instead of bundle-time.
+3:03:54 PM: ✘ [ERROR] Could not resolve "../pkg"
+3:03:54 PM:     node_modules/lightningcss/node/index.js:17:27:
+3:03:54 PM:       17 │   module.exports = require(`../pkg`);
+3:03:54 PM:          ╵                            ~~~~~~~~
+3:03:54 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:54 PM:     vite.config.ts:23:30:
+3:03:54 PM:       23 │ ...  "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+3:03:54 PM:          ╵                              ~~~~~~~~~~~
+3:03:54 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:54 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:54 PM:     vite.config.ts:26:21:
+3:03:54 PM:       26 │   root: path.resolve(import.meta.dirname, "client"),
+3:03:54 PM:          ╵                      ~~~~~~~~~~~
+3:03:54 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:54 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+3:03:54 PM:     vite.config.ts:28:25:
+3:03:54 PM:       28 │     outDir: path.resolve(import.meta.dirname, "dist/public"),
+3:03:54 PM:          ╵                          ~~~~~~~~~~~
+3:03:54 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+3:03:54 PM: 7 of 9 warnings and all 3 errors shown (disable the message limit with --log-limit=0)
+3:03:54 PM: ​
+3:03:54 PM: Dependencies installation error                               
+3:03:54 PM: ────────────────────────────────────────────────────────────────
+3:03:54 PM: ​
+3:03:54 PM:   Error message
+3:03:54 PM:   A Netlify Function failed to require one of its dependencies.
+3:03:54 PM:   Please make sure it is present in the site's top-level "package.json".
+​
+3:03:54 PM:   Build failed with 3 errors:
+3:03:54 PM:   node_modules/@babel/core/lib/config/files/module-types.js:171:36: ERROR: Could not resolve "@babel/preset-typescript/package.json"
+3:03:54 PM:   node_modules/lightningcss/node/index.js:17:27: ERROR: Could not resolve "../pkg"
+3:03:54 PM:   vite.config.ts:13:10: ERROR: Top-level await is currently not supported with the "cjs" output format
+3:03:54 PM: ​
+3:03:54 PM:   Resolved config
+3:03:54 PM:   build:
+3:03:54 PM:     base: /opt/build/repo
+3:03:54 PM:     command: npm install && npm run build
+3:03:54 PM:     commandOrigin: config
+3:03:54 PM:     environment:
+3:03:54 PM:       - NODE_VERSION
+3:03:54 PM:     publish: /opt/build/repo/dist/public
+3:03:54 PM:     publishOrigin: config
+3:03:54 PM:   functions:
+3:03:54 PM:     "*":
+3:03:54 PM:       external_node_modules:
+3:03:54 PM:         - pg
+3:03:54 PM:         - bcrypt
+3:03:54 PM:         - drizzle-orm
+3:03:54 PM:       node_bundler: esbuild
+3:03:54 PM:     api:
+3:03:54 PM:       esbuild:
+3:03:54 PM:         external:
+3:03:54 PM:           - pg
+3:03:54 PM:           - bcrypt
+3:03:54 PM:           - drizzle-orm
+3:03:54 PM:           - "@neondatabase/serverless"
+3:03:54 PM:           - lightningcss
+3:03:54 PM:           - "@babel/preset-typescript"
+3:03:54 PM:           - vite
+3:03:54 PM:         format: esm
+3:03:54 PM:         platform: node
+3:03:54 PM:       node_bundler: esbuild
+3:03:54 PM:   functionsDirectory: /opt/build/repo/netlify/functions
+3:03:54 PM:   headers:
+3:03:54 PM:     - for: /*
+      values:
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+    - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+3:03:54 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+3:03:54 PM: Failing build: Failed to build site
+3:03:55 PM: Finished processing build request in 21.61s

@@ -1,5 +1,5 @@
 import serverless from "serverless-http";
-import { createApp } from "../../server/index";
+import { createApp } from "../../server/index.netlify";
 
 let cachedHandler: ReturnType<typeof serverless> | null = null;
 
