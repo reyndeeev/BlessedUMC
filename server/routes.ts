@@ -62,28 +62,28 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     req.user = req.session.user;
     return next();
   }
-  
+
   // JWT token authentication (primary method for production)
   const token = req.headers.authorization?.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ success: false, message: "Authentication required" });
   }
-  
+
   try {
     // Verify JWT token
     const tokenData = verifyToken(token);
-    
+
     // Verify user still exists in database
     const user = await storage.getUser(tokenData.id);
     if (!user || user.username !== tokenData.username) {
       throw new Error('User not found or username mismatch');
     }
-    
+
     // Set user for downstream middleware
     const { password: _, ...userWithoutPassword } = user;
     req.user = userWithoutPassword;
     return next();
-    
+
   } catch (error) {
     // Only log the error type, not sensitive details
     console.error("Authentication failed:", error instanceof Error ? error.message : 'Unknown error');
@@ -95,12 +95,12 @@ export async function registerRoutes(app: Express): Promise<void> {
   // Note: Session storage is not used in production (serverless incompatible)
   // We rely on JWT tokens for stateless authentication
   const isProduction = process.env.NODE_ENV === 'production';
-  
+
   // SECURITY CHECK: Ensure JWT_SECRET is set in production
   if (isProduction && !process.env.JWT_SECRET) {
     throw new Error('FATAL: JWT_SECRET environment variable must be set in production for secure authentication');
   }
-  
+
   // Only use sessions in development for convenience
   if (!isProduction) {
     app.use(session({
@@ -122,31 +122,44 @@ export async function registerRoutes(app: Express): Promise<void> {
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = req.body;
-      
-      if (!username || !password) {
-        return res.status(400).json({ 
+
+      console.log("LOGIN ATTEMPT:", { 
+        username, 
+        passwordLength: password?.length,
+        usernameType: typeof username,
+        passwordType: typeof password 
+      });
+
+      // STRICT validation - reject empty credentials immediately
+      if (!username || !password || username.trim() === '' || password.trim() === '') {
+        console.log("LOGIN REJECTED: Empty credentials");
+        return res.status(401).json({ 
           success: false, 
           message: "Username and password are required" 
         });
       }
 
-      const user = await storage.authenticateUser(username, password);
+      console.log("Attempting authentication for user:", username);
+      const user = await storage.authenticateUser(username.trim(), password.trim());
+
       if (!user) {
+        console.log("LOGIN FAILED: Invalid credentials for user:", username);
         return res.status(401).json({ 
           success: false, 
           message: "Invalid username or password" 
         });
       }
 
+      console.log("LOGIN SUCCESS for user:", username);
       // Create secure JWT token
       const { password: _, ...userWithoutPassword } = user;
       const token = generateToken(userWithoutPassword);
-      
+
       // Set session in development only
       if (req.session) {
         req.session.user = userWithoutPassword;
       }
-      
+
       res.json({ 
         success: true, 
         message: "Login successful",
@@ -171,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<void> {
         }
       });
     }
-    
+
     // In production, logout is client-side (remove JWT token)
     res.json({ 
       success: true, 
@@ -181,30 +194,30 @@ export async function registerRoutes(app: Express): Promise<void> {
 
   app.get("/api/auth/me", async (req, res) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    
+
     if (!token) {
       return res.status(401).json({ 
         success: false, 
         message: "No token provided" 
       });
     }
-    
+
     try {
       // Verify JWT token
       const tokenData = verifyToken(token);
-      
+
       // Verify user still exists in database
       const user = await storage.getUser(tokenData.id);
       if (!user || user.username !== tokenData.username) {
         throw new Error('User not found or username mismatch');
       }
-      
+
       const { password: _, ...userWithoutPassword } = user;
       return res.json({ 
         success: true, 
         user: userWithoutPassword 
       });
-      
+
     } catch (error) {
       // Only log the error type, not sensitive details
       console.error("Authentication failed:", error instanceof Error ? error.message : 'Unknown error');
@@ -221,10 +234,10 @@ export async function registerRoutes(app: Express): Promise<void> {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
       const message = await storage.createContactMessage(validatedData);
-      
+
       // In a real application, you would send an email here
       console.log("New contact message received:", message);
-      
+
       res.json({ success: true, message: "Message sent successfully!" });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -276,7 +289,7 @@ export async function registerRoutes(app: Express): Promise<void> {
   app.post("/api/users", requireAuth, async (req, res) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
-      
+
       // Check if user already exists
       const existingUser = await storage.getUserByUsername(validatedData.username);
       if (existingUser) {
@@ -285,7 +298,7 @@ export async function registerRoutes(app: Express): Promise<void> {
           message: "Username already exists" 
         });
       }
-      
+
       const user = await storage.createUser(validatedData);
       // Don't send password back
       const { password, ...safeUser } = user;
