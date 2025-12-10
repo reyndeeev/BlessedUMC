@@ -25,7 +25,7 @@ export const sermons = pgTable("sermons", {
   title: text("title").notNull(),
   pastor: text("pastor").notNull(),
   date: date("date").notNull(),
-  // scripture: text("scripture"), // Temporarily commented out until database is synced
+  scripture: text("scripture"),
   description: text("description"),
   videoUrl: text("video_url"),
   audioUrl: text("audio_url"),
