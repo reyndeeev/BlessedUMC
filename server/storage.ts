@@ -607,6 +607,7 @@ export class MemStorage implements IStorage {
       title: insertSermon.title,
       pastor: insertSermon.pastor,
       date: insertSermon.date,
+      scripture: insertSermon.scripture || null,
       description: insertSermon.description || null,
       videoUrl: insertSermon.videoUrl || null,
       audioUrl: insertSermon.audioUrl || null,
