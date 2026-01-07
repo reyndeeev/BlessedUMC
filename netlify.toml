@@ -7,21 +7,21 @@
   NODE_VERSION = "20"
 
 [functions]
-  # Configure functions to use ES modules
   node_bundler = "esbuild"
-  external_node_modules = ["pg", "bcrypt", "drizzle-orm"]
-  
+
 [functions."api"]
-  node_bundler = "esbuild"
   included_files = ["dist/index.js"]
   
   [functions."api".esbuild]
     format = "esm"
     platform = "node"
+    main_fields = ["module", "main"]
+    minify = true
     external = [
       "pg", 
       "bcrypt", 
       "drizzle-orm", 
+      "@neondatabase/serverless",
       "lightningcss",
       "@babel/preset-typescript",
       "vite",
