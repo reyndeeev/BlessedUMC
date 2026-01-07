@@ -22,7 +22,6 @@
       "pg", 
       "bcrypt", 
       "drizzle-orm", 
-      "@neondatabase/serverless",
       "lightningcss",
       "@babel/preset-typescript",
       "vite",
