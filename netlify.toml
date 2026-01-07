@@ -21,7 +21,6 @@
       "pg", 
       "bcrypt", 
       "drizzle-orm", 
-      "@neondatabase/serverless",
       "lightningcss",
       "@babel/preset-typescript",
       "vite",
@@ -30,8 +29,6 @@
       "esbuild",
       "rollup",
       "@babel/*",
-      "./vite.config.js",
-      "./vite.config.ts",
       "../vite.config",
       "../vite.config.js",
       "../vite.config.ts"
