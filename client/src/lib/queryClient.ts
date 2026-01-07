@@ -25,6 +25,12 @@ export async function apiRequest(
     credentials: "include",
   });
 
+  if (res.status === 401) {
+    console.error("Authentication failed (401). Token might be invalid or missing.");
+    // Clear token if it's invalid
+    localStorage.removeItem('blessedumc_token');
+  }
+
   await throwIfResNotOk(res);
   return res;
 }
